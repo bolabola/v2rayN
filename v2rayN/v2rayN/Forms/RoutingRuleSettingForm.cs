@@ -77,11 +77,7 @@ namespace v2rayN.Forms
 
                 ListViewItem lvItem = new ListViewItem("");
                 Utils.AddSubItem(lvItem, "outboundTag", item.outboundTag);
-                Utils.AddSubItem(lvItem, "port", item.port);
-                Utils.AddSubItem(lvItem, "protocol", Utils.List2String(item.protocol));
                 Utils.AddSubItem(lvItem, "inboundTag", Utils.List2String(item.inboundTag));
-                Utils.AddSubItem(lvItem, "domain", Utils.List2String(item.domain));
-                Utils.AddSubItem(lvItem, "ip", Utils.List2String(item.ip));
                 Utils.AddSubItem(lvItem, "enable", item.enabled.ToString());
 
                 if (lvItem != null) lvRoutings.Items.Add(lvItem);

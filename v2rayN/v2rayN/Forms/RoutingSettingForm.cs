@@ -102,32 +102,9 @@ namespace v2rayN.Forms
         private void BindingLockedData()
         {
             lockedItem = ConfigHandler.GetLockedRoutingItem(ref config);
-            if (lockedItem != null)
-            {
-                txtProxyDomain.Text = Utils.List2String(lockedItem.rules[0].domain, true);
-                txtProxyIp.Text = Utils.List2String(lockedItem.rules[0].ip, true);
-
-                txtDirectDomain.Text = Utils.List2String(lockedItem.rules[1].domain, true);
-                txtDirectIp.Text = Utils.List2String(lockedItem.rules[1].ip, true);
-
-                txtBlockDomain.Text = Utils.List2String(lockedItem.rules[2].domain, true);
-                txtBlockIp.Text = Utils.List2String(lockedItem.rules[2].ip, true);
-            }
         }
         private void EndBindingLockedData()
         {
-            if (lockedItem != null)
-            {
-                lockedItem.rules[0].domain = Utils.String2List(txtProxyDomain.Text.TrimEx());
-                lockedItem.rules[0].ip = Utils.String2List(txtProxyIp.Text.TrimEx());
-
-                lockedItem.rules[1].domain = Utils.String2List(txtDirectDomain.Text.TrimEx());
-                lockedItem.rules[1].ip = Utils.String2List(txtDirectIp.Text.TrimEx());
-
-                lockedItem.rules[2].domain = Utils.String2List(txtBlockDomain.Text.TrimEx());
-                lockedItem.rules[2].ip = Utils.String2List(txtBlockIp.Text.TrimEx());
-
-            }
         }
         #endregion
 
