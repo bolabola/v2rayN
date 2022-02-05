@@ -55,12 +55,8 @@ namespace v2rayN.Forms
             lvRoutings.HeaderStyle = ColumnHeaderStyle.Clickable;
 
             lvRoutings.Columns.Add("", 30);
-            lvRoutings.Columns.Add("outboundTag", 80);
-            lvRoutings.Columns.Add("port", 80);
-            lvRoutings.Columns.Add("protocol", 80);
-            lvRoutings.Columns.Add("inboundTag", 80);
-            lvRoutings.Columns.Add("domain", 160);
-            lvRoutings.Columns.Add("ip", 160); 
+            lvRoutings.Columns.Add("inboundTag", 150);
+            lvRoutings.Columns.Add("outboundTag", 150);
             lvRoutings.Columns.Add("enable", 60);
 
             lvRoutings.EndUpdate();
