@@ -39,6 +39,7 @@ namespace v2rayN.Forms
             //本地监听
             if (config.inbound.Count > 0)
             {
+                txtlocalPort.Text = config.inbound[0].localPort.ToString();
                 cmbprotocol.Text = config.inbound[0].protocol.ToString();
                 chkudpEnabled.Checked = config.inbound[0].udpEnabled;
                 chksniffingEnabled.Checked = config.inbound[0].sniffingEnabled;
@@ -149,9 +150,20 @@ namespace v2rayN.Forms
             bool muxEnabled = chkmuxEnabled.Checked;
 
             //本地监听
+            string localPort = txtlocalPort.Text.TrimEx();
             string protocol = cmbprotocol.Text.TrimEx();
             bool udpEnabled = chkudpEnabled.Checked;
             bool sniffingEnabled = chksniffingEnabled.Checked;
+            if (Utils.IsNullOrEmpty(localPort) || !Utils.IsNumberic(localPort))
+            {
+                UI.Show(UIRes.I18N("FillLocalListeningPort"));
+                return -1;
+            }
+            if (Utils.IsNullOrEmpty(protocol))
+            {
+                UI.Show(UIRes.I18N("PleaseSelectProtocol"));
+                return -1;
+            }
 
             var remoteDNS = txtremoteDNS.Text.TrimEx();
             var obj = Utils.ParseJson(remoteDNS);
@@ -167,7 +179,7 @@ namespace v2rayN.Forms
                 }
             }
 
-            config.inbound[0].localPort = 1080;
+            config.inbound[0].localPort = Utils.ToInt(localPort);
             config.inbound[0].protocol = protocol;
             config.inbound[0].udpEnabled = udpEnabled;
             config.inbound[0].sniffingEnabled = sniffingEnabled;

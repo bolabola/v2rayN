@@ -42,6 +42,7 @@
             this.chklogEnabled = new System.Windows.Forms.CheckBox();
             this.cmbloglevel = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtlocalPort = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.linkDnsObjectDoc = new System.Windows.Forms.LinkLabel();
@@ -129,6 +130,7 @@
             this.groupBox1.Controls.Add(this.chklogEnabled);
             this.groupBox1.Controls.Add(this.cmbloglevel);
             this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtlocalPort);
             this.groupBox1.Controls.Add(this.label2);
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
@@ -196,6 +198,11 @@
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
+            // 
+            // txtlocalPort
+            // 
+            resources.ApplyResources(this.txtlocalPort, "txtlocalPort");
+            this.txtlocalPort.Name = "txtlocalPort";
             // 
             // label2
             // 
@@ -483,6 +490,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cmbloglevel;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtlocalPort;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chklogEnabled;
         private System.Windows.Forms.CheckBox chkudpEnabled;

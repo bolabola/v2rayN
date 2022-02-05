@@ -147,29 +147,33 @@ namespace v2rayN.Handler
         {
             try
             {
-                Inbounds inbound = v2rayConfig.inbounds[0];
-                inbound.tag = Global.InboundSocks;
-                inbound.port = config.inbound[0].localPort;
-                inbound.protocol = config.inbound[0].protocol;
-                if (config.allowLANConn)
+                for (int i = 0; i < 10; i++)
                 {
-                    inbound.listen = "0.0.0.0";
-                }
-                else
-                {
-                    inbound.listen = Global.Loopback;
-                }
-                //udp
-                inbound.settings.udp = config.inbound[0].udpEnabled;
-                inbound.sniffing.enabled = config.inbound[0].sniffingEnabled;
+                    Inbounds inbound = new Inbounds();
+                    inbound.settings = new Inboundsettings();
+                    inbound.sniffing = new Sniffing();
+                    inbound.streamSettings = new StreamSettings();
 
-                //http
-                Inbounds inbound2 = v2rayConfig.inbounds[1];
-                inbound2.tag = Global.InboundHttp;
-                inbound2.port = config.GetLocalPort(Global.InboundHttp);
-                inbound2.protocol = Global.InboundHttp;
-                inbound2.listen = inbound.listen;
-                inbound2.settings.allowTransparent = false;
+                    inbound.tag = (config.inbound[0].localPort + i).ToString();
+                    inbound.port = config.inbound[0].localPort + i;
+                    inbound.protocol = config.inbound[0].protocol;
+                    if (config.allowLANConn)
+                    {
+                        inbound.listen = "0.0.0.0";
+                    }
+                    else
+                    {
+                        inbound.listen = Global.Loopback;
+                    }
+                    //udp
+                    inbound.settings.udp = config.inbound[0].udpEnabled;
+                    inbound.settings.auth = "noauth";
+                    inbound.sniffing.enabled = config.inbound[0].sniffingEnabled;
+                    inbound.sniffing.destOverride = new List<string> { "http", "tls" };
+
+                    v2rayConfig.inbounds.Add(inbound);
+                }
+
             }
             catch
             {
