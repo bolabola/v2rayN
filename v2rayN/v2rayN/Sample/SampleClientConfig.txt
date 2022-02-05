@@ -32,20 +32,6 @@
 			"mux": {
 				"enabled": false
 			}
-		},
-		{
-			"protocol": "freedom",
-			"settings": {},
-			"tag": "direct"
-		},
-		{
-			"protocol": "blackhole",
-			"tag": "block",
-			"settings": {
-				"response": {
-					"type": "http"
-				}
-			}
 		}
 	],
 	"routing": {

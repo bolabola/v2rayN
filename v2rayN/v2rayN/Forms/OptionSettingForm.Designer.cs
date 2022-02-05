@@ -82,6 +82,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnOK = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtPortCount = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -121,6 +123,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtPortCount);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.chkdefAllowInsecure);
             this.groupBox1.Controls.Add(this.chksniffingEnabled);
             this.groupBox1.Controls.Add(this.chkmuxEnabled);
@@ -454,6 +458,16 @@
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // txtPortCount
+            // 
+            resources.ApplyResources(this.txtPortCount, "txtPortCount");
+            this.txtPortCount.Name = "txtPortCount";
+            // 
             // OptionSettingForm
             // 
             resources.ApplyResources(this, "$this");
@@ -538,5 +552,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtautoUpdateInterval;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtPortCount;
+        private System.Windows.Forms.Label label3;
     }
 }

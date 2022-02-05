@@ -15,7 +15,7 @@ namespace v2rayN.Mode
         /// <summary>
         /// 本地监听
         /// </summary>
-        public List<InItem> inbound
+        public InItem inbound
         {
             get; set;
         }
@@ -306,14 +306,9 @@ namespace v2rayN.Mode
             }
 
             int localPort = 0;
-            foreach (InItem inItem in inbound)
-            {
-                if (inItem.protocol.Equals(protocol))
-                {
-                    localPort = inItem.localPort;
-                    break;
-                }
-            }
+            if (inbound.protocol.Equals(protocol))
+                localPort = inbound.localPort;
+
             return localPort;
         }
 
@@ -644,19 +639,26 @@ namespace v2rayN.Mode
         {
             get; set;
         }
+
     }
 
     [Serializable]
     public class InItem
     {
         /// <summary>
-        /// 本地监听端口
+        /// 本地监听起始端口
         /// </summary>
         public int localPort
         {
             get; set;
         }
-
+        /// <summary>
+        /// 端口递增数量
+        /// </summary>
+        public int portcount
+        {
+            get; set;
+        }
         /// <summary>
         /// 协议，默认为socks
         /// </summary>

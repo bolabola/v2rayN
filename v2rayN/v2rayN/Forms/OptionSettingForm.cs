@@ -37,14 +37,13 @@ namespace v2rayN.Forms
             chkmuxEnabled.Checked = config.muxEnabled;
 
             //本地监听
-            if (config.inbound.Count > 0)
             {
-                txtlocalPort.Text = config.inbound[0].localPort.ToString();
-                cmbprotocol.Text = config.inbound[0].protocol.ToString();
-                chkudpEnabled.Checked = config.inbound[0].udpEnabled;
-                chksniffingEnabled.Checked = config.inbound[0].sniffingEnabled;
+                txtlocalPort.Text = config.inbound.localPort.ToString();
+                txtPortCount.Text = config.inbound.portcount.ToString();
+                cmbprotocol.Text = config.inbound.protocol.ToString();
+                chkudpEnabled.Checked = config.inbound.udpEnabled;
+                chksniffingEnabled.Checked = config.inbound.sniffingEnabled;
             }
-
             //remoteDNS
             txtremoteDNS.Text = config.remoteDNS;
 
@@ -151,10 +150,11 @@ namespace v2rayN.Forms
 
             //本地监听
             string localPort = txtlocalPort.Text.TrimEx();
+            string portCount = txtPortCount.Text.TrimEx();
             string protocol = cmbprotocol.Text.TrimEx();
             bool udpEnabled = chkudpEnabled.Checked;
             bool sniffingEnabled = chksniffingEnabled.Checked;
-            if (Utils.IsNullOrEmpty(localPort) || !Utils.IsNumberic(localPort))
+            if (Utils.IsNullOrEmpty(localPort) || !Utils.IsNumberic(localPort)|| Utils.IsNullOrEmpty(portCount) || !Utils.IsNumberic(portCount))
             {
                 UI.Show(UIRes.I18N("FillLocalListeningPort"));
                 return -1;
@@ -179,10 +179,11 @@ namespace v2rayN.Forms
                 }
             }
 
-            config.inbound[0].localPort = Utils.ToInt(localPort);
-            config.inbound[0].protocol = protocol;
-            config.inbound[0].udpEnabled = udpEnabled;
-            config.inbound[0].sniffingEnabled = sniffingEnabled;
+            config.inbound.localPort = Utils.ToInt(localPort);
+            config.inbound.portcount = Utils.ToInt(portCount);
+            config.inbound.protocol = protocol;
+            config.inbound.udpEnabled = udpEnabled;
+            config.inbound.sniffingEnabled = sniffingEnabled;
 
 
             //日志     

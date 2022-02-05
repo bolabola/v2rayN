@@ -233,10 +233,10 @@ namespace v2rayN.Forms
                         totalDown = string.Empty,
                         todayUp = string.Empty,
                         todayDown = string.Empty;
-                if (config.index.Equals(k))
-                {
-                    def = "√";
-                }
+                //if (config.index.Equals(k))
+                //{
+                //    def = "√";
+                //}
 
                 VmessItem item = config.vmess[k];
 
@@ -274,12 +274,12 @@ namespace v2rayN.Forms
                 {
                     lvItem.BackColor = Color.WhiteSmoke;
                 }
-                if (config.index.Equals(k))
-                {
-                    //lvItem.Checked = true;
-                    lvItem.ForeColor = Color.DodgerBlue;
-                    lvItem.Font = new Font(lvItem.Font, FontStyle.Bold);
-                }
+                //if (config.index.Equals(k))
+                //{
+                //    //lvItem.Checked = true;
+                //    lvItem.ForeColor = Color.DodgerBlue;
+                //    lvItem.Font = new Font(lvItem.Font, FontStyle.Bold);
+                //}
 
                 if (lvItem != null) lvServers.Items.Add(lvItem);
             }
@@ -385,7 +385,7 @@ namespace v2rayN.Forms
 
         private void DisplayToolStatus()
         {
-            toolSslInboundInfo.Text = $"{Global.InboundSocks} {Global.Loopback}:{config.inbound[0].localPort} | "
+            toolSslInboundInfo.Text = $"{Global.InboundSocks} {Global.Loopback}:{config.inbound.localPort} | "
              + $"{ Global.InboundHttp} { Global.Loopback}:{Global.httpPort}";
 
             notifyMain.Icon = MainFormHandler.Instance.GetNotifyIcon(config, this.Icon);

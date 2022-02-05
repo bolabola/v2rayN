@@ -69,8 +69,7 @@ namespace v2rayN.Handler
             //本地监听
             if (config.inbound == null)
             {
-                config.inbound = new List<InItem>();
-                InItem inItem = new InItem
+                config.inbound = new InItem
                 {
                     protocol = Global.InboundSocks,
                     localPort = 10808,
@@ -78,23 +77,8 @@ namespace v2rayN.Handler
                     sniffingEnabled = true
                 };
 
-                config.inbound.Add(inItem);
-
-                //inItem = new InItem();
-                //inItem.protocol = "http";
-                //inItem.localPort = 1081;
-                //inItem.udpEnabled = true;
-
-                //config.inbound.Add(inItem);
             }
-            else
-            {
-                //http协议不由core提供,只保留socks
-                if (config.inbound.Count > 0)
-                {
-                    config.inbound[0].protocol = Global.InboundSocks;
-                }
-            }
+
             //路由规则
             if (Utils.IsNullOrEmpty(config.domainStrategy))
             {
