@@ -13,10 +13,6 @@ namespace v2rayN.Mode
         {
             get; set;
         }
-        public string url
-        {
-            get; set;
-        }
         public List<RulesItem> rules
         {
             get; set;
@@ -24,10 +20,6 @@ namespace v2rayN.Mode
         public bool enabled { get; set; } = true;
 
         public bool locked
-        {
-            get; set;
-        }
-        public string customIcon
         {
             get; set;
         }

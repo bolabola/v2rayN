@@ -1264,7 +1264,6 @@ namespace v2rayN.Handler
                 var item2 = new RoutingItem()
                 {
                     remarks = "绕过大陆(Whitelist)",
-                    url = string.Empty,
                 };
                 AddBatchRoutingRules(ref item2, Utils.GetEmbedText(Global.CustomRoutingFileName + "white"));
                 config.routings.Add(item2);
@@ -1273,7 +1272,6 @@ namespace v2rayN.Handler
                 var item3 = new RoutingItem()
                 {
                     remarks = "黑名单(Blacklist)",
-                    url = string.Empty,
                 };
                 AddBatchRoutingRules(ref item3, Utils.GetEmbedText(Global.CustomRoutingFileName + "black"));
                 config.routings.Add(item3);
@@ -1282,7 +1280,6 @@ namespace v2rayN.Handler
                 var item1 = new RoutingItem()
                 {
                     remarks = "全局(Global)",
-                    url = string.Empty,
                 };
                 AddBatchRoutingRules(ref item1, Utils.GetEmbedText(Global.CustomRoutingFileName + "global"));
                 config.routings.Add(item1);
@@ -1295,7 +1292,6 @@ namespace v2rayN.Handler
                 var item1 = new RoutingItem()
                 {
                     remarks = "locked",
-                    url = string.Empty,
                     locked = true,
                 };
                 AddBatchRoutingRules(ref item1, Utils.GetEmbedText(Global.CustomRoutingFileName + "locked"));

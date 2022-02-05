@@ -35,6 +35,7 @@ namespace v2rayN.Forms
         {
             txtAddress.Text = vmessItem.address;
             txtPort.Text = vmessItem.port.ToString();
+            txtLocalPort.Text = vmessItem.localport.ToString();
             txtId.Text = vmessItem.id;
             cmbFlow.Text = vmessItem.flow;
             txtRemarks.Text = vmessItem.remarks;
@@ -50,6 +51,7 @@ namespace v2rayN.Forms
         {
             txtAddress.Text = "";
             txtPort.Text = "";
+            txtLocalPort.Text = "";
             txtId.Text = "";
             cmbFlow.Text = "";
             txtRemarks.Text = ""; 
@@ -61,6 +63,7 @@ namespace v2rayN.Forms
         {
             string address = txtAddress.Text;
             string port = txtPort.Text;
+            string localport = txtLocalPort.Text;
             string id = txtId.Text;
             string flow = cmbFlow.Text;
             string remarks = txtRemarks.Text;
@@ -85,6 +88,7 @@ namespace v2rayN.Forms
 
             vmessItem.address = address;
             vmessItem.port = Utils.ToInt(port);
+            vmessItem.localport = Utils.ToInt(txtLocalPort);
             vmessItem.id = id;
             vmessItem.flow = flow;
             vmessItem.remarks = remarks;

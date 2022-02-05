@@ -636,6 +636,14 @@ namespace v2rayN.Mode
         {
             get; set;
         }
+
+        /// <summary>
+        /// 本地代理socket端口
+        /// </summary>
+        public int localport
+        {
+            get; set;
+        }
     }
 
     [Serializable]

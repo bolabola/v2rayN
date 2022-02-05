@@ -35,6 +35,7 @@ namespace v2rayN.Forms
         {
             txtAddress.Text = vmessItem.address;
             txtPort.Text = vmessItem.port.ToString();
+            txtLocalPort.Text = vmessItem.localport.ToString();
             txtId.Text = vmessItem.id;
             txtAlterId.Text = vmessItem.alterId.ToString();
             cmbSecurity.Text = vmessItem.security;
@@ -51,6 +52,7 @@ namespace v2rayN.Forms
         {
             txtAddress.Text = "";
             txtPort.Text = "";
+            txtLocalPort.Text = "";
             txtId.Text = "";
             txtAlterId.Text = "0";
             cmbSecurity.Text = Global.DefaultSecurity;
@@ -63,6 +65,7 @@ namespace v2rayN.Forms
         {
             string address = txtAddress.Text;
             string port = txtPort.Text;
+            string localport = txtLocalPort.Text;
             string id = txtId.Text;
             string alterId = txtAlterId.Text;
             string security = cmbSecurity.Text;
@@ -87,7 +90,8 @@ namespace v2rayN.Forms
             transportControl.EndBindingServer();
 
             vmessItem.address = address;
-            vmessItem.port = Utils.ToInt(port);
+            vmessItem.port = Utils.ToInt(port); 
+            vmessItem.localport = Utils.ToInt(localport);
             vmessItem.id = id;
             vmessItem.alterId = Utils.ToInt(alterId);
             vmessItem.security = security;

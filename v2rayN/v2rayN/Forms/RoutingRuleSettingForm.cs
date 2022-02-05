@@ -37,8 +37,7 @@ namespace v2rayN.Forms
             }
 
             txtRemarks.Text = routingItem.remarks ?? string.Empty;
-            txtUrl.Text = routingItem.url ?? string.Empty;
-            txtCustomIcon.Text = routingItem.customIcon ?? string.Empty;
+
 
             InitRoutingsView();
             RefreshRoutingsView();
@@ -93,8 +92,6 @@ namespace v2rayN.Forms
         private void btnOK_Click(object sender, EventArgs e)
         {
             routingItem.remarks = txtRemarks.Text.Trim();
-            routingItem.url = txtUrl.Text.Trim();
-            routingItem.customIcon = txtCustomIcon.Text.Trim();
 
             if (ConfigHandler.AddRoutingItem(ref config, routingItem, EditIndex) == 0)
             {
@@ -109,14 +106,6 @@ namespace v2rayN.Forms
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-        }
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "PNG|*.png";
-            openFileDialog1.ShowDialog();
-            txtCustomIcon.Text = openFileDialog1.FileName;
-
         }
 
         private void lvRoutings_DoubleClick(object sender, EventArgs e)
@@ -318,22 +307,6 @@ namespace v2rayN.Forms
         private void menuImportRulesFromClipboard_Click(object sender, EventArgs e)
         {
             string clipboardData = Utils.GetClipboardData();
-            if (AddBatchRoutingRules(ref routingItem, clipboardData) == 0)
-            {
-                RefreshRoutingsView();
-                UI.Show(UIRes.I18N("OperationSuccess"));
-            }
-        }
-        private void menuImportRulesFromUrl_Click(object sender, EventArgs e)
-        {
-            var url = txtUrl.Text.Trim();
-            if (Utils.IsNullOrEmpty(url))
-            {
-                UI.Show(UIRes.I18N("MsgNeedUrl"));
-                return;
-            }
-            DownloadHandle downloadHandle = new DownloadHandle();
-            string clipboardData = downloadHandle.WebDownloadStringSync(url);
             if (AddBatchRoutingRules(ref routingItem, clipboardData) == 0)
             {
                 RefreshRoutingsView();

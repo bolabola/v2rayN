@@ -40,6 +40,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtLocalPort = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -68,6 +70,8 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtPort);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtLocalPort);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtAddress);
             this.groupBox1.Controls.Add(this.label1);
             resources.ApplyResources(this.groupBox1, "groupBox1");
@@ -120,6 +124,16 @@
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
+            // 
+            // txtLocalPort
+            // 
+            resources.ApplyResources(this.txtLocalPort, "txtLocalPort");
+            this.txtLocalPort.Name = "txtLocalPort";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
             // txtAddress
             // 
@@ -181,6 +195,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtLocalPort;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbSecurity;
