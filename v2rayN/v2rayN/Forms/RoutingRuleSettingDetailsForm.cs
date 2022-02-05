@@ -66,7 +66,6 @@ namespace v2rayN.Forms
         }
         private void ClearBind()
         {
-            txtPort.Text = string.Empty;
             cmbOutboundTag.Text = Global.agentTag;
         }
         private void btnOK_Click(object sender, EventArgs e)

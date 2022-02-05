@@ -33,11 +33,10 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.clbInboundTag = new System.Windows.Forms.CheckedListBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtPort = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbOutboundTag = new System.Windows.Forms.ComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +61,6 @@
             this.panel3.Controls.Add(this.btnOK);
             this.panel3.Controls.Add(this.clbInboundTag);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.txtPort);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.cmbOutboundTag);
             resources.ApplyResources(this.panel3, "panel3");
@@ -79,20 +77,10 @@
             this.clbInboundTag.MultiColumn = true;
             this.clbInboundTag.Name = "clbInboundTag";
             // 
-            // panel1
-            // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            // 
-            // txtPort
-            // 
-            resources.ApplyResources(this.txtPort, "txtPort");
-            this.txtPort.Name = "txtPort";
             // 
             // label4
             // 
@@ -106,9 +94,15 @@
             this.cmbOutboundTag.Items.AddRange(new object[] {
             resources.GetString("cmbOutboundTag.Items"),
             resources.GetString("cmbOutboundTag.Items1"),
-            resources.GetString("cmbOutboundTag.Items2")});
+            resources.GetString("cmbOutboundTag.Items2"),
+            resources.GetString("cmbOutboundTag.Items3")});
             resources.ApplyResources(this.cmbOutboundTag, "cmbOutboundTag");
             this.cmbOutboundTag.Name = "cmbOutboundTag";
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
             // 
             // RoutingRuleSettingDetailsForm
             // 
@@ -133,7 +127,6 @@
         private System.Windows.Forms.ComboBox cmbOutboundTag;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.CheckedListBox clbInboundTag;
         private System.Windows.Forms.Label label2;
     }

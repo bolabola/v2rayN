@@ -234,27 +234,6 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="txtPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 43</value>
-  </data>
-  <data name="txtPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 21</value>
-  </data>
-  <data name="txtPort.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="&gt;&gt;txtPort.Name" xml:space="preserve">
-    <value>txtPort</value>
-  </data>
-  <data name="&gt;&gt;txtPort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtPort.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;txtPort.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -283,7 +262,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="cmbOutboundTag.Items" xml:space="preserve">
     <value>proxy</value>
@@ -293,6 +272,9 @@
   </data>
   <data name="cmbOutboundTag.Items2" xml:space="preserve">
     <value>block</value>
+  </data>
+  <data name="cmbOutboundTag.Items3" xml:space="preserve">
+    <value>123</value>
   </data>
   <data name="cmbOutboundTag.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 16</value>
@@ -313,7 +295,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;cmbOutboundTag.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="panel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -544,9 +526,6 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAgAEAALQF
         wf+0BQAAgAUAAIAFAACAAQAAgAHB/4ABAACAAQAAgAEAALwBAAC8AQAAvAHB/4ABbP///5H/
 </value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
