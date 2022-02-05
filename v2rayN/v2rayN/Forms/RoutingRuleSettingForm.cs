@@ -72,8 +72,8 @@ namespace v2rayN.Forms
                 var item = routingItem.rules[k];
 
                 ListViewItem lvItem = new ListViewItem("");
-                Utils.AddSubItem(lvItem, "outboundTag", item.outboundTag);
                 Utils.AddSubItem(lvItem, "inboundTag", Utils.List2String(item.inboundTag));
+                Utils.AddSubItem(lvItem, "outboundTag", item.outboundTag);
                 Utils.AddSubItem(lvItem, "enable", item.enabled.ToString());
 
                 if (lvItem != null) lvRoutings.Items.Add(lvItem);
