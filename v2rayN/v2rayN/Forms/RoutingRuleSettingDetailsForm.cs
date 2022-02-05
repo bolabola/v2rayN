@@ -45,7 +45,6 @@ namespace v2rayN.Forms
                 }
                 rulesItem.inboundTag = inboundTag;
                 rulesItem.outboundTag = cmbOutboundTag.Text;
-                rulesItem.enabled = chkEnabled.Checked;
             }
         }
         private void BindingData()
@@ -63,15 +62,12 @@ namespace v2rayN.Forms
                         }
                     }
                 }
-
-                chkEnabled.Checked = rulesItem.enabled;
             }
         }
         private void ClearBind()
         {
             txtPort.Text = string.Empty;
             cmbOutboundTag.Text = Global.agentTag;
-            chkEnabled.Checked = true;
         }
         private void btnOK_Click(object sender, EventArgs e)
         {

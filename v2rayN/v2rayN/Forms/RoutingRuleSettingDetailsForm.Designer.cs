@@ -32,7 +32,6 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.clbInboundTag = new System.Windows.Forms.CheckedListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,7 +59,6 @@
             // panel3
             // 
             this.panel3.Controls.Add(this.btnClose);
-            this.panel3.Controls.Add(this.chkEnabled);
             this.panel3.Controls.Add(this.btnOK);
             this.panel3.Controls.Add(this.clbInboundTag);
             this.panel3.Controls.Add(this.label2);
@@ -69,12 +67,6 @@
             this.panel3.Controls.Add(this.cmbOutboundTag);
             resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Name = "panel3";
-            // 
-            // chkEnabled
-            // 
-            resources.ApplyResources(this.chkEnabled, "chkEnabled");
-            this.chkEnabled.Name = "chkEnabled";
-            this.chkEnabled.UseVisualStyleBackColor = true;
             // 
             // clbInboundTag
             // 
@@ -144,6 +136,5 @@
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.CheckedListBox clbInboundTag;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox chkEnabled;
     }
 }

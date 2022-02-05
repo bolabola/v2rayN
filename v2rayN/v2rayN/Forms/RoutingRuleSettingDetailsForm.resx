@@ -172,36 +172,6 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="chkEnabled.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkEnabled.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkEnabled.Location" type="System.Drawing.Point, System.Drawing">
-    <value>617, 19</value>
-  </data>
-  <data name="chkEnabled.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
-  </data>
-  <data name="chkEnabled.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
-  </data>
-  <data name="chkEnabled.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="&gt;&gt;chkEnabled.Name" xml:space="preserve">
-    <value>chkEnabled</value>
-  </data>
-  <data name="&gt;&gt;chkEnabled.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkEnabled.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;chkEnabled.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="clbInboundTag.ColumnWidth" type="System.Int32, mscorlib">
@@ -232,7 +202,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;clbInboundTag.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -262,7 +232,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="txtPort.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 43</value>
@@ -283,7 +253,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;txtPort.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -313,7 +283,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="cmbOutboundTag.Items" xml:space="preserve">
     <value>proxy</value>
@@ -343,7 +313,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;cmbOutboundTag.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="panel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -352,7 +322,7 @@
     <value>0, 10</value>
   </data>
   <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 80</value>
+    <value>665, 80</value>
   </data>
   <data name="panel3.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -376,7 +346,7 @@
     <value>0, 0</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 10</value>
+    <value>665, 10</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -400,7 +370,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>742, 91</value>
+    <value>665, 91</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
