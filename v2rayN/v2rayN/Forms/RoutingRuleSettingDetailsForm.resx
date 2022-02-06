@@ -177,12 +177,6 @@
   <data name="clbInboundTag.ColumnWidth" type="System.Int32, mscorlib">
     <value>80</value>
   </data>
-  <data name="clbInboundTag.Items" xml:space="preserve">
-    <value>socks</value>
-  </data>
-  <data name="clbInboundTag.Items1" xml:space="preserve">
-    <value>http</value>
-  </data>
   <data name="clbInboundTag.Location" type="System.Drawing.Point, System.Drawing">
     <value>347, 16</value>
   </data>
@@ -263,18 +257,6 @@
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="cmbOutboundTag.Items" xml:space="preserve">
-    <value>proxy</value>
-  </data>
-  <data name="cmbOutboundTag.Items1" xml:space="preserve">
-    <value>direct</value>
-  </data>
-  <data name="cmbOutboundTag.Items2" xml:space="preserve">
-    <value>block</value>
-  </data>
-  <data name="cmbOutboundTag.Items3" xml:space="preserve">
-    <value>123</value>
   </data>
   <data name="cmbOutboundTag.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 16</value>

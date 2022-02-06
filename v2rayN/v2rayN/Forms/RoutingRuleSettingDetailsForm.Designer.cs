@@ -71,9 +71,6 @@
             this.clbInboundTag.CheckOnClick = true;
             resources.ApplyResources(this.clbInboundTag, "clbInboundTag");
             this.clbInboundTag.FormattingEnabled = true;
-            this.clbInboundTag.Items.AddRange(new object[] {
-            resources.GetString("clbInboundTag.Items"),
-            resources.GetString("clbInboundTag.Items1")});
             this.clbInboundTag.MultiColumn = true;
             this.clbInboundTag.Name = "clbInboundTag";
             // 
@@ -91,11 +88,6 @@
             // 
             this.cmbOutboundTag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbOutboundTag.FormattingEnabled = true;
-            this.cmbOutboundTag.Items.AddRange(new object[] {
-            resources.GetString("cmbOutboundTag.Items"),
-            resources.GetString("cmbOutboundTag.Items1"),
-            resources.GetString("cmbOutboundTag.Items2"),
-            resources.GetString("cmbOutboundTag.Items3")});
             resources.ApplyResources(this.cmbOutboundTag, "cmbOutboundTag");
             this.cmbOutboundTag.Name = "cmbOutboundTag";
             // 

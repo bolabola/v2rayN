@@ -17,6 +17,11 @@ namespace v2rayN.Forms
         public RoutingRuleSettingDetailsForm()
         {
             InitializeComponent();
+            clbInboundTag.DataSource = config.inboundTags;
+
+            cmbOutboundTag.DataSource = config.vmess;
+            cmbOutboundTag.ValueMember = "remarks";
+            cmbOutboundTag.DisplayMember = "remarks";
         }
 
         private void RoutingRuleSettingDetailsForm_Load(object sender, EventArgs e)

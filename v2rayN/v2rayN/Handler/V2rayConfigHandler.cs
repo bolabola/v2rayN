@@ -147,6 +147,7 @@ namespace v2rayN.Handler
         {
             try
             {
+                config.inboundTags.Clear();
                 for (int i = 0; i < config.inbound.portcount; i++)
                 {
                     Inbounds inbound = new Inbounds();
@@ -155,6 +156,8 @@ namespace v2rayN.Handler
                     inbound.streamSettings = new StreamSettings();
 
                     inbound.tag = "socks_"+(config.inbound.localPort + i).ToString();
+
+                    config.inboundTags.Add(inbound.tag);
                     inbound.port = config.inbound.localPort + i;
                     inbound.protocol = config.inbound.protocol;
                     if (config.allowLANConn)

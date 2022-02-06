@@ -13,9 +13,16 @@ namespace v2rayN.Mode
     public class Config
     {
         /// <summary>
-        /// 本地监听
+        /// 本地监听配置模板
         /// </summary>
         public InItem inbound
+        {
+            get; set;
+        }
+        /// <summary>
+        /// 本地监听tag集合-用于路由tag选择
+        /// </summary>
+        public List<string> inboundTags
         {
             get; set;
         }
@@ -646,7 +653,7 @@ namespace v2rayN.Mode
     public class InItem
     {
         /// <summary>
-        /// 本地监听起始端口
+        /// 本地监听端口
         /// </summary>
         public int localPort
         {

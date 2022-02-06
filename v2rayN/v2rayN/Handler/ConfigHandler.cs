@@ -49,7 +49,6 @@ namespace v2rayN.Handler
                     logEnabled = false,
                     loglevel = "warning",
                     vmess = new List<VmessItem>(),
-
                     //Mux
                     muxEnabled = false,
 
@@ -78,6 +77,12 @@ namespace v2rayN.Handler
                 };
 
             }
+            //本地监听tag集合
+            if (config.inboundTags == null)
+            {
+                config.inboundTags = new List<string>();
+            }
+
 
             //路由规则
             if (Utils.IsNullOrEmpty(config.domainStrategy))
