@@ -132,6 +132,7 @@
             this.menuMoveDown,
             this.menuMoveBottom});
             this.cmsLv.Name = "cmsLv";
+            this.cmsLv.OwnerItem = this.MenuItem1;
             resources.ApplyResources(this.cmsLv, "cmsLv");
             // 
             // menuAdd

@@ -124,12 +124,6 @@
   <data name="btnClose.Text" xml:space="preserve">
     <value>取消(&amp;C)</value>
   </data>
-  <data name="labRoutingTips.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 16</value>
-  </data>
-  <data name="labRoutingTips.Text" xml:space="preserve">
-    <value>*设置的路由规则,用逗号(,)分隔;正则中的逗号用&lt;COMMA&gt;替代</value>
-  </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
     <value>598, 17</value>
   </data>
@@ -141,6 +135,9 @@
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>817, 60</value>
+  </data>
+  <data name="cmsLv.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 92</value>
   </data>
   <data name="menuAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
@@ -166,17 +163,17 @@
   <data name="menuSetDefaultRouting.Text" xml:space="preserve">
     <value>设为活动路由</value>
   </data>
-  <data name="cmsLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 92</value>
+  <data name="tabNormal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="MenuItemAdvanced.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 21</value>
+  <data name="tabNormal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>817, 545</value>
   </data>
-  <data name="MenuItemAdvanced.Text" xml:space="preserve">
-    <value>高级功能</value>
+  <data name="tabPageRuleList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>809, 519</value>
   </data>
-  <data name="menuServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>817, 25</value>
+  <data name="tabPageRuleList.Text" xml:space="preserve">
+    <value>  预定义规则集列表</value>
   </data>
   <data name="lvRoutings.Items" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -196,19 +193,7 @@
 </value>
   </data>
   <data name="lvRoutings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>803, 488</value>
-  </data>
-  <data name="tabPageRuleList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>809, 494</value>
-  </data>
-  <data name="tabPageRuleList.Text" xml:space="preserve">
-    <value>  预定义规则集列表</value>
-  </data>
-  <data name="tabNormal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 25</value>
-  </data>
-  <data name="tabNormal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>817, 520</value>
+    <value>803, 513</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>817, 605</value>

@@ -68,7 +68,6 @@ namespace v2rayN.Forms
         private void InitUI()
         {
             this.tabPageRuleList.Parent = tabNormal;
-            MenuItemAdvanced.Enabled = true;
         }
 
 

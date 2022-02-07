@@ -32,21 +32,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoutingSettingForm));
             this.btnClose = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.labRoutingTips = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.cmsLv = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSetDefaultRouting = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemAdvanced = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuServer = new System.Windows.Forms.MenuStrip();
             this.tabNormal = new System.Windows.Forms.TabControl();
             this.tabPageRuleList = new System.Windows.Forms.TabPage();
             this.lvRoutings = new v2rayN.Base.ListViewFlickerFree();
             this.panel2.SuspendLayout();
             this.cmsLv.SuspendLayout();
-            this.menuServer.SuspendLayout();
             this.tabNormal.SuspendLayout();
             this.tabPageRuleList.SuspendLayout();
             this.SuspendLayout();
@@ -62,16 +58,9 @@
             // panel2
             // 
             resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Controls.Add(this.labRoutingTips);
             this.panel2.Controls.Add(this.btnClose);
             this.panel2.Controls.Add(this.btnOK);
             this.panel2.Name = "panel2";
-            // 
-            // labRoutingTips
-            // 
-            resources.ApplyResources(this.labRoutingTips, "labRoutingTips");
-            this.labRoutingTips.ForeColor = System.Drawing.Color.Brown;
-            this.labRoutingTips.Name = "labRoutingTips";
             // 
             // btnOK
             // 
@@ -115,19 +104,6 @@
             this.menuSetDefaultRouting.Name = "menuSetDefaultRouting";
             this.menuSetDefaultRouting.Click += new System.EventHandler(this.menuSetDefaultRouting_Click);
             // 
-            // MenuItemAdvanced
-            // 
-            resources.ApplyResources(this.MenuItemAdvanced, "MenuItemAdvanced");
-            this.MenuItemAdvanced.DropDown = this.cmsLv;
-            this.MenuItemAdvanced.Name = "MenuItemAdvanced";
-            // 
-            // menuServer
-            // 
-            resources.ApplyResources(this.menuServer, "menuServer");
-            this.menuServer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuItemAdvanced});
-            this.menuServer.Name = "menuServer";
-            // 
             // tabNormal
             // 
             resources.ApplyResources(this.tabNormal, "tabNormal");
@@ -166,18 +142,14 @@
             this.CancelButton = this.btnClose;
             this.Controls.Add(this.tabNormal);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.menuServer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "RoutingSettingForm";
             this.Load += new System.EventHandler(this.RoutingSettingForm_Load);
             this.panel2.ResumeLayout(false);
             this.cmsLv.ResumeLayout(false);
-            this.menuServer.ResumeLayout(false);
-            this.menuServer.PerformLayout();
             this.tabNormal.ResumeLayout(false);
             this.tabPageRuleList.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -189,12 +161,9 @@
         private System.Windows.Forms.ToolStripMenuItem menuRemove;
         private System.Windows.Forms.ToolStripMenuItem menuSelectAll;
         private System.Windows.Forms.ToolStripMenuItem menuAdd;
-        private System.Windows.Forms.MenuStrip menuServer;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemAdvanced;
         private System.Windows.Forms.ToolStripMenuItem menuSetDefaultRouting;
         private System.Windows.Forms.TabControl tabNormal;
         private System.Windows.Forms.TabPage tabPageRuleList;
         private Base.ListViewFlickerFree lvRoutings;
-        private System.Windows.Forms.Label labRoutingTips;
     }
 }
