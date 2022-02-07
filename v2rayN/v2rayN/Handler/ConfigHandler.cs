@@ -71,7 +71,8 @@ namespace v2rayN.Handler
                 config.inbound = new InItem
                 {
                     protocol = Global.InboundSocks,
-                    localPort = 10808,
+                    localPort = 2080,
+                    portcount=1,
                     udpEnabled = true,
                     sniffingEnabled = true
                 };
