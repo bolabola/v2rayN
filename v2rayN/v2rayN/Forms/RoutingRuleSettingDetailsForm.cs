@@ -19,9 +19,9 @@ namespace v2rayN.Forms
             InitializeComponent();
             clbInboundTag.DataSource = config.inboundTags;
 
-            cmbOutboundTag.DataSource = config.vmess;
-            cmbOutboundTag.ValueMember = "remarks";
-            cmbOutboundTag.DisplayMember = "remarks";
+            clbOutboundTag.DataSource = config.vmess;
+            clbOutboundTag.ValueMember = "remarks";
+            clbOutboundTag.DisplayMember = "remarks";
         }
 
         private void RoutingRuleSettingDetailsForm_Load(object sender, EventArgs e)
@@ -49,14 +49,33 @@ namespace v2rayN.Forms
                     }
                 }
                 rulesItem.inboundTag = inboundTag;
-                rulesItem.outboundTag = cmbOutboundTag.Text;
+
+                string outboundTag = string.Empty;
+                for (int i = 0; i < clbOutboundTag.Items.Count; i++)
+                {
+                    if (clbOutboundTag.GetItemChecked(i))
+                    {
+                        outboundTag=((VmessItem)clbOutboundTag.Items[i]).remarks;
+                    }
+                }
+                rulesItem.outboundTag = outboundTag;
             }
         }
         private void BindingData()
         {
             if (rulesItem != null)
             {
-                cmbOutboundTag.Text = rulesItem.outboundTag;
+                if (rulesItem.outboundTag != string.Empty)
+                { 
+                    for (int i = 0; i < clbOutboundTag.Items.Count; i++)
+                    {
+                        if (rulesItem.outboundTag.Equals(((VmessItem)clbOutboundTag.Items[i]).remarks))
+                        {
+                            clbOutboundTag.SetItemChecked(i, true);
+                        }
+                    }
+                }
+
                 if (rulesItem.inboundTag != null)
                 {
                     for (int i = 0; i < clbInboundTag.Items.Count; i++)
@@ -71,7 +90,7 @@ namespace v2rayN.Forms
         }
         private void ClearBind()
         {
-            cmbOutboundTag.Text = Global.agentTag;
+            clbOutboundTag.Text =string.Empty;
         }
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -82,6 +101,34 @@ namespace v2rayN.Forms
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+        
+        public bool canContinue = true;
+        private void clbOutboundTag_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            CheckedListBox clb = sender as CheckedListBox;
+
+            //勾选原选项
+            if (clb.CheckedIndices.Count > 0 && clb.CheckedIndices[0] == e.Index && canContinue)
+            {
+                e.NewValue = CheckState.Checked;
+            }
+            //第一次勾选
+            else if (clb.CheckedIndices.Count == 0)
+            {
+                canContinue = true;
+            }
+            //勾选新选项
+            else if (clb.CheckedIndices.Count > 0 && clb.CheckedIndices[0] != e.Index)
+            {
+                canContinue = false;
+                clb.SetItemChecked(clb.CheckedIndices[0], false);
+            }
+            //勾选新选项后重置CanContinue
+            else
+            {
+                canContinue = true;
+            }
         }
     }
 }

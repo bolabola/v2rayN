@@ -57,7 +57,6 @@ namespace v2rayN.Forms
             lvRoutings.Columns.Add("", 30);
             lvRoutings.Columns.Add("inboundTag", 150);
             lvRoutings.Columns.Add("outboundTag", 150);
-            lvRoutings.Columns.Add("enable", 60);
 
             lvRoutings.EndUpdate();
         }
@@ -78,6 +77,7 @@ namespace v2rayN.Forms
 
                 if (lvItem != null) lvRoutings.Items.Add(lvItem);
             }
+            lvRoutings.AutoResizeColumns();
             lvRoutings.EndUpdate();
         }
 
