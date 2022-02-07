@@ -53,7 +53,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>v2rayN.ico</ApplicationIcon>
+    <ApplicationIcon>cryptochasers.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>BD431FE78E8A6683106E7110882AE5C41CBF5C60</ManifestCertificateThumbprint>
@@ -430,7 +430,6 @@
       <LastGenOutput>ResUI.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="v2rayN.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Sample\SampleClientConfig.txt" />
@@ -478,11 +477,14 @@
     <None Include="Resources\minimize.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\robot.bmp" />
     <None Include="Resources\share.png" />
     <None Include="Resources\promotion.png" />
     <None Include="Resources\sub.png" />
     <None Include="Resources\checkupdate.png" />
     <None Include="Resources\about.png" />
+    <Content Include="cryptochasers.ico" />
+    <None Include="Resources\cryptochasers.ico" />
     <Content Include="Resources\help.png" />
     <None Include="Resources\notify.png" />
   </ItemGroup>

@@ -1242,6 +1242,7 @@ namespace v2rayN.Handler
 
         public static int InitBuiltinRouting(ref Config config)
         {
+            return 0;
             if (config.routings == null)
             {
                 config.routings = new List<RoutingItem>();

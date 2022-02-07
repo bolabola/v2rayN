@@ -182,7 +182,7 @@ namespace v2rayN
         /// <summary>
         /// Icon
         /// </summary>
-        public const string CustomIconName = "v2rayN.ico";
+        public const string CustomIconName = "cryptochasers.ico";
 
         public enum StatisticsFreshRate
         {
