@@ -64,8 +64,8 @@
             this.menuExport2ServerConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.menuExport2ShareUrl = new System.Windows.Forms.ToolStripMenuItem();
             this.menuExport2SubContent = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsbServer = new System.Windows.Forms.ToolStripDropDownButton();
             this.qrCodeControl = new v2rayN.Forms.QRCodeControl();
+            this.tsbServer = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbMsgTitle = new System.Windows.Forms.GroupBox();
@@ -85,14 +85,6 @@
             this.toolSslBlank4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.notifyMain = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsMain = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuSysAgentMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuKeepClear = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuGlobal = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuKeepNothing = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuRoutings = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuServers = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuServers2 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.menuAddServers2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuScanScreen2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUpdateSubscriptions = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,13 +111,8 @@
             this.tsbCheckUpdateN = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbCheckUpdateCore = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbCheckUpdateXrayCore = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbCheckUpdateGeoSite = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsbCheckUpdateGeoIP = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbHelp = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tsbAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsbV2rayWebsite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbLanguageDef = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbLanguageZhHans = new System.Windows.Forms.ToolStripMenuItem();
@@ -405,17 +392,17 @@
             resources.ApplyResources(this.menuExport2SubContent, "menuExport2SubContent");
             this.menuExport2SubContent.Click += new System.EventHandler(this.menuExport2SubContent_Click);
             // 
+            // qrCodeControl
+            // 
+            resources.ApplyResources(this.qrCodeControl, "qrCodeControl");
+            this.qrCodeControl.Name = "qrCodeControl";
+            // 
             // tsbServer
             // 
             this.tsbServer.DropDown = this.cmsLv;
             this.tsbServer.Image = global::v2rayN.Properties.Resources.server;
             resources.ApplyResources(this.tsbServer, "tsbServer");
             this.tsbServer.Name = "tsbServer";
-            // 
-            // qrCodeControl
-            // 
-            resources.ApplyResources(this.qrCodeControl, "qrCodeControl");
-            this.qrCodeControl.Name = "qrCodeControl";
             // 
             // splitContainer1
             // 
@@ -555,11 +542,6 @@
             this.cmsMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             resources.ApplyResources(this.cmsMain, "cmsMain");
             this.cmsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuSysAgentMode,
-            this.menuRoutings,
-            this.menuServers,
-            this.menuServers2,
-            this.toolStripSeparator13,
             this.menuAddServers2,
             this.menuScanScreen2,
             this.menuUpdateSubscriptions,
@@ -569,56 +551,6 @@
             this.cmsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.cmsMain.ShowCheckMargin = true;
             this.cmsMain.ShowImageMargin = false;
-            // 
-            // menuSysAgentMode
-            // 
-            this.menuSysAgentMode.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuKeepClear,
-            this.menuGlobal,
-            this.menuKeepNothing});
-            this.menuSysAgentMode.Name = "menuSysAgentMode";
-            resources.ApplyResources(this.menuSysAgentMode, "menuSysAgentMode");
-            // 
-            // menuKeepClear
-            // 
-            this.menuKeepClear.Name = "menuKeepClear";
-            resources.ApplyResources(this.menuKeepClear, "menuKeepClear");
-            this.menuKeepClear.Click += new System.EventHandler(this.menuKeepClear_Click);
-            // 
-            // menuGlobal
-            // 
-            this.menuGlobal.Name = "menuGlobal";
-            resources.ApplyResources(this.menuGlobal, "menuGlobal");
-            this.menuGlobal.Click += new System.EventHandler(this.menuGlobal_Click);
-            // 
-            // menuKeepNothing
-            // 
-            this.menuKeepNothing.Name = "menuKeepNothing";
-            resources.ApplyResources(this.menuKeepNothing, "menuKeepNothing");
-            this.menuKeepNothing.Click += new System.EventHandler(this.menuKeepNothing_Click);
-            // 
-            // menuRoutings
-            // 
-            this.menuRoutings.Name = "menuRoutings";
-            resources.ApplyResources(this.menuRoutings, "menuRoutings");
-            // 
-            // menuServers
-            // 
-            this.menuServers.Name = "menuServers";
-            resources.ApplyResources(this.menuServers, "menuServers");
-            // 
-            // menuServers2
-            // 
-            this.menuServers2.BackColor = System.Drawing.SystemColors.Window;
-            this.menuServers2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.menuServers2.DropDownWidth = 500;
-            resources.ApplyResources(this.menuServers2, "menuServers2");
-            this.menuServers2.Name = "menuServers2";
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
             // 
             // menuAddServers2
             // 
@@ -778,18 +710,15 @@
             this.tsbCheckUpdate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbCheckUpdateN,
             this.tsbCheckUpdateCore,
-            this.tsbCheckUpdateXrayCore,
-            this.toolStripSeparator15,
-            this.tsbCheckUpdateGeoSite,
-            this.tsbCheckUpdateGeoIP});
+            this.tsbCheckUpdateXrayCore});
             this.tsbCheckUpdate.Image = global::v2rayN.Properties.Resources.checkupdate;
             resources.ApplyResources(this.tsbCheckUpdate, "tsbCheckUpdate");
             this.tsbCheckUpdate.Name = "tsbCheckUpdate";
             // 
             // tsbCheckUpdateN
             // 
-            this.tsbCheckUpdateN.Name = "tsbCheckUpdateN";
             resources.ApplyResources(this.tsbCheckUpdateN, "tsbCheckUpdateN");
+            this.tsbCheckUpdateN.Name = "tsbCheckUpdateN";
             this.tsbCheckUpdateN.Click += new System.EventHandler(this.tsbCheckUpdateN_Click);
             // 
             // tsbCheckUpdateCore
@@ -804,23 +733,6 @@
             resources.ApplyResources(this.tsbCheckUpdateXrayCore, "tsbCheckUpdateXrayCore");
             this.tsbCheckUpdateXrayCore.Click += new System.EventHandler(this.tsbCheckUpdateXrayCore_Click);
             // 
-            // toolStripSeparator15
-            // 
-            this.toolStripSeparator15.Name = "toolStripSeparator15";
-            resources.ApplyResources(this.toolStripSeparator15, "toolStripSeparator15");
-            // 
-            // tsbCheckUpdateGeoSite
-            // 
-            this.tsbCheckUpdateGeoSite.Name = "tsbCheckUpdateGeoSite";
-            resources.ApplyResources(this.tsbCheckUpdateGeoSite, "tsbCheckUpdateGeoSite");
-            this.tsbCheckUpdateGeoSite.Click += new System.EventHandler(this.tsbCheckUpdateGeoSite_Click);
-            // 
-            // tsbCheckUpdateGeoIP
-            // 
-            this.tsbCheckUpdateGeoIP.Name = "tsbCheckUpdateGeoIP";
-            resources.ApplyResources(this.tsbCheckUpdateGeoIP, "tsbCheckUpdateGeoIP");
-            this.tsbCheckUpdateGeoIP.Click += new System.EventHandler(this.tsbCheckUpdateGeoIP_Click);
-            // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
@@ -829,26 +741,12 @@
             // tsbHelp
             // 
             this.tsbHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbAbout,
-            this.tsbV2rayWebsite,
             this.toolStripSeparator12,
             this.tsbLanguageDef,
             this.tsbLanguageZhHans});
             this.tsbHelp.Image = global::v2rayN.Properties.Resources.help;
             resources.ApplyResources(this.tsbHelp, "tsbHelp");
             this.tsbHelp.Name = "tsbHelp";
-            // 
-            // tsbAbout
-            // 
-            this.tsbAbout.Name = "tsbAbout";
-            resources.ApplyResources(this.tsbAbout, "tsbAbout");
-            this.tsbAbout.Click += new System.EventHandler(this.tsbAbout_Click);
-            // 
-            // tsbV2rayWebsite
-            // 
-            this.tsbV2rayWebsite.Name = "tsbV2rayWebsite";
-            resources.ApplyResources(this.tsbV2rayWebsite, "tsbV2rayWebsite");
-            this.tsbV2rayWebsite.Click += new System.EventHandler(this.tsbV2rayWebsite_Click);
             // 
             // toolStripSeparator12
             // 
@@ -934,7 +832,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsMain;
         private System.Windows.Forms.ToolStripMenuItem menuExit;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStripMenuItem menuServers;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ContextMenuStrip cmsLv;
         private System.Windows.Forms.ToolStripMenuItem menuAddVmessServer;
@@ -957,9 +854,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuMoveDown;
         private System.Windows.Forms.ToolStripMenuItem menuMoveBottom;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripMenuItem menuSysAgentMode;
-        private System.Windows.Forms.ToolStripMenuItem menuGlobal;
-        private System.Windows.Forms.ToolStripMenuItem menuKeepClear;
         private System.Windows.Forms.ToolStripMenuItem menuAddCustomServer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem menuAddShadowsocksServer;
@@ -974,7 +868,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuSpeedServer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripDropDownButton tsbHelp;
-        private System.Windows.Forms.ToolStripMenuItem tsbAbout;
         private System.Windows.Forms.ToolStripMenuItem menuAddServers2;
         private System.ComponentModel.BackgroundWorker bgwScan;
         private System.Windows.Forms.ToolStripMenuItem menuScanScreen;
@@ -998,8 +891,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuTcpingServer;
         private System.Windows.Forms.ToolStripMenuItem menuRealPingServer;
         private System.Windows.Forms.ToolStripMenuItem menuUpdateSubscriptions;
-        private System.Windows.Forms.ToolStripMenuItem tsbV2rayWebsite;
-        private System.Windows.Forms.ToolStripMenuItem menuKeepNothing;
         private System.Windows.Forms.ToolStripMenuItem tsbTestMe;
         private System.Windows.Forms.ToolStripButton tsbReload;
         private System.Windows.Forms.ToolStripButton tsbQRCodeSwitch;
@@ -1010,8 +901,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsbRoutingSetting;
         private System.Windows.Forms.ToolStripMenuItem tsbCheckUpdateXrayCore;
         private System.Windows.Forms.ToolStripMenuItem menuClearServerStatistics;
-        private System.Windows.Forms.ToolStripMenuItem menuRoutings;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ContextMenuStrip cmsMsgBox;
         private System.Windows.Forms.ToolStripMenuItem menuMsgBoxSelectAll;
         private System.Windows.Forms.ToolStripMenuItem menuMsgBoxCopy;
@@ -1019,15 +908,11 @@
         private System.Windows.Forms.ToolStripMenuItem menuMsgBoxCopyAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripMenuItem tsbBackupGuiNConfig;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-        private System.Windows.Forms.ToolStripMenuItem tsbCheckUpdateGeoSite;
-        private System.Windows.Forms.ToolStripMenuItem tsbCheckUpdateGeoIP;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ToolStripMenuItem menuMsgBoxFilter;
         private System.Windows.Forms.ToolStripStatusLabel toolSslInboundInfo;
         private System.Windows.Forms.ToolStripStatusLabel toolSslRoutingRule;
         private System.Windows.Forms.ToolStripStatusLabel toolSslBlank2;
-        private System.Windows.Forms.ToolStripComboBox menuServers2;
     }
 }
 

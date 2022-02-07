@@ -319,7 +319,7 @@
     <value>ImageAboveText</value>
   </data>
   <data name="cmsLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 644</value>
+    <value>356, 622</value>
   </data>
   <data name="&gt;&gt;cmsLv.Name" xml:space="preserve">
     <value>cmsLv</value>
@@ -701,57 +701,6 @@
   <data name="cmsMain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="menuKeepClear.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
-  </data>
-  <data name="menuKeepClear.Text" xml:space="preserve">
-    <value>Clear system proxy</value>
-  </data>
-  <data name="menuGlobal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
-  </data>
-  <data name="menuGlobal.Text" xml:space="preserve">
-    <value>Set system proxy</value>
-  </data>
-  <data name="menuKeepNothing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
-  </data>
-  <data name="menuKeepNothing.Text" xml:space="preserve">
-    <value>Do not change system proxy</value>
-  </data>
-  <data name="menuSysAgentMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 22</value>
-  </data>
-  <data name="menuSysAgentMode.Text" xml:space="preserve">
-    <value>Http proxy</value>
-  </data>
-  <data name="menuRoutings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 22</value>
-  </data>
-  <data name="menuRoutings.Text" xml:space="preserve">
-    <value>Routing</value>
-  </data>
-  <data name="menuServers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 22</value>
-  </data>
-  <data name="menuServers.Text" xml:space="preserve">
-    <value>Server</value>
-  </data>
-  <data name="menuServers2.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Standard</value>
-  </data>
-  <data name="menuServers2.MaxDropDownItems" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="menuServers2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 25</value>
-  </data>
-  <data name="menuServers2.ToolTipText" xml:space="preserve">
-    <value>Server</value>
-  </data>
-  <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>261, 6</value>
-  </data>
   <data name="menuAddServers2.Size" type="System.Drawing.Size, System.Drawing">
     <value>264, 22</value>
   </data>
@@ -780,7 +729,7 @@
     <value>Exit</value>
   </data>
   <data name="cmsMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 199</value>
+    <value>265, 98</value>
   </data>
   <data name="&gt;&gt;cmsMain.Name" xml:space="preserve">
     <value>cmsMain</value>
@@ -934,6 +883,9 @@
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 56</value>
   </data>
+  <data name="tsbCheckUpdateN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="tsbCheckUpdateN.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 22</value>
   </data>
@@ -952,21 +904,6 @@
   <data name="tsbCheckUpdateXrayCore.Text" xml:space="preserve">
     <value>Update XrayCore</value>
   </data>
-  <data name="toolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 6</value>
-  </data>
-  <data name="tsbCheckUpdateGeoSite.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 22</value>
-  </data>
-  <data name="tsbCheckUpdateGeoSite.Text" xml:space="preserve">
-    <value>Update GeoSite</value>
-  </data>
-  <data name="tsbCheckUpdateGeoIP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 22</value>
-  </data>
-  <data name="tsbCheckUpdateGeoIP.Text" xml:space="preserve">
-    <value>Update GeoIP</value>
-  </data>
   <data name="tsbCheckUpdate.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -981,18 +918,6 @@
   </data>
   <data name="toolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 56</value>
-  </data>
-  <data name="tsbAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 22</value>
-  </data>
-  <data name="tsbAbout.Text" xml:space="preserve">
-    <value>v2rayN Project</value>
-  </data>
-  <data name="tsbV2rayWebsite.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 22</value>
-  </data>
-  <data name="tsbV2rayWebsite.Text" xml:space="preserve">
-    <value>V2Ray Website</value>
   </data>
   <data name="toolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
     <value>184, 6</value>
@@ -1025,10 +950,10 @@
     <value>Magenta</value>
   </data>
   <data name="tsbPromotion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 53</value>
+    <value>72, 53</value>
   </data>
   <data name="tsbPromotion.Text" xml:space="preserve">
-    <value>  Promotion  </value>
+    <value>RobotDao</value>
   </data>
   <data name="tsbPromotion.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
     <value>ImageAboveText</value>
@@ -1358,54 +1283,6 @@
   <data name="&gt;&gt;notifyMain.Type" xml:space="preserve">
     <value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;menuSysAgentMode.Name" xml:space="preserve">
-    <value>menuSysAgentMode</value>
-  </data>
-  <data name="&gt;&gt;menuSysAgentMode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuKeepClear.Name" xml:space="preserve">
-    <value>menuKeepClear</value>
-  </data>
-  <data name="&gt;&gt;menuKeepClear.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuGlobal.Name" xml:space="preserve">
-    <value>menuGlobal</value>
-  </data>
-  <data name="&gt;&gt;menuGlobal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuKeepNothing.Name" xml:space="preserve">
-    <value>menuKeepNothing</value>
-  </data>
-  <data name="&gt;&gt;menuKeepNothing.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuRoutings.Name" xml:space="preserve">
-    <value>menuRoutings</value>
-  </data>
-  <data name="&gt;&gt;menuRoutings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuServers.Name" xml:space="preserve">
-    <value>menuServers</value>
-  </data>
-  <data name="&gt;&gt;menuServers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuServers2.Name" xml:space="preserve">
-    <value>menuServers2</value>
-  </data>
-  <data name="&gt;&gt;menuServers2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator13.Name" xml:space="preserve">
-    <value>toolStripSeparator13</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;menuAddServers2.Name" xml:space="preserve">
     <value>menuAddServers2</value>
   </data>
@@ -1550,24 +1427,6 @@
   <data name="&gt;&gt;tsbCheckUpdateXrayCore.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator15.Name" xml:space="preserve">
-    <value>toolStripSeparator15</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator15.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tsbCheckUpdateGeoSite.Name" xml:space="preserve">
-    <value>tsbCheckUpdateGeoSite</value>
-  </data>
-  <data name="&gt;&gt;tsbCheckUpdateGeoSite.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tsbCheckUpdateGeoIP.Name" xml:space="preserve">
-    <value>tsbCheckUpdateGeoIP</value>
-  </data>
-  <data name="&gt;&gt;tsbCheckUpdateGeoIP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;toolStripSeparator10.Name" xml:space="preserve">
     <value>toolStripSeparator10</value>
   </data>
@@ -1579,18 +1438,6 @@
   </data>
   <data name="&gt;&gt;tsbHelp.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tsbAbout.Name" xml:space="preserve">
-    <value>tsbAbout</value>
-  </data>
-  <data name="&gt;&gt;tsbAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tsbV2rayWebsite.Name" xml:space="preserve">
-    <value>tsbV2rayWebsite</value>
-  </data>
-  <data name="&gt;&gt;tsbV2rayWebsite.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator12.Name" xml:space="preserve">
     <value>toolStripSeparator12</value>
