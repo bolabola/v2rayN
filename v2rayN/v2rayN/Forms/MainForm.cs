@@ -1,26 +1,28 @@
-﻿using System;
+﻿using NHotkey;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
-using v2rayN.Handler;
-using v2rayN.HttpProxyHandler;
-using v2rayN.Mode;
-using v2rayN.Base;
-using v2rayN.Tool;
 using System.Diagnostics;
 using System.Drawing;
-using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using v2rayN.Base;
+using v2rayN.Handler;
+using v2rayN.Mode;
+using v2rayN.Tool;
+using System.Linq;
 
 namespace v2rayN.Forms
 {
     public partial class MainForm : BaseForm
     {
         private V2rayHandler v2rayHandler;
-        private List<int> lvSelecteds = new List<int>();
+        private List<VmessItem> lstSelecteds = new List<VmessItem>();
         private StatisticsHandler statistics = null;
         private string MsgFilter = string.Empty;
+        private List<VmessItem> lstVmess = null;
+        private string groupId = string.Empty;
 
         #region Window 事件
 
@@ -47,6 +49,7 @@ namespace v2rayN.Forms
                 Environment.Exit(0);
                 return;
             }
+
             ConfigHandler.InitBuiltinRouting(ref config);
             MainFormHandler.Instance.BackupGuiNConfig(config, true);
             v2rayHandler = new V2rayHandler();
@@ -56,7 +59,6 @@ namespace v2rayN.Forms
             {
                 statistics = new StatisticsHandler(config, UpdateStatisticsHandler);
             }
-            MainFormHandler.Instance.UpdateTask(config, UpdateTaskHandler);
         }
 
         private void MainForm_VisibleChanged(object sender, EventArgs e)
@@ -74,15 +76,18 @@ namespace v2rayN.Forms
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
+            InitGroupView();
             InitServersView();
             RefreshServers();
             RefreshRoutingsMenu();
             RestoreUI();
 
-            LoadV2ray();
+            _ = LoadV2ray();
 
             HideForm();
 
+            MainFormHandler.Instance.UpdateTask(config, UpdateTaskHandler);
+            MainFormHandler.Instance.RegisterGlobalHotkey(config, OnHotkeyHandler, UpdateTaskHandler);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -125,13 +130,14 @@ namespace v2rayN.Forms
                 //HttpProxyHandle.CloseHttpAgent(config);
                 if (blWindowsShutDown)
                 {
-                    HttpProxyHandle.ResetIEProxy4WindowsShutDown();
+                    SysProxyHandle.ResetIEProxy4WindowsShutDown();
                 }
                 else
                 {
-                    HttpProxyHandle.UpdateSysProxy(config, true);
+                    SysProxyHandle.UpdateSysProxy(config, true);
                 }
 
+                StorageUI();
                 ConfigHandler.SaveConfig(ref config);
                 statistics?.SaveToFile();
                 statistics?.Close();
@@ -166,6 +172,26 @@ namespace v2rayN.Forms
             }
         }
 
+        private void OnHotkeyHandler(object sender, HotkeyEventArgs e)
+        {
+            switch (Utils.ToInt(e.Name))
+            {
+                case (int)EGlobalHotkey.ShowForm:
+                    if (this.ShowInTaskbar) HideForm(); else ShowForm();
+                    break;
+                case (int)EGlobalHotkey.SystemProxyClear:
+                    SetListenerType(ESysProxyType.ForcedClear);
+                    break;
+                case (int)EGlobalHotkey.SystemProxySet:
+                    SetListenerType(ESysProxyType.ForcedChange);
+                    break;
+                case (int)EGlobalHotkey.SystemProxyUnchanged:
+                    SetListenerType(ESysProxyType.Unchanged);
+                    break;
+            }
+            e.Handled = true;
+        }
+
         #endregion
 
         #region 显示服务器 listview 和 menu
@@ -175,8 +201,13 @@ namespace v2rayN.Forms
         /// </summary>
         private void RefreshServers()
         {
+            lstVmess = config.vmess
+                .Where(it => Utils.IsNullOrEmpty(groupId) ? true : it.groupId == groupId)
+                .OrderBy(it => it.sort)
+                .ToList();
+
+            ConfigHandler.SetDefaultServer(config, lstVmess);
             RefreshServersView();
-            //lvServers.AutoResizeColumns();
             RefreshServersMenu();
         }
 
@@ -194,17 +225,18 @@ namespace v2rayN.Forms
             lvServers.Scrollable = true;
             lvServers.MultiSelect = true;
             lvServers.HeaderStyle = ColumnHeaderStyle.Clickable;
+            lvServers.RegisterDragEvent(UpdateDragEventHandler);
 
             lvServers.Columns.Add("", 30);
             lvServers.Columns.Add(UIRes.I18N("LvServiceType"), 80);
             lvServers.Columns.Add(UIRes.I18N("LvAlias"), 100);
             lvServers.Columns.Add(UIRes.I18N("LvAddress"), 120);
-            lvServers.Columns.Add(UIRes.I18N("LvPort"), 50);
-            lvServers.Columns.Add(UIRes.I18N("LvEncryptionMethod"), 90);
-            lvServers.Columns.Add(UIRes.I18N("LvTransportProtocol"), 70);
-            lvServers.Columns.Add(UIRes.I18N("LvTLS"), 70);
-            lvServers.Columns.Add(UIRes.I18N("LvSubscription"), 50);
-            lvServers.Columns.Add(UIRes.I18N("LvTestResults"), 70, HorizontalAlignment.Right);
+            lvServers.Columns.Add(UIRes.I18N("LvPort"), 100);
+            lvServers.Columns.Add(UIRes.I18N("LvEncryptionMethod"), 120);
+            lvServers.Columns.Add(UIRes.I18N("LvTransportProtocol"), 120);
+            lvServers.Columns.Add(UIRes.I18N("LvTLS"), 100);
+            lvServers.Columns.Add(UIRes.I18N("LvSubscription"), 100);
+            lvServers.Columns.Add(UIRes.I18N("LvTestResults"), 120, HorizontalAlignment.Right);
 
             if (statistics != null && statistics.Enable)
             {
@@ -214,6 +246,18 @@ namespace v2rayN.Forms
                 lvServers.Columns.Add(UIRes.I18N("LvTotalUploadDataAmount"), 70);
             }
             lvServers.EndUpdate();
+        }
+
+        private void UpdateDragEventHandler(int index, int targetIndex)
+        {
+            if (index < 0 || targetIndex < 0)
+            {
+                return;
+            }
+            if (ConfigHandler.MoveServer(ref config, ref lstVmess, index, EMove.Position, targetIndex) == 0)
+            {
+                RefreshServers();
+            }
         }
 
         /// <summary>
@@ -226,24 +270,24 @@ namespace v2rayN.Forms
             lvServers.BeginUpdate();
             lvServers.Items.Clear();
 
-            for (int k = 0; k < config.vmess.Count; k++)
+            for (int k = 0; k < lstVmess.Count; k++)
             {
                 string def = string.Empty;
                 string totalUp = string.Empty,
                         totalDown = string.Empty,
                         todayUp = string.Empty,
                         todayDown = string.Empty;
-                if (config.index.Equals(k))
+
+                VmessItem item = lstVmess[k];
+                if (config.IsActiveNode(item))
                 {
                     def = "√";
                 }
 
-                VmessItem item = config.vmess[k];
-
                 bool stats = statistics != null && statistics.Enable;
                 if (stats)
                 {
-                    ServerStatItem sItem = statistics.Statistic.Find(item_ => item_.itemId == item.getItemId());
+                    ServerStatItem sItem = statistics.Statistic.Find(item_ => item_.itemId == item.indexId);
                     if (sItem != null)
                     {
                         totalUp = Utils.HumanFy(sItem.totalUp);
@@ -253,14 +297,14 @@ namespace v2rayN.Forms
                     }
                 }
                 ListViewItem lvItem = new ListViewItem(def);
-                Utils.AddSubItem(lvItem, EServerColName.configType.ToString(), ((EConfigType)item.configType).ToString());
+                Utils.AddSubItem(lvItem, EServerColName.configType.ToString(), (item.configType).ToString());
                 Utils.AddSubItem(lvItem, EServerColName.remarks.ToString(), item.remarks);
                 Utils.AddSubItem(lvItem, EServerColName.address.ToString(), item.address);
                 Utils.AddSubItem(lvItem, EServerColName.port.ToString(), item.port.ToString());
                 Utils.AddSubItem(lvItem, EServerColName.security.ToString(), item.security);
                 Utils.AddSubItem(lvItem, EServerColName.network.ToString(), item.network);
                 Utils.AddSubItem(lvItem, EServerColName.streamSecurity.ToString(), item.streamSecurity);
-                Utils.AddSubItem(lvItem, EServerColName.subRemarks.ToString(), item.getSubRemarks(config));
+                Utils.AddSubItem(lvItem, EServerColName.subRemarks.ToString(), item.GetSubRemarks(config));
                 Utils.AddSubItem(lvItem, EServerColName.testResult.ToString(), item.testResult);
                 if (stats)
                 {
@@ -274,7 +318,7 @@ namespace v2rayN.Forms
                 {
                     lvItem.BackColor = Color.WhiteSmoke;
                 }
-                if (config.index.Equals(k))
+                if (config.IsActiveNode(item))
                 {
                     //lvItem.Checked = true;
                     lvItem.ForeColor = Color.DodgerBlue;
@@ -303,37 +347,37 @@ namespace v2rayN.Forms
             menuServers.Visible = false;
             menuServers2.Visible = false;
 
-            if (config.vmess.Count > 20)
+            if (lstVmess.Count > 20)
             {
-                for (int k = 0; k < config.vmess.Count; k++)
+                for (int k = 0; k < lstVmess.Count; k++)
                 {
-                    VmessItem item = config.vmess[k];
-                    string name = item.getSummary();
+                    VmessItem item = lstVmess[k];
+                    string name = item.GetSummary();
 
-                    if (config.index.Equals(k))
+                    if (config.IsActiveNode(item))
                     {
                         name = $"√ {name}";
                     }
                     menuServers2.Items.Add(name);
 
                 }
-                menuServers2.SelectedIndex = config.index;
+                menuServers2.SelectedIndex = lstVmess.FindIndex(it => it.indexId == config.indexId);
                 menuServers2.SelectedIndexChanged += MenuServers2_SelectedIndexChanged;
                 menuServers2.Visible = true;
             }
             else
             {
                 List<ToolStripMenuItem> lst = new List<ToolStripMenuItem>();
-                for (int k = 0; k < config.vmess.Count; k++)
+                for (int k = 0; k < lstVmess.Count; k++)
                 {
-                    VmessItem item = config.vmess[k];
-                    string name = item.getSummary();
+                    VmessItem item = lstVmess[k];
+                    string name = item.GetSummary();
 
                     ToolStripMenuItem ts = new ToolStripMenuItem(name)
                     {
                         Tag = k
                     };
-                    if (config.index.Equals(k))
+                    if (config.IsActiveNode(item))
                     {
                         ts.Checked = true;
                     }
@@ -407,9 +451,18 @@ namespace v2rayN.Forms
 
             try
             {
+                if ((EServerColName)e.Column == EServerColName.def)
+                {
+                    foreach (ColumnHeader it in lvServers.Columns)
+                    {
+                        it.Width = -2;
+                    }
+                    return;
+                }
+
                 var tag = lvServers.Columns[e.Column].Tag?.ToString();
                 bool asc = Utils.IsNullOrEmpty(tag) ? true : !Convert.ToBoolean(tag);
-                if (ConfigHandler.SortServers(ref config, (EServerColName)e.Column, asc) != 0)
+                if (ConfigHandler.SortServers(ref config, ref lstVmess, (EServerColName)e.Column, asc) != 0)
                 {
                     return;
                 }
@@ -427,6 +480,80 @@ namespace v2rayN.Forms
             }
 
         }
+
+        private void InitGroupView()
+        {
+            tabGroup.TabPages.Clear();
+
+            string title = $"  {UIRes.I18N("AllGroupServers")}   ";
+            var tabPage = new TabPage(title);
+            tabPage.Name = "";
+            tabGroup.TabPages.Add(tabPage);
+
+            foreach (var item in config.groupItem)
+            {
+                var tabPage2 = new TabPage($"   {item.remarks}   ");
+                tabPage2.Name = item.id;
+                tabGroup.TabPages.Add(tabPage2);
+            }
+
+            tabGroup.SelectedIndex = 0;
+
+            //menuMoveToGroup
+            menuMoveToGroup.DropDownItems.Clear();
+
+            List<ToolStripMenuItem> lst = new List<ToolStripMenuItem>();
+            foreach (var item in config.groupItem)
+            {
+                string name = item.remarks;
+
+                ToolStripMenuItem ts = new ToolStripMenuItem(name)
+                {
+                    Tag = item.id,
+                };
+                ts.Click += new EventHandler(ts_Group_Click);
+                lst.Add(ts);
+            }
+            menuMoveToGroup.DropDownItems.AddRange(lst.ToArray());
+        }
+
+        private void tabGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabGroup.SelectedIndex < 0)
+            {
+                return;
+            }
+            groupId = string.Empty;
+            //groupId = tabGroup.TabPages[tabGroup.SelectedIndex].Name;
+            groupId = tabGroup.SelectedTab.Name;
+
+            RefreshServers();
+
+            lvServers.Focus();
+        }
+
+        private void ts_Group_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolStripItem ts = (ToolStripItem)sender;
+                var groupIdSelected = Utils.ToString(ts.Tag);
+
+                int index = GetLvSelectedIndex();
+                if (index < 0)
+                {
+                    return;
+                }
+
+                if (ConfigHandler.MoveServerToGroup(config, lstSelecteds, groupIdSelected) == 0)
+                {
+                    RefreshServers();
+                }
+            }
+            catch
+            {
+            }
+        }
         #endregion
 
         #region v2ray 操作
@@ -434,7 +561,7 @@ namespace v2rayN.Forms
         /// <summary>
         /// 载入V2ray
         /// </summary>
-        private void LoadV2ray()
+        async Task LoadV2ray()
         {
             tsbReload.Enabled = false;
 
@@ -442,7 +569,11 @@ namespace v2rayN.Forms
             {
                 ClearMsg();
             }
-            v2rayHandler.LoadV2ray(config);
+            await Task.Run(() =>
+            {
+                v2rayHandler.LoadV2ray(config);
+            });
+
             Global.reloadV2ray = false;
             ConfigHandler.SaveConfig(ref config, false);
             statistics?.SaveToFile();
@@ -460,7 +591,7 @@ namespace v2rayN.Forms
             ConfigHandler.SaveConfig(ref config, false);
             statistics?.SaveToFile();
 
-            ChangePACButtonStatus(0);
+            ChangePACButtonStatus(ESysProxyType.ForcedClear);
 
             v2rayHandler.V2rayStop();
         }
@@ -486,7 +617,7 @@ namespace v2rayN.Forms
             {
                 return;
             }
-            qrCodeControl.showQRCode(index, config);
+            qrCodeControl.showQRCode(lstVmess[index]);
         }
 
         private void lvServers_DoubleClick(object sender, EventArgs e)
@@ -496,37 +627,26 @@ namespace v2rayN.Forms
             {
                 return;
             }
-            ShowServerForm(config.vmess[index].configType, index);
+            ShowServerForm(lstVmess[index].configType, index);
         }
-        private void ShowServerForm(int configType, int index)
+        private void ShowServerForm(EConfigType configType, int index)
         {
             BaseServerForm fm;
-            switch (configType)
+            if (configType == EConfigType.Custom)
             {
-                case (int)EConfigType.Vmess:
-                    fm = new AddServerForm();
-                    break;
-                case (int)EConfigType.Shadowsocks:
-                    fm = new AddServer3Form();
-                    break;
-                case (int)EConfigType.Socks:
-                    fm = new AddServer4Form();
-                    break;
-                case (int)EConfigType.VLESS:
-                    fm = new AddServer5Form();
-                    break;
-                case (int)EConfigType.Trojan:
-                    fm = new AddServer6Form();
-                    break;
-                default:
-                    fm = new AddServer2Form();
-                    break;
+                fm = new AddServer2Form();
             }
-            fm.EditIndex = index;
+            else
+            {
+                fm = new AddServerForm();
+            }
+            fm.vmessItem = index >= 0 ? lstVmess[index] : null;
+            fm.groupId = groupId;
+            fm.eConfigType = configType;
             if (fm.ShowDialog() == DialogResult.OK)
             {
                 RefreshServers();
-                LoadV2ray();
+                _ = LoadV2ray();
             }
         }
 
@@ -591,12 +711,12 @@ namespace v2rayN.Forms
 
         private void menuAddVmessServer_Click(object sender, EventArgs e)
         {
-            ShowServerForm((int)EConfigType.Vmess, -1);
+            ShowServerForm(EConfigType.Vmess, -1);
         }
 
         private void menuAddVlessServer_Click(object sender, EventArgs e)
         {
-            ShowServerForm((int)EConfigType.VLESS, -1);
+            ShowServerForm(EConfigType.VLESS, -1);
         }
 
         private void menuRemoveServer_Click(object sender, EventArgs e)
@@ -612,19 +732,18 @@ namespace v2rayN.Forms
                 return;
             }
 
-            ConfigHandler.RemoveServer(ref config, lvSelecteds);
+            ConfigHandler.RemoveServer(config, lstSelecteds);
 
             RefreshServers();
-            LoadV2ray();
+            _ = LoadV2ray();
         }
 
         private void menuRemoveDuplicateServer_Click(object sender, EventArgs e)
         {
-            int oldCount = config.vmess.Count;
-            ConfigHandler.DedupServerList(ref config);
-            int newCount = config.vmess.Count;
+            int oldCount = lstVmess.Count;
+            int newCount = ConfigHandler.DedupServerList(ref config, ref lstVmess);
             RefreshServers();
-            LoadV2ray();
+            _ = LoadV2ray();
             UI.Show(string.Format(UIRes.I18N("RemoveDuplicateServerResult"), oldCount, newCount));
         }
 
@@ -635,7 +754,7 @@ namespace v2rayN.Forms
             {
                 return;
             }
-            if (ConfigHandler.CopyServer(ref config, index) == 0)
+            if (ConfigHandler.CopyServer(ref config, lstSelecteds) == 0)
             {
                 RefreshServers();
             }
@@ -654,11 +773,11 @@ namespace v2rayN.Forms
 
         private void menuPingServer_Click(object sender, EventArgs e)
         {
-            Speedtest("ping");
+            Speedtest(ESpeedActionType.Ping);
         }
         private void menuTcpingServer_Click(object sender, EventArgs e)
         {
-            Speedtest("tcping");
+            Speedtest(ESpeedActionType.Tcping);
         }
 
         private void menuRealPingServer_Click(object sender, EventArgs e)
@@ -671,7 +790,7 @@ namespace v2rayN.Forms
 
             //UI.Show(UIRes.I18N("SpeedServerTips"));
 
-            Speedtest("realping");
+            Speedtest(ESpeedActionType.Realping);
         }
 
         private void menuSpeedServer_Click(object sender, EventArgs e)
@@ -684,13 +803,13 @@ namespace v2rayN.Forms
 
             //UI.Show(UIRes.I18N("SpeedServerTips"));
 
-            Speedtest("speedtest");
+            Speedtest(ESpeedActionType.Speedtest);
         }
-        private void Speedtest(string actionType)
+        private void Speedtest(ESpeedActionType actionType)
         {
             if (GetLvSelectedIndex() < 0) return;
             ClearTestResult();
-            SpeedtestHandler statistics = new SpeedtestHandler(ref config, ref v2rayHandler, lvSelecteds, actionType, UpdateSpeedtestHandler);
+            SpeedtestHandler statistics = new SpeedtestHandler(ref config, v2rayHandler, lstSelecteds, actionType, UpdateSpeedtestHandler);
         }
 
         private void tsbTestMe_Click(object sender, EventArgs e)
@@ -711,13 +830,13 @@ namespace v2rayN.Forms
         private void menuExport2ClientConfig_Click(object sender, EventArgs e)
         {
             int index = GetLvSelectedIndex();
-            MainFormHandler.Instance.Export2ClientConfig(index, config);
+            MainFormHandler.Instance.Export2ClientConfig(lstVmess[index], config);
         }
 
         private void menuExport2ServerConfig_Click(object sender, EventArgs e)
         {
             int index = GetLvSelectedIndex();
-            MainFormHandler.Instance.Export2ServerConfig(index, config);
+            MainFormHandler.Instance.Export2ServerConfig(lstVmess[index], config);
         }
 
         private void menuExport2ShareUrl_Click(object sender, EventArgs e)
@@ -725,9 +844,9 @@ namespace v2rayN.Forms
             GetLvSelectedIndex();
 
             StringBuilder sb = new StringBuilder();
-            foreach (int v in lvSelecteds)
+            foreach (var it in lstSelecteds)
             {
-                string url = ShareHandler.GetShareUrl(config, v);
+                string url = ShareHandler.GetShareUrl(it);
                 if (Utils.IsNullOrEmpty(url))
                 {
                     continue;
@@ -748,9 +867,9 @@ namespace v2rayN.Forms
             GetLvSelectedIndex();
 
             StringBuilder sb = new StringBuilder();
-            foreach (int v in lvSelecteds)
+            foreach (var it in lstSelecteds)
             {
-                string url = ShareHandler.GetShareUrl(config, v);
+                string url = ShareHandler.GetShareUrl(it);
                 if (Utils.IsNullOrEmpty(url))
                 {
                     continue;
@@ -771,7 +890,7 @@ namespace v2rayN.Forms
             if (fm.ShowDialog() == DialogResult.OK)
             {
                 RefreshServers();
-                LoadV2ray();
+                _ = LoadV2ray();
             }
         }
 
@@ -782,18 +901,42 @@ namespace v2rayN.Forms
             {
                 RefreshRoutingsMenu();
                 RefreshServers();
-                LoadV2ray();
+                _ = LoadV2ray();
             }
+        }
+
+        private void tsbGlobalHotkeySetting_Click(object sender, EventArgs e)
+        {
+            var fm = new GlobalHotkeySettingForm();
+            if (fm.ShowDialog() == DialogResult.OK)
+            {
+                RefreshRoutingsMenu();
+                RefreshServers();
+                _ = LoadV2ray();
+            }
+
+        }
+
+        private void tsbGroupSetting_Click(object sender, EventArgs e)
+        {
+            var fm = new GroupSettingForm();
+            if (fm.ShowDialog() == DialogResult.OK)
+            {
+                InitGroupView();
+                RefreshServers();
+            }
+
         }
 
         private void tsbReload_Click(object sender, EventArgs e)
         {
             Global.reloadV2ray = true;
-            LoadV2ray();
+            _ = LoadV2ray();
         }
 
         private void tsbClose_Click(object sender, EventArgs e)
         {
+            StorageUI();
             HideForm();
             //this.WindowState = FormWindowState.Minimized;
         }
@@ -810,10 +953,10 @@ namespace v2rayN.Forms
                 UI.Show(UIRes.I18N("PleaseSelectServer"));
                 return -1;
             }
-            if (ConfigHandler.SetDefaultServer(ref config, index) == 0)
+            if (ConfigHandler.SetDefaultServer(ref config, lstVmess[index]) == 0)
             {
                 RefreshServers();
-                LoadV2ray();
+                _ = LoadV2ray();
             }
             return 0;
         }
@@ -825,7 +968,7 @@ namespace v2rayN.Forms
         private int GetLvSelectedIndex()
         {
             int index = -1;
-            lvSelecteds.Clear();
+            lstSelecteds.Clear();
             try
             {
                 if (lvServers.SelectedIndices.Count <= 0)
@@ -837,7 +980,7 @@ namespace v2rayN.Forms
                 index = lvServers.SelectedIndices[0];
                 foreach (int i in lvServers.SelectedIndices)
                 {
-                    lvSelecteds.Add(i);
+                    lstSelecteds.Add(lstVmess[i]);
                 }
                 return index;
             }
@@ -849,57 +992,31 @@ namespace v2rayN.Forms
 
         private void menuAddCustomServer_Click(object sender, EventArgs e)
         {
-            UI.Show(UIRes.I18N("CustomServerTips"));
-
-            OpenFileDialog fileDialog = new OpenFileDialog
-            {
-                Multiselect = false,
-                Filter = "Config|*.json|All|*.*"
-            };
-            if (fileDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-            string fileName = fileDialog.FileName;
-            if (Utils.IsNullOrEmpty(fileName))
-            {
-                return;
-            }
-
-            if (ConfigHandler.AddCustomServer(ref config, fileName) == 0)
-            {
-                RefreshServers();
-                //LoadV2ray();
-                UI.Show(UIRes.I18N("SuccessfullyImportedCustomServer"));
-            }
-            else
-            {
-                UI.ShowWarning(UIRes.I18N("FailedImportedCustomServer"));
-            }
+            ShowServerForm(EConfigType.Custom, -1);
         }
 
         private void menuAddShadowsocksServer_Click(object sender, EventArgs e)
         {
-            ShowServerForm((int)EConfigType.Shadowsocks, -1);
+            ShowServerForm(EConfigType.Shadowsocks, -1);
             ShowForm();
         }
 
         private void menuAddSocksServer_Click(object sender, EventArgs e)
         {
-            ShowServerForm((int)EConfigType.Socks, -1);
+            ShowServerForm(EConfigType.Socks, -1);
             ShowForm();
         }
 
         private void menuAddTrojanServer_Click(object sender, EventArgs e)
         {
-            ShowServerForm((int)EConfigType.Trojan, -1);
+            ShowServerForm(EConfigType.Trojan, -1);
             ShowForm();
         }
 
         private void menuAddServers_Click(object sender, EventArgs e)
         {
             string clipboardData = Utils.GetClipboardData();
-            int ret = MainFormHandler.Instance.AddBatchServers(config, clipboardData);
+            int ret = ConfigHandler.AddBatchServers(ref config, clipboardData, "", groupId);
             if (ret > 0)
             {
                 RefreshServers();
@@ -909,13 +1026,42 @@ namespace v2rayN.Forms
 
         private void menuScanScreen_Click(object sender, EventArgs e)
         {
+            _ = ScanScreenTaskAsync();
+        }
+
+        public async Task ScanScreenTaskAsync()
+        {
             HideForm();
-            bgwScan.RunWorkerAsync();
+
+            string result = await Task.Run(() =>
+            {
+                return Utils.ScanScreen();
+            });
+
+            ShowForm();
+
+            if (Utils.IsNullOrEmpty(result))
+            {
+                UI.ShowWarning(UIRes.I18N("NoValidQRcodeFound"));
+            }
+            else
+            {
+                int ret = ConfigHandler.AddBatchServers(ref config, result, "", groupId);
+                if (ret > 0)
+                {
+                    RefreshServers();
+                    UI.Show(UIRes.I18N("SuccessfullyImportedServerViaScan"));
+                }
+            }
         }
 
         private void menuUpdateSubscriptions_Click(object sender, EventArgs e)
         {
-            UpdateSubscriptionProcess();
+            UpdateSubscriptionProcess(false);
+        }
+        private void menuUpdateSubViaProxy_Click(object sender, EventArgs e)
+        {
+            UpdateSubscriptionProcess(true);
         }
 
         private void tsbBackupGuiNConfig_Click(object sender, EventArgs e)
@@ -1035,7 +1181,10 @@ namespace v2rayN.Forms
         private void ShowForm()
         {
             this.Show();
-            this.WindowState = FormWindowState.Normal;
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
             this.Activate();
             this.ShowInTaskbar = true;
             //this.notifyIcon1.Visible = false;
@@ -1063,27 +1212,35 @@ namespace v2rayN.Forms
         #endregion
 
         #region 后台测速
-
+        private void SetTestResult(string indexId, string txt)
+        {
+            int k = lstVmess.FindIndex(it => it.indexId == indexId);
+            if (k >= 0 && k < lvServers.Items.Count)
+            {
+                lstVmess[k].testResult = txt;
+                lvServers.Items[k].SubItems["testResult"].Text = txt;
+            }
+        }
         private void SetTestResult(int k, string txt)
         {
             if (k < lvServers.Items.Count)
             {
-                config.vmess[k].testResult = txt;
+                lstVmess[k].testResult = txt;
                 lvServers.Items[k].SubItems["testResult"].Text = txt;
             }
         }
         private void ClearTestResult()
         {
-            foreach (int s in lvSelecteds)
+            foreach (var it in lstSelecteds)
             {
-                SetTestResult(s, "");
+                SetTestResult(it.indexId, "");
             }
         }
-        private void UpdateSpeedtestHandler(int index, string msg)
+        private void UpdateSpeedtestHandler(string indexId, string msg)
         {
             lvServers.Invoke((MethodInvoker)delegate
             {
-                SetTestResult(index, msg);
+                SetTestResult(indexId, msg);
             });
         }
 
@@ -1096,9 +1253,9 @@ namespace v2rayN.Forms
                 toolSslServerSpeed.Text = string.Format("{0}/s↑ | {1}/s↓", Utils.HumanFy(up), Utils.HumanFy(down));
 
                 List<string[]> datas = new List<string[]>();
-                for (int i = 0; i < config.vmess.Count; i++)
+                for (int i = 0; i < lstVmess.Count; i++)
                 {
-                    int index = statistics.FindIndex(item_ => item_.itemId == config.vmess[i].getItemId());
+                    int index = statistics.FindIndex(item_ => item_.itemId == lstVmess[i].indexId);
                     if (index != -1)
                     {
                         lvServers.Invoke((MethodInvoker)delegate
@@ -1127,7 +1284,7 @@ namespace v2rayN.Forms
             if (success)
             {
                 Global.reloadV2ray = true;
-                LoadV2ray();
+                _ = LoadV2ray();
             }
         }
         #endregion
@@ -1162,7 +1319,7 @@ namespace v2rayN.Forms
                 UI.Show(UIRes.I18N("PleaseSelectServer"));
                 return;
             }
-            if (ConfigHandler.MoveServer(ref config, index, eMove) == 0)
+            if (ConfigHandler.MoveServer(ref config, ref lstVmess, index, eMove) == 0)
             {
                 //TODO: reload is not good.
                 RefreshServers();
@@ -1176,7 +1333,9 @@ namespace v2rayN.Forms
                 item.Selected = true;
             }
         }
-
+        private void menuMoveToGroup_Click(object sender, EventArgs e)
+        {
+        }
         #endregion
 
         #region 系统代理相关
@@ -1201,15 +1360,7 @@ namespace v2rayN.Forms
 
         private void ChangePACButtonStatus(ESysProxyType type)
         {
-            HttpProxyHandle.UpdateSysProxy(config, false);
-            //if (type != ListenerType.noHttpProxy)
-            //{
-            //    HttpProxyHandle.RestartHttpAgent(config, false);
-            //}
-            //else
-            //{
-            //    HttpProxyHandle.CloseHttpAgent(config);
-            //}
+            SysProxyHandle.UpdateSysProxy(config, false);
 
             for (int k = 0; k < menuSysAgentMode.DropDownItems.Count; k++)
             {
@@ -1264,7 +1415,7 @@ namespace v2rayN.Forms
                     AppendText(false, UIRes.I18N("MsgUpdateV2rayCoreSuccessfullyMore"));
 
                     Global.reloadV2ray = true;
-                    LoadV2ray();
+                    _ = LoadV2ray();
 
                     AppendText(false, UIRes.I18N("MsgUpdateV2rayCoreSuccessfully"));
                 }
@@ -1280,7 +1431,7 @@ namespace v2rayN.Forms
                 if (success)
                 {
                     Global.reloadV2ray = true;
-                    LoadV2ray();
+                    _ = LoadV2ray();
                 }
             });
         }
@@ -1293,7 +1444,7 @@ namespace v2rayN.Forms
                 if (success)
                 {
                     Global.reloadV2ray = true;
-                    LoadV2ray();
+                    _ = LoadV2ray();
                 }
             });
         }
@@ -1318,37 +1469,6 @@ namespace v2rayN.Forms
         }
         #endregion
 
-        #region ScanScreen
-
-
-        private void bgwScan_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            string ret = Utils.ScanScreen();
-            bgwScan.ReportProgress(0, ret);
-        }
-
-        private void bgwScan_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-        {
-            ShowForm();
-
-            string result = Convert.ToString(e.UserState);
-            if (Utils.IsNullOrEmpty(result))
-            {
-                UI.ShowWarning(UIRes.I18N("NoValidQRcodeFound"));
-            }
-            else
-            {
-                int ret = MainFormHandler.Instance.AddBatchServers(config, result);
-                if (ret > 0)
-                {
-                    RefreshServers();
-                    UI.Show(UIRes.I18N("SuccessfullyImportedServerViaScan"));
-                }
-            }
-        }
-
-        #endregion
-
         #region 订阅
         private void tsbSubSetting_Click(object sender, EventArgs e)
         {
@@ -1361,13 +1481,18 @@ namespace v2rayN.Forms
 
         private void tsbSubUpdate_Click(object sender, EventArgs e)
         {
-            UpdateSubscriptionProcess();
+            UpdateSubscriptionProcess(false);
+        }
+
+        private void tsbSubUpdateViaProxy_Click(object sender, EventArgs e)
+        {
+            UpdateSubscriptionProcess(true);
         }
 
         /// <summary>
         /// the subscription update process
         /// </summary>
-        private void UpdateSubscriptionProcess()
+        private void UpdateSubscriptionProcess(bool blProxy)
         {
             void _updateUI(bool success, string msg)
             {
@@ -1375,10 +1500,17 @@ namespace v2rayN.Forms
                 if (success)
                 {
                     RefreshServers();
+                    if (config.uiItem.enableAutoAdjustMainLvColWidth)
+                    {
+                        foreach (ColumnHeader it in lvServers.Columns)
+                        {
+                            it.Width = -2;
+                        }
+                    }
                 }
             };
 
-            (new UpdateHandle()).UpdateSubscriptionProcess(config, _updateUI);
+            (new UpdateHandle()).UpdateSubscriptionProcess(config, blProxy, _updateUI);
         }
 
         private void tsbQRCodeSwitch_CheckedChanged(object sender, EventArgs e)
@@ -1463,7 +1595,7 @@ namespace v2rayN.Forms
                 if (ConfigHandler.SetDefaultRouting(ref config, index) == 0)
                 {
                     RefreshRoutingsMenu();
-                    LoadV2ray();
+                    _ = LoadV2ray();
                 }
             }
             catch
@@ -1489,6 +1621,10 @@ namespace v2rayN.Forms
         {
             var data = this.txtMsgBox.Text;
             Utils.SetClipboardData(data);
+        }
+        private void menuMsgBoxClear_Click(object sender, EventArgs e)
+        {
+            this.txtMsgBox.Clear();
         }
         private void menuMsgBoxAddRoutingRule_Click(object sender, EventArgs e)
         {

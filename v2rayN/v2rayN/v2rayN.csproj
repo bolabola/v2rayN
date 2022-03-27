@@ -85,6 +85,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
@@ -98,26 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\AddServer6Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddServer6Form.Designer.cs">
-      <DependentUpon>AddServer6Form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\AddServer4Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddServer4Form.Designer.cs">
-      <DependentUpon>AddServer4Form.cs</DependentUpon>
-    </Compile>
     <Compile Include="Base\ListViewFlickerFree.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\AddServer5Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddServer5Form.Designer.cs">
-      <DependentUpon>AddServer5Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\BaseServerForm.cs">
       <SubType>Form</SubType>
@@ -137,6 +120,12 @@
     <Compile Include="Forms\RoutingRuleSettingDetailsForm.Designer.cs">
       <DependentUpon>RoutingRuleSettingDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GlobalHotkeySettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GlobalHotkeySettingForm.Designer.cs">
+      <DependentUpon>GlobalHotkeySettingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\RoutingRuleSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +138,19 @@
     <Compile Include="Forms\ServerTransportControl.Designer.cs">
       <DependentUpon>ServerTransportControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GroupSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\GroupSettingControl.Designer.cs">
+      <DependentUpon>GroupSettingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GroupSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GroupSettingForm.Designer.cs">
+      <DependentUpon>GroupSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\LazyConfig.cs" />
     <Compile Include="Handler\ShareHandler.cs" />
     <Compile Include="Handler\UpdateHandle.cs" />
     <Compile Include="Mode\ComboItem.cs" />
@@ -176,12 +178,6 @@
     <Compile Include="Forms\AddServer2Form.Designer.cs">
       <DependentUpon>AddServer2Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AddServer3Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddServer3Form.Designer.cs">
-      <DependentUpon>AddServer3Form.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\QRCodeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,13 +194,13 @@
     <Compile Include="Handler\SpeedtestHandler.cs" />
     <Compile Include="Handler\StatisticsHandler.cs" />
     <Compile Include="Handler\DownloadHandle.cs" />
-    <Compile Include="HttpProxyHandler\PrivoxyHandler.cs" />
-    <Compile Include="HttpProxyHandler\ProxySetting.cs" />
-    <Compile Include="HttpProxyHandler\HttpProxyHandle.cs" />
+    <Compile Include="Handler\ProxySetting.cs" />
     <Compile Include="Base\WebClientEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HttpProxyHandler\SysProxyHandle.cs" />
+    <Compile Include="Handler\SysProxyHandle.cs" />
+    <Compile Include="Mode\ESpeedActionType.cs" />
+    <Compile Include="Mode\EGlobalHotkey.cs" />
     <Compile Include="Mode\ECoreType.cs" />
     <Compile Include="Mode\ESysProxyType.cs" />
     <Compile Include="Mode\EMove.cs" />
@@ -273,40 +269,16 @@
       <DependentUpon>AddServer2Form.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer6Form.resx">
-      <DependentUpon>AddServer6Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer6Form.zh-Hans.resx">
-      <DependentUpon>AddServer6Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer4Form.resx">
-      <DependentUpon>AddServer4Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer4Form.zh-Hans.resx">
-      <DependentUpon>AddServer4Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer3Form.zh-Hans.resx">
-      <DependentUpon>AddServer3Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer5Form.resx">
-      <DependentUpon>AddServer5Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer5Form.zh-Hans.resx">
-      <DependentUpon>AddServer5Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddServerForm.zh-Hans.resx">
       <DependentUpon>AddServerForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BaseServerForm.resx">
       <DependentUpon>BaseServerForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GlobalHotkeySettingForm.zh-Hans.resx">
+      <DependentUpon>GlobalHotkeySettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -337,6 +309,10 @@
       <DependentUpon>RoutingRuleSettingDetailsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GlobalHotkeySettingForm.resx">
+      <DependentUpon>GlobalHotkeySettingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RoutingRuleSettingForm.resx">
       <DependentUpon>RoutingRuleSettingForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -349,6 +325,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ServerTransportControl.zh-Hans.resx">
       <DependentUpon>ServerTransportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GroupSettingControl.resx">
+      <DependentUpon>GroupSettingControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GroupSettingControl.zh-Hans.resx">
+      <DependentUpon>GroupSettingControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SubSettingControl.resx">
       <DependentUpon>SubSettingControl.cs</DependentUpon>
@@ -363,6 +347,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RoutingSettingForm.zh-Hans.resx">
       <DependentUpon>RoutingSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GroupSettingForm.resx">
+      <DependentUpon>GroupSettingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GroupSettingForm.zh-Hans.resx">
+      <DependentUpon>GroupSettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SubSettingForm.resx">
       <DependentUpon>SubSettingForm.cs</DependentUpon>
@@ -385,10 +376,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddServer2Form.resx">
       <DependentUpon>AddServer2Form.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddServer3Form.resx">
-      <DependentUpon>AddServer3Form.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SubSettingForm.zh-Hans.resx">
@@ -465,7 +452,6 @@
     <EmbeddedResource Include="Sample\SampleServerConfig.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\privoxy.exe.gz" />
     <None Include="Resources\restart.png" />
   </ItemGroup>
   <ItemGroup>
@@ -488,13 +474,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.Protobuf">
-      <Version>3.19.1</Version>
+      <Version>3.19.4</Version>
     </PackageReference>
     <PackageReference Include="Grpc.Core">
-      <Version>2.42.0</Version>
+      <Version>2.44.0</Version>
     </PackageReference>
     <PackageReference Include="Grpc.Tools">
-      <Version>2.42.0</Version>
+      <Version>2.44.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -504,8 +490,14 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+    <PackageReference Include="NHotkey">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="NHotkey.WindowsForms">
+      <Version>2.1.0</Version>
+    </PackageReference>
     <PackageReference Include="ZXing.Net">
-      <Version>0.16.7</Version>
+      <Version>0.16.8</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

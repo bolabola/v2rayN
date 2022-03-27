@@ -20,31 +20,29 @@ namespace v2rayN.Handler
         /// <summary>
         /// GetShareUrl
         /// </summary>
-        /// <param name="config"></param>
-        /// <param name="index"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
-        public static string GetShareUrl(Config config, int index)
+        public static string GetShareUrl(VmessItem item)
         {
             try
             {
                 string url = string.Empty;
 
-                VmessItem item = config.vmess[index];
                 switch (item.configType)
                 {
-                    case (int)EConfigType.Vmess:
+                    case EConfigType.Vmess:
                         url = ShareVmess(item);
                         break;
-                    case (int)EConfigType.Shadowsocks:
+                    case EConfigType.Shadowsocks:
                         url = ShareShadowsocks(item);
                         break;
-                    case (int)EConfigType.Socks:
+                    case EConfigType.Socks:
                         url = ShareSocks(item);
                         break;
-                    case (int)EConfigType.Trojan:
+                    case EConfigType.Trojan:
                         url = ShareTrojan(item);
                         break;
-                    case (int)EConfigType.VLESS:
+                    case EConfigType.VLESS:
                         url = ShareVLESS(item);
                         break;
                     default:
@@ -69,7 +67,7 @@ namespace v2rayN.Handler
                 add = item.address,
                 port = item.port.ToString(),
                 id = item.id,
-                aid = "0",
+                aid = item.alterId.ToString(),
                 scy = item.security,
                 net = item.network,
                 type = item.headerType,
@@ -297,7 +295,7 @@ namespace v2rayN.Handler
             }
             return 0;
         }
-        
+
         #endregion
 
         #region  ImportShareUrl 
@@ -356,7 +354,7 @@ namespace v2rayN.Handler
                         return null;
                     }
 
-                    vmessItem.configType = (int)EConfigType.Shadowsocks;
+                    vmessItem.configType = EConfigType.Shadowsocks;
                 }
                 else if (result.StartsWith(Global.socksProtocol))
                 {
@@ -376,7 +374,7 @@ namespace v2rayN.Handler
                         return null;
                     }
 
-                    vmessItem.configType = (int)EConfigType.Socks;
+                    vmessItem.configType = EConfigType.Socks;
                 }
                 else if (result.StartsWith(Global.trojanProtocol))
                 {
@@ -410,7 +408,7 @@ namespace v2rayN.Handler
             msg = string.Empty;
             VmessItem vmessItem = new VmessItem();
 
-            vmessItem.configType = (int)EConfigType.Vmess;
+            vmessItem.configType = EConfigType.Vmess;
             result = result.Substring(Global.vmessProtocol.Length);
             result = Utils.Base64Decode(result);
 
@@ -430,6 +428,7 @@ namespace v2rayN.Handler
             vmessItem.address = Utils.ToString(vmessQRCode.add);
             vmessItem.port = Utils.ToInt(vmessQRCode.port);
             vmessItem.id = Utils.ToString(vmessQRCode.id);
+            vmessItem.alterId = Utils.ToInt(vmessQRCode.aid);
             vmessItem.security = Utils.ToString(vmessQRCode.scy);
 
             if (!Utils.IsNullOrEmpty(vmessQRCode.scy))
@@ -462,7 +461,7 @@ namespace v2rayN.Handler
         {
             VmessItem vmessItem = new VmessItem
             {
-                configType = (int)EConfigType.Vmess
+                configType = EConfigType.Vmess
             };
             result = result.Substring(Global.vmessProtocol.Length);
             int indexSplit = result.IndexOf("?");
@@ -500,7 +499,7 @@ namespace v2rayN.Handler
         {
             VmessItem i = new VmessItem
             {
-                configType = (int)EConfigType.Vmess,
+                configType = EConfigType.Vmess,
                 security = "auto"
             };
 
@@ -634,7 +633,7 @@ namespace v2rayN.Handler
             Match details;
             try
             {
-                details = DetailsParser.Match(Utils.Base64Decode(base64));               
+                details = DetailsParser.Match(Utils.Base64Decode(base64));
             }
             catch (FormatException)
             {
@@ -656,7 +655,7 @@ namespace v2rayN.Handler
         private static VmessItem ResolveSocks(string result)
         {
             VmessItem vmessItem = new VmessItem();
-            vmessItem.configType = (int)EConfigType.Socks;
+            vmessItem.configType = EConfigType.Socks;
             result = result.Substring(Global.socksProtocol.Length);
             //remark
             int indexRemark = result.IndexOf("#");
@@ -725,7 +724,7 @@ namespace v2rayN.Handler
             {
                 server.security = userInfoParts[0];
                 server.id = userInfoParts[1];
-            } 
+            }
 
             return server;
         }
@@ -734,7 +733,7 @@ namespace v2rayN.Handler
         {
             VmessItem item = new VmessItem
             {
-                configType = (int)EConfigType.Trojan
+                configType = EConfigType.Trojan
             };
 
             Uri url = new Uri(result);
@@ -753,7 +752,7 @@ namespace v2rayN.Handler
         {
             VmessItem item = new VmessItem
             {
-                configType = (int)EConfigType.VLESS,
+                configType = EConfigType.VLESS,
                 security = "none"
             };
 
@@ -774,7 +773,7 @@ namespace v2rayN.Handler
 
         private static int ResolveStdTransport(NameValueCollection query, ref VmessItem item)
         {
-            item.flow = query["flow"] ?? "";         
+            item.flow = query["flow"] ?? "";
             item.streamSecurity = query["security"] ?? "";
             item.sni = query["sni"] ?? "";
             item.alpn = Utils.String2List(Utils.UrlDecode(query["alpn"] ?? ""));

@@ -70,6 +70,15 @@ namespace v2rayN.Resx {
         }
         
         /// <summary>
+        ///   查找类似 All servers 的本地化字符串。
+        /// </summary>
+        internal static string AllGroupServers {
+            get {
+                return ResourceManager.GetString("AllGroupServers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Batch export subscription to clipboard successfully 的本地化字符串。
         /// </summary>
         internal static string BatchExportSubscriptionSuccessfully {
@@ -106,7 +115,7 @@ namespace v2rayN.Resx {
         }
         
         /// <summary>
-        ///   查找类似 Note that custom configuration relies entirely on your own configuration and does not work with all settings. The system agent is available when the socks port is equal to the port in the settings in the custom configuration inbound. 的本地化字符串。
+        ///   查找类似 Note that custom configuration relies entirely on your own configuration and does not work with all settings. If you want to use the system proxy, please modify the listening port manually. 的本地化字符串。
         /// </summary>
         internal static string CustomServerTips {
             get {
@@ -237,6 +246,15 @@ namespace v2rayN.Resx {
         internal static string FillServerAddress {
             get {
                 return ResourceManager.GetString("FillServerAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please browse to import server configuration 的本地化字符串。
+        /// </summary>
+        internal static string FillServerAddressCustom {
+            get {
+                return ResourceManager.GetString("FillServerAddressCustom", resourceCulture);
             }
         }
         
@@ -601,7 +619,7 @@ namespace v2rayN.Resx {
         }
         
         /// <summary>
-        ///   查找类似 Subscription content decoding failed (non-BASE64 code) 的本地化字符串。
+        ///   查找类似 Failed to get subscription content 的本地化字符串。
         /// </summary>
         internal static string MsgSubscriptionDecodingFailed {
             get {
@@ -768,6 +786,24 @@ namespace v2rayN.Resx {
         internal static string QuickFresh {
             get {
                 return ResourceManager.GetString("QuickFresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Global hotkey {0} registered failed, reason {1} 的本地化字符串。
+        /// </summary>
+        internal static string RegisterGlobalHotkeyFailed {
+            get {
+                return ResourceManager.GetString("RegisterGlobalHotkeyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Global hotkey {0} registered successfully 的本地化字符串。
+        /// </summary>
+        internal static string RegisterGlobalHotkeySuccessfully {
+            get {
+                return ResourceManager.GetString("RegisterGlobalHotkeySuccessfully", resourceCulture);
             }
         }
         
@@ -980,6 +1016,15 @@ namespace v2rayN.Resx {
         }
         
         /// <summary>
+        ///   查找类似 *Kcp seed 的本地化字符串。
+        /// </summary>
+        internal static string TransportPathTip5 {
+            get {
+                return ResourceManager.GetString("TransportPathTip5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 *http host Separated by commas (,) 的本地化字符串。
         /// </summary>
         internal static string TransportRequestHostTip1 {
@@ -1012,6 +1057,15 @@ namespace v2rayN.Resx {
         internal static string TransportRequestHostTip4 {
             get {
                 return ResourceManager.GetString("TransportRequestHostTip4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ungrouped 的本地化字符串。
+        /// </summary>
+        internal static string UngroupedServers {
+            get {
+                return ResourceManager.GetString("UngroupedServers", resourceCulture);
             }
         }
     }

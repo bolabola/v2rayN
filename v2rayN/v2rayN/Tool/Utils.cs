@@ -22,6 +22,7 @@ using v2rayN.Base;
 using Newtonsoft.Json.Linq;
 using System.Web;
 using log4net;
+using System.Linq;
 
 namespace v2rayN
 {
@@ -282,6 +283,18 @@ namespace v2rayN
             {
                 SaveLog(ex.Message, ex);
                 return 0;
+            }
+        }
+        public static bool ToBool(object obj)
+        {
+            try
+            {
+                return Convert.ToBoolean(obj);
+            }
+            catch (Exception ex)
+            {
+                SaveLog(ex.Message, ex);
+                return false;
             }
         }
 
@@ -715,22 +728,18 @@ namespace v2rayN
             return lstIPAddress;
         }
 
-        public static void SetSecurityProtocol()
+        public static void SetSecurityProtocol(bool enableSecurityProtocolTls13)
         {
-            string securityProtocolTls13 = RegReadValue(Global.MyRegPath, Global.MyRegKeySecurityProtocolTls13, "0");
-
-            if (securityProtocolTls13.Equals("1"))
+            if (enableSecurityProtocolTls13)
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3
-                                           | SecurityProtocolType.Tls
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                                            | SecurityProtocolType.Tls11
                                            | SecurityProtocolType.Tls12
                                            | SecurityProtocolType.Tls13;
             }
             else
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3
-                                           | SecurityProtocolType.Tls
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                                            | SecurityProtocolType.Tls11
                                            | SecurityProtocolType.Tls12;
             }
@@ -740,19 +749,25 @@ namespace v2rayN
         public static bool PortInUse(int port)
         {
             bool inUse = false;
-
-            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
-            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
-
-            var lstIpEndPoints = new List<IPEndPoint>(IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners());
-
-            foreach (IPEndPoint endPoint in ipEndPoints)
+            try
             {
-                if (endPoint.Port == port)
+                IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+                IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+
+                var lstIpEndPoints = new List<IPEndPoint>(IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners());
+
+                foreach (IPEndPoint endPoint in ipEndPoints)
                 {
-                    inUse = true;
-                    break;
+                    if (endPoint.Port == port)
+                    {
+                        inUse = true;
+                        break;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                SaveLog(ex.Message, ex);
             }
             return inUse;
         }
@@ -764,14 +779,22 @@ namespace v2rayN
         /// 取得版本
         /// </summary>
         /// <returns></returns>
-        public static string GetVersion()
+        public static string GetVersion(bool blFull = true)
         {
             try
             {
                 string location = GetExePath();
-                return string.Format("v2rayN - V{0} - {1}",
-                        FileVersionInfo.GetVersionInfo(location).FileVersion.ToString(),
-                        File.GetLastWriteTime(location).ToString("yyyy/MM/dd"));
+                if (blFull)
+                {
+                    return string.Format("v2rayN - V{0} - {1}",
+                            FileVersionInfo.GetVersionInfo(location).FileVersion.ToString(),
+                            File.GetLastWriteTime(location).ToString("yyyy/MM/dd"));
+                }
+                else
+                {
+                    return string.Format("v2rayN/{0}",
+                        FileVersionInfo.GetVersionInfo(location).FileVersion.ToString());
+                }
             }
             catch (Exception ex)
             {
@@ -896,24 +919,45 @@ namespace v2rayN
 
             return fileName;
         }
+
+        public static IPAddress GetDefaultGateway()
+        {
+            return NetworkInterface
+                .GetAllNetworkInterfaces()
+                .Where(n => n.OperationalStatus == OperationalStatus.Up)
+                .Where(n => n.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                .SelectMany(n => n.GetIPProperties()?.GatewayAddresses)
+                .Select(g => g?.Address)
+                .Where(a => a != null)
+                // .Where(a => a.AddressFamily == AddressFamily.InterNetwork)
+                // .Where(a => Array.FindIndex(a.GetAddressBytes(), b => b != 0) >= 0)
+                .FirstOrDefault();
+        }
+
+        public static bool IsGuidByParse(string strSrc)
+        {
+            return Guid.TryParse(strSrc, out Guid g);
+        }
         #endregion
 
         #region TempPath
 
         // return path to store temporary files
-        public static string GetTempPath()
+        public static string GetTempPath(string filename = "")
         {
             string _tempPath = Path.Combine(StartupPath(), "v2ray_win_temp");
             if (!Directory.Exists(_tempPath))
             {
                 Directory.CreateDirectory(_tempPath);
             }
-            return _tempPath;
-        }
-
-        public static string GetTempPath(string filename)
-        {
-            return Path.Combine(GetTempPath(), filename);
+            if (string.IsNullOrEmpty(filename))
+            {
+                return _tempPath;
+            }
+            else
+            {
+                return Path.Combine(_tempPath, filename);
+            }
         }
 
         public static string UnGzip(byte[] buf)
@@ -926,6 +970,32 @@ namespace v2rayN
                 input.CopyTo(sb);
             }
             return Encoding.UTF8.GetString(sb.ToArray());
+        }
+
+        public static string GetBackupPath(string filename)
+        {
+            string _tempPath = Path.Combine(StartupPath(), "guiBackups");
+            if (!Directory.Exists(_tempPath))
+            {
+                Directory.CreateDirectory(_tempPath);
+            }
+            return Path.Combine(_tempPath, filename);
+        }
+        public static string GetConfigPath(string filename = "")
+        {
+            string _tempPath = Path.Combine(StartupPath(), "guiConfigs");
+            if (!Directory.Exists(_tempPath))
+            {
+                Directory.CreateDirectory(_tempPath);
+            }
+            if (string.IsNullOrEmpty(filename))
+            {
+                return _tempPath;
+            }
+            else
+            {
+                return Path.Combine(_tempPath, filename);
+            }
         }
 
         #endregion

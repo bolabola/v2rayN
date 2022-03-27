@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using v2rayN.Base;
-using v2rayN.HttpProxyHandler;
+using System.Linq;
 
 
 namespace v2rayN.Mode
@@ -12,13 +13,7 @@ namespace v2rayN.Mode
     [Serializable]
     public class Config
     {
-        /// <summary>
-        /// 本地监听
-        /// </summary>
-        public List<InItem> inbound
-        {
-            get; set;
-        }
+        #region property
 
         /// <summary>
         /// 允许日志
@@ -36,18 +31,7 @@ namespace v2rayN.Mode
             get; set;
         }
 
-        /// <summary>
-        /// 活动配置序号
-        /// </summary>
-        public int index
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// vmess服务器信息
-        /// </summary>
-        public List<VmessItem> vmess
+        public string indexId
         {
             get; set;
         }
@@ -56,14 +40,6 @@ namespace v2rayN.Mode
         /// 允许Mux多路复用
         /// </summary>
         public bool muxEnabled
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// KcpItem
-        /// </summary>
-        public KcpItem kcpItem
         {
             get; set;
         }
@@ -108,7 +84,6 @@ namespace v2rayN.Mode
             get; set;
         }
 
-
         /// <summary>
         /// 自定义远程DNS
         /// </summary>
@@ -126,20 +101,6 @@ namespace v2rayN.Mode
         }
 
         /// <summary>
-        /// 订阅
-        /// </summary>
-        public List<SubItem> subItem
-        {
-            get; set;
-        }
-        /// <summary>
-        /// UI
-        /// </summary>
-        public UIItem uiItem
-        {
-            get; set;
-        }
-        /// <summary>
         /// 域名解析策略
         /// </summary>
         public string domainStrategy
@@ -154,19 +115,11 @@ namespace v2rayN.Mode
         {
             get; set;
         }
-        public List<RoutingItem> routings
-        {
-            get; set;
-        }
         public bool enableRoutingAdvanced
         {
             get; set;
         }
 
-        public ECoreType coreType
-        {
-            get; set;
-        }
         public bool ignoreGeoUpdateCore
         {
             get; set;
@@ -185,113 +138,81 @@ namespace v2rayN.Mode
             get; set;
         } = 0;
 
+        public bool enableSecurityProtocolTls13
+        {
+            get; set;
+        }
+
+        #endregion
+
+        #region other entities
+
+        /// <summary>
+        /// 本地监听
+        /// </summary>
+        public List<InItem> inbound
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// vmess服务器信息
+        /// </summary>
+        public List<VmessItem> vmess
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// KcpItem
+        /// </summary>
+        public KcpItem kcpItem
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 订阅
+        /// </summary>
+        public List<SubItem> subItem
+        {
+            get; set;
+        }
+        /// <summary>
+        /// UI
+        /// </summary>
+        public UIItem uiItem
+        {
+            get; set;
+        }
+        public List<RoutingItem> routings
+        {
+            get; set;
+        }
+
         public ConstItem constItem
         {
             get; set;
         }
-        #region 函数
 
-        public string address()
+        public List<KeyEventItem> globalHotkeys
         {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].address.TrimEx();
+            get; set;
         }
 
-        public int port()
+        public List<GroupItem> groupItem
         {
-            if (index < 0)
-            {
-                return 10808;
-            }
-            return vmess[index].port;
+            get; set;
         }
 
-        public string id()
+        public List<CoreTypeItem> coreTypeItem
         {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].id.TrimEx();
+            get; set;
         }
 
-        public int alterId()
-        {
-            if (index < 0)
-            {
-                return 0;
-            }
-            return vmess[index].alterId;
-        }
+        #endregion
 
-        public string security()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].security.TrimEx();
-        }
-
-        public string remarks()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].remarks.TrimEx();
-        }
-        public string network()
-        {
-            if (index < 0 || Utils.IsNullOrEmpty(vmess[index].network))
-            {
-                return Global.DefaultNetwork;
-            }
-            return vmess[index].network.TrimEx();
-        }
-        public string headerType()
-        {
-            if (index < 0 || Utils.IsNullOrEmpty(vmess[index].headerType))
-            {
-                return Global.None;
-            }
-            return vmess[index].headerType.Replace(" ", "").TrimEx();
-        }
-        public string requestHost()
-        {
-            if (index < 0 || Utils.IsNullOrEmpty(vmess[index].requestHost))
-            {
-                return string.Empty;
-            }
-            return vmess[index].requestHost.Replace(" ", "").TrimEx();
-        }
-        public string path()
-        {
-            if (index < 0 || Utils.IsNullOrEmpty(vmess[index].path))
-            {
-                return string.Empty;
-            }
-            return vmess[index].path.Replace(" ", "").TrimEx();
-        }
-        public string streamSecurity()
-        {
-            if (index < 0 || Utils.IsNullOrEmpty(vmess[index].streamSecurity))
-            {
-                return string.Empty;
-            }
-            return vmess[index].streamSecurity;
-        }
-        public bool allowInsecure()
-        {
-            if (index < 0 || Utils.IsNullOrEmpty(vmess[index].allowInsecure))
-            {
-                return defAllowInsecure;
-            }
-            return Convert.ToBoolean(vmess[index].allowInsecure);
-        }
+        #region function         
 
         public int GetLocalPort(string protocol)
         {
@@ -317,80 +238,43 @@ namespace v2rayN.Mode
             return localPort;
         }
 
-        public int configType()
+        public int FindIndexId(string id)
         {
-            if (index < 0)
-            {
-                return 0;
-            }
-            return vmess[index].configType;
-        }
-
-        public string getSummary()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].getSummary();
-        }
-
-        public string getItemId()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-
-            return vmess[index].getItemId();
-        }
-        public string flow()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].flow.TrimEx();
-        }
-        public string sni()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].sni.TrimEx();
-        }
-        public List<string> alpn()
-        {
-            if (index < 0)
-            {
-                return null;
-            }
-            if (vmess[index].alpn != null && vmess[index].alpn.Count > 0)
-            {
-                return vmess[index].alpn;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public string indexId()
-        {
-            if (index < 0)
-            {
-                return string.Empty;
-            }
-            return vmess[index].indexId.TrimEx();
-        }
-        public int FindIndexId(string indexId)
-        {
-            if (string.IsNullOrEmpty(indexId))
+            if (string.IsNullOrEmpty(id))
             {
                 return -1;
             }
-            return vmess.FindIndex(it => it.indexId == indexId);
+            return vmess.FindIndex(it => it.indexId == id);
         }
+
+        public VmessItem GetVmessItem(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+            return vmess.FirstOrDefault(it => it.indexId == id);
+        }
+
+        public bool IsActiveNode(VmessItem item)
+        {
+            if (!Utils.IsNullOrEmpty(item.indexId) && item.indexId == indexId)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public string GetGroupRemarks(string groupId)
+        {
+            if (string.IsNullOrEmpty(groupId))
+            {
+                return string.Empty;
+            }
+            return groupItem.Where(it => it.id == groupId).FirstOrDefault()?.remarks;
+        }
+
         #endregion
 
     }
@@ -401,7 +285,9 @@ namespace v2rayN.Mode
         public VmessItem()
         {
             indexId = string.Empty;
-            configVersion = 1;
+            configType = EConfigType.Vmess;
+            configVersion = 2;
+            sort = 0;
             address = string.Empty;
             port = 0;
             id = string.Empty;
@@ -414,15 +300,16 @@ namespace v2rayN.Mode
             path = string.Empty;
             streamSecurity = string.Empty;
             allowInsecure = string.Empty;
-            configType = (int)EConfigType.Vmess;
             testResult = string.Empty;
             subid = string.Empty;
             flow = string.Empty;
+            groupId = string.Empty;
         }
 
-        public string getSummary()
+        #region function
+        public string GetSummary()
         {
-            string summary = string.Format("[{0}] ", ((EConfigType)configType).ToString());
+            string summary = string.Format("[{0}] ", (configType).ToString());
             string[] arrAddr = address.Split('.');
             string addr;
             if (arrAddr.Length > 2)
@@ -439,19 +326,11 @@ namespace v2rayN.Mode
             }
             switch (configType)
             {
-                case (int)EConfigType.Vmess:
-                    summary += string.Format("{0}({1}:{2})", remarks, addr, port);
-                    break;
-                case (int)EConfigType.Shadowsocks:
-                    summary += string.Format("{0}({1}:{2})", remarks, addr, port);
-                    break;
-                case (int)EConfigType.Socks:
-                    summary += string.Format("{0}({1}:{2})", remarks, addr, port);
-                    break;
-                case (int)EConfigType.VLESS:
-                    summary += string.Format("{0}({1}:{2})", remarks, addr, port);
-                    break;
-                case (int)EConfigType.Trojan:
+                case EConfigType.Vmess:
+                case EConfigType.Shadowsocks:
+                case EConfigType.Socks:
+                case EConfigType.VLESS:
+                case EConfigType.Trojan:
                     summary += string.Format("{0}({1}:{2})", remarks, addr, port);
                     break;
                 default:
@@ -460,7 +339,7 @@ namespace v2rayN.Mode
             }
             return summary;
         }
-        public string getSubRemarks(Config config)
+        public string GetSubRemarks(Config config)
         {
             string subRemarks = string.Empty;
             if (Utils.IsNullOrEmpty(subid))
@@ -481,13 +360,41 @@ namespace v2rayN.Mode
             return subid.Substring(0, 4);
         }
 
-        public string getItemId()
+        public List<string> GetAlpn()
         {
-            string itemId = $"{address}{port}{requestHost}{path}";
-            itemId = Utils.Base64Encode(itemId);
-            return itemId;
+            if (alpn != null && alpn.Count > 0)
+            {
+                return alpn;
+            }
+            else
+            {
+                return null;
+            }
         }
+        public string GetNetwork()
+        {
+            if (Utils.IsNullOrEmpty(network) || !Global.networks.Contains(network))
+            {
+                return Global.DefaultNetwork;
+            }
+            return network.TrimEx();
+        }
+
+        public void SetTestResult(string value)
+        {
+            testResult = value;
+        }
+        #endregion
+
         public string indexId
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// config type(1=normal,2=custom)
+        /// </summary>
+        public EConfigType configType
         {
             get; set;
         }
@@ -496,6 +403,11 @@ namespace v2rayN.Mode
         /// 版本(现在=2)
         /// </summary>
         public int configVersion
+        {
+            get; set;
+        }
+
+        public int sort
         {
             get; set;
         }
@@ -590,15 +502,6 @@ namespace v2rayN.Mode
             get; set;
         }
 
-
-        /// <summary>
-        /// config type(1=normal,2=custom)
-        /// </summary>
-        public int configType
-        {
-            get; set;
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -633,6 +536,15 @@ namespace v2rayN.Mode
         /// tls alpn
         /// </summary>
         public List<string> alpn
+        {
+            get; set;
+        }
+
+        public string groupId
+        {
+            get; set;
+        } = string.Empty;
+        public ECoreType? coreType
         {
             get; set;
         }
@@ -765,12 +677,20 @@ namespace v2rayN.Mode
         {
             get; set;
         } = string.Empty;
+
+        public string groupId
+        {
+            get; set;
+        } = string.Empty;
     }
 
     [Serializable]
     public class UIItem
     {
-
+        public bool enableAutoAdjustMainLvColWidth
+        {
+            get; set;
+        }
 
         public System.Drawing.Size mainSize
         {
@@ -801,6 +721,56 @@ namespace v2rayN.Mode
             get; set;
         }
         public string defIEProxyExceptions
+        {
+            get; set;
+        }
+    }
+
+    [Serializable]
+    public class KeyEventItem
+    {
+        public EGlobalHotkey eGlobalHotkey { get; set; }
+
+        public bool Alt { get; set; }
+
+        public bool Control { get; set; }
+
+        public bool Shift { get; set; }
+
+        public Keys? KeyCode { get; set; }
+
+    }
+
+    [Serializable]
+    public class GroupItem
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string id
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string remarks
+        {
+            get; set;
+        }
+    }
+
+
+    [Serializable]
+    public class CoreTypeItem
+    {
+        public EConfigType configType
+        {
+            get; set;
+        }
+
+        public ECoreType coreType
         {
             get; set;
         }

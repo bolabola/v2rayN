@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using v2rayN.Base;
 
 namespace v2rayN.Handler
@@ -37,7 +38,7 @@ namespace v2rayN.Handler
             WebClientEx ws = new WebClientEx();
             try
             {
-                Utils.SetSecurityProtocol();
+                Utils.SetSecurityProtocol(LazyConfig.Instance.GetConfig().enableSecurityProtocolTls13);
                 UpdateCompleted?.Invoke(this, new ResultEventArgs(false, UIRes.I18N("Downloading")));
 
                 progressPercentage = -1;
@@ -131,21 +132,35 @@ namespace v2rayN.Handler
         /// DownloadString
         /// </summary> 
         /// <param name="url"></param>
-        public void WebDownloadString(string url, string userAgent)
+        public void WebDownloadString(string url, WebProxy webProxy, string userAgent)
         {
             string source = string.Empty;
             try
             {
-                Utils.SetSecurityProtocol();
+                Utils.SetSecurityProtocol(LazyConfig.Instance.GetConfig().enableSecurityProtocolTls13);
 
                 WebClientEx ws = new WebClientEx();
-                if (!Utils.IsNullOrEmpty(userAgent))
+                ws.Encoding = Encoding.UTF8;
+                if (webProxy != null)
                 {
-                    ws.Headers.Add("user-agent", userAgent);
+                    ws.Proxy = webProxy;
+                }
+
+                if (Utils.IsNullOrEmpty(userAgent))
+                {
+                    userAgent = $"{Utils.GetVersion(false)}";
+                }
+                ws.Headers.Add("user-agent", userAgent);
+
+                Uri uri = new Uri(url);
+                //Authorization Header
+                if (!Utils.IsNullOrEmpty(uri.UserInfo))
+                {
+                    ws.Headers.Add(HttpRequestHeader.Authorization, "Basic " + Utils.Base64Encode(uri.UserInfo));
                 }
 
                 ws.DownloadStringCompleted += Ws_DownloadStringCompleted;
-                ws.DownloadStringAsync(new Uri(url));
+                ws.DownloadStringAsync(uri);
             }
             catch (Exception ex)
             {
@@ -181,10 +196,10 @@ namespace v2rayN.Handler
             string source = string.Empty;
             try
             {
-                Utils.SetSecurityProtocol();
+                Utils.SetSecurityProtocol(LazyConfig.Instance.GetConfig().enableSecurityProtocolTls13);
 
                 WebClientEx ws = new WebClientEx();
-
+                ws.Encoding = Encoding.UTF8;
                 return ws.DownloadString(new Uri(url));
             }
             catch (Exception ex)
@@ -199,7 +214,7 @@ namespace v2rayN.Handler
             WebClientEx ws = new WebClientEx();
             try
             {
-                Utils.SetSecurityProtocol();
+                Utils.SetSecurityProtocol(LazyConfig.Instance.GetConfig().enableSecurityProtocolTls13);
                 UpdateCompleted?.Invoke(this, new ResultEventArgs(false, UIRes.I18N("Downloading")));
 
                 progressPercentage = -1;

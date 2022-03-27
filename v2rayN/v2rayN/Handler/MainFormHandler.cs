@@ -1,18 +1,21 @@
-﻿using System;
+﻿using NHotkey;
+using NHotkey.WindowsForms;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using v2rayN.Base;
 using v2rayN.Mode;
+using System.Linq;
 
 namespace v2rayN.Handler
 {
-    class MainFormHandler
+    public sealed class MainFormHandler
     {
-        private static MainFormHandler instance;
-        Action<bool, string> _updateUI;
+        private static readonly Lazy<MainFormHandler> instance = new Lazy<MainFormHandler>(() => new MainFormHandler());
+        //Action<bool, string> _updateUI;
 
         //private DownloadHandle downloadHandle2;
         //private Config _config;
@@ -22,16 +25,8 @@ namespace v2rayN.Handler
         //Action<int, string> _updateFunc;
         public static MainFormHandler Instance
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new MainFormHandler();
-                }
-                return instance;
-            }
+            get { return instance.Value; }
         }
-
         public Icon GetNotifyIcon(Config config, Icon def)
         {
             try
@@ -58,7 +53,7 @@ namespace v2rayN.Handler
                     if (!Utils.IsNullOrEmpty(item.customIcon) && File.Exists(item.customIcon))
                     {
                         graphics.FillRectangle(drawBrush, new Rectangle(0, 0, width, height));
-                        graphics.DrawImage(new Bitmap(item.customIcon), 0, 0);
+                        graphics.DrawImage(new Bitmap(item.customIcon), 0, 0, width, height);
                         customIcon = true;
                     }
                 }
@@ -84,15 +79,14 @@ namespace v2rayN.Handler
             }
         }
 
-        public void Export2ClientConfig(int index, Config config)
+        public void Export2ClientConfig(VmessItem item, Config config)
         {
-            //int index = GetLvSelectedIndex();
-            if (index < 0)
+            if (item == null)
             {
                 return;
             }
-            if (config.vmess[index].configType != (int)EConfigType.Vmess
-                && config.vmess[index].configType != (int)EConfigType.VLESS)
+            if (item.configType != EConfigType.Vmess
+                && item.configType != EConfigType.VLESS)
             {
                 UI.Show(UIRes.I18N("NonVmessService"));
                 return;
@@ -113,9 +107,9 @@ namespace v2rayN.Handler
             {
                 return;
             }
-            Config configCopy = Utils.DeepCopy(config);
-            configCopy.index = index;
-            if (V2rayConfigHandler.Export2ClientConfig(configCopy, fileName, out string msg) != 0)
+            //Config configCopy = Utils.DeepCopy(config);
+            //configCopy.index = index;
+            if (V2rayConfigHandler.Export2ClientConfig(item, fileName, out string msg) != 0)
             {
                 UI.Show(msg);
             }
@@ -125,15 +119,14 @@ namespace v2rayN.Handler
             }
         }
 
-        public void Export2ServerConfig(int index, Config config)
+        public void Export2ServerConfig(VmessItem item, Config config)
         {
-            //int index = GetLvSelectedIndex();
-            if (index < 0)
+            if (item == null)
             {
                 return;
             }
-            if (config.vmess[index].configType != (int)EConfigType.Vmess
-                && config.vmess[index].configType != (int)EConfigType.VLESS)
+            if (item.configType != EConfigType.Vmess
+                && item.configType != EConfigType.VLESS)
             {
                 UI.Show(UIRes.I18N("NonVmessService"));
                 return;
@@ -154,9 +147,9 @@ namespace v2rayN.Handler
             {
                 return;
             }
-            Config configCopy = Utils.DeepCopy(config);
-            configCopy.index = index;
-            if (V2rayConfigHandler.Export2ServerConfig(configCopy, fileName, out string msg) != 0)
+            //Config configCopy = Utils.DeepCopy(config);
+            //configCopy.index = index;
+            if (V2rayConfigHandler.Export2ServerConfig(item, fileName, out string msg) != 0)
             {
                 UI.Show(msg);
             }
@@ -166,29 +159,12 @@ namespace v2rayN.Handler
             }
         }
 
-        public int AddBatchServers(Config config, string clipboardData, string subid = "")
-        {
-            int counter;
-            int _Add()
-            {
-                return ConfigHandler.AddBatchServers(ref config, clipboardData, subid);
-            }
-            counter = _Add();
-            if (counter < 1)
-            {
-                clipboardData = Utils.Base64Decode(clipboardData);
-                counter = _Add();
-            }
-
-            return counter;
-        }
-
         public void BackupGuiNConfig(Config config, bool auto = false)
         {
             string fileName = $"guiNConfig_{DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff")}.json";
             if (auto)
             {
-                fileName = Utils.GetTempPath(fileName);
+                fileName = Utils.GetBackupPath(fileName);
             }
             else
             {
@@ -226,25 +202,24 @@ namespace v2rayN.Handler
 
         public void UpdateTask(Config config, Action<bool, string> update)
         {
-            _updateUI = update;
-            Task.Run(() => UpdateTaskRun(config));
+            Task.Run(() => UpdateTaskRun(config, update));
         }
 
-        private void UpdateTaskRun(Config config)
+        private void UpdateTaskRun(Config config, Action<bool, string> update)
         {
             var updateHandle = new UpdateHandle();
             while (true)
             {
-                Utils.SaveLog("UpdateTaskRun");
                 Thread.Sleep(60000);
                 if (config.autoUpdateInterval <= 0)
                 {
                     continue;
                 }
+                Utils.SaveLog("UpdateTaskRun");
 
                 updateHandle.UpdateGeoFile("geosite", config, (bool success, string msg) =>
                 {
-                    _updateUI(false, msg);
+                    update(false, msg);
                     if (success)
                         Utils.SaveLog("geosite" + msg);
                 });
@@ -253,7 +228,7 @@ namespace v2rayN.Handler
 
                 updateHandle.UpdateGeoFile("geoip", config, (bool success, string msg) =>
                 {
-                    _updateUI(false, msg);
+                    update(false, msg);
                     if (success)
                         Utils.SaveLog("geoip" + msg);
                 });
@@ -261,5 +236,49 @@ namespace v2rayN.Handler
                 Thread.Sleep(1000 * 3600 * config.autoUpdateInterval);
             }
         }
+
+        public void RegisterGlobalHotkey(Config config, EventHandler<HotkeyEventArgs> handler, Action<bool, string> update)
+        {
+            if (config.globalHotkeys == null)
+            {
+                return;
+            }
+
+            foreach (var item in config.globalHotkeys)
+            {
+                if (item.KeyCode == null)
+                {
+                    continue;
+                }
+
+                Keys keys = (Keys)item.KeyCode;
+                if (item.Control)
+                {
+                    keys |= Keys.Control;
+                }
+                if (item.Alt)
+                {
+                    keys |= Keys.Alt;
+                }
+                if (item.Shift)
+                {
+                    keys |= Keys.Shift;
+                }
+
+                try
+                {
+                    HotkeyManager.Current.AddOrReplace(((int)item.eGlobalHotkey).ToString(), keys, handler);
+                    var msg = string.Format(UIRes.I18N("RegisterGlobalHotkeySuccessfully"), $"{item.eGlobalHotkey.ToString()} = {keys}");
+                    update(false, msg);
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format(UIRes.I18N("RegisterGlobalHotkeyFailed"), $"{item.eGlobalHotkey.ToString()} = {keys}", ex.Message);
+                    update(false, msg);
+                    Utils.SaveLog(msg);
+                }
+            }
+        }
+
     }
 }

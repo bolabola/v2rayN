@@ -5,10 +5,6 @@ namespace v2rayN.Mode
     [Serializable]
     class ServerTestItem
     {
-        public int selected
-        {
-            get; set;
-        }
         public string indexId
         {
             get; set;
@@ -21,7 +17,11 @@ namespace v2rayN.Mode
         {
             get; set;
         }
-        public int configType
+        public EConfigType configType
+        {
+            get; set;
+        }
+        public bool allowTest
         {
             get; set;
         }

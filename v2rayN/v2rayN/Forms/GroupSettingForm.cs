@@ -6,52 +6,51 @@ using v2rayN.Mode;
 
 namespace v2rayN.Forms
 {
-    public partial class SubSettingForm : BaseForm
+    public partial class GroupSettingForm : BaseForm
     {
-        List<SubSettingControl> lstControls = new List<SubSettingControl>();
+        List<GroupSettingControl> lstControls = new List<GroupSettingControl>();
 
-        public SubSettingForm()
+        public GroupSettingForm()
         {
             InitializeComponent();
         }
 
-        private void SubSettingForm_Load(object sender, EventArgs e)
+        private void GroupSettingForm_Load(object sender, EventArgs e)
         {
-            if (config.subItem == null)
+            if (config.groupItem == null)
             {
-                config.subItem = new List<SubItem>();
+                config.groupItem = new List<GroupItem>();
             }
 
-            RefreshSubsView();
+            RefreshGroupsView();
         }
 
         /// <summary>
         /// 刷新列表
         /// </summary>
-        private void RefreshSubsView()
+        private void RefreshGroupsView()
         {
             panCon.Controls.Clear();
             lstControls.Clear();
 
-            for (int k = config.subItem.Count - 1; k >= 0; k--)
+            for (int k = config.groupItem.Count - 1; k >= 0; k--)
             {
-                SubItem item = config.subItem[k];
-                if (Utils.IsNullOrEmpty(item.remarks)
-                    && Utils.IsNullOrEmpty(item.url))
+                GroupItem item = config.groupItem[k];
+                if (Utils.IsNullOrEmpty(item.remarks))
                 {
                     if (!Utils.IsNullOrEmpty(item.id))
                     {
-                        ConfigHandler.RemoveServerViaSubid(ref config, item.id);
+                        ConfigHandler.RemoveGroupItem(ref config, item.id);
                     }
-                    config.subItem.RemoveAt(k);
+                    config.groupItem.RemoveAt(k);
                 }
             }
 
-            foreach (SubItem item in config.subItem)
+            foreach (GroupItem item in config.groupItem)
             {
-                SubSettingControl control = new SubSettingControl();
+                GroupSettingControl control = new GroupSettingControl();
                 control.OnButtonClicked += Control_OnButtonClicked;
-                control.subItem = item;
+                control.groupItem = item;
                 control.Dock = DockStyle.Top;
 
                 panCon.Controls.Add(control);
@@ -63,12 +62,12 @@ namespace v2rayN.Forms
 
         private void Control_OnButtonClicked(object sender, EventArgs e)
         {
-            RefreshSubsView();
+            RefreshGroupsView();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
-        {
-            if (ConfigHandler.SaveSubItem(ref config) == 0)
+        {            
+            if (ConfigHandler.SaveGroupItem(ref config) == 0)
             {
                 this.DialogResult = DialogResult.OK;
             }
@@ -85,21 +84,20 @@ namespace v2rayN.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddSub();
+            AddGroup();
 
-            RefreshSubsView();
+            RefreshGroupsView();
         }
 
 
-        private void AddSub()
+        private void AddGroup()
         {
-            SubItem subItem = new SubItem
+            GroupItem groupItem = new GroupItem
             {
                 id = string.Empty,
-                remarks = "remarks",
-                url = "url"
+                remarks = "Group"
             };
-            config.subItem.Add(subItem);
+            config.groupItem.Add(groupItem);
         }
     }
 }

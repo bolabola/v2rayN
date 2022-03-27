@@ -130,7 +130,7 @@
     <value> configuration format is incorrect</value>
   </data>
   <data name="CustomServerTips" xml:space="preserve">
-    <value>Note that custom configuration relies entirely on your own configuration and does not work with all settings. The system agent is available when the socks port is equal to the port in the settings in the custom configuration inbound.</value>
+    <value>Note that custom configuration relies entirely on your own configuration and does not work with all settings. If you want to use the system proxy, please modify the listening port manually.</value>
   </data>
   <data name="Downloading" xml:space="preserve">
     <value>Downloading...</value>
@@ -268,7 +268,7 @@
     <value>Start updating PAC...</value>
   </data>
   <data name="MsgSubscriptionDecodingFailed" xml:space="preserve">
-    <value>Subscription content decoding failed (non-BASE64 code)</value>
+    <value>Failed to get subscription content</value>
   </data>
   <data name="MsgUnpacking" xml:space="preserve">
     <value>is unpacking...</value>
@@ -435,5 +435,23 @@
   </data>
   <data name="LvTLS" xml:space="preserve">
     <value>TLS</value>
+  </data>
+  <data name="TransportPathTip5" xml:space="preserve">
+    <value>*Kcp seed</value>
+  </data>
+  <data name="RegisterGlobalHotkeyFailed" xml:space="preserve">
+    <value>Global hotkey {0} registered failed, reason {1}</value>
+  </data>
+  <data name="RegisterGlobalHotkeySuccessfully" xml:space="preserve">
+    <value>Global hotkey {0} registered successfully</value>
+  </data>
+  <data name="UngroupedServers" xml:space="preserve">
+    <value>Ungrouped</value>
+  </data>
+  <data name="AllGroupServers" xml:space="preserve">
+    <value>All servers</value>
+  </data>
+  <data name="FillServerAddressCustom" xml:space="preserve">
+    <value>Please browse to import server configuration</value>
   </data>
 </root>

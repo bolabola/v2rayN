@@ -22,6 +22,8 @@ namespace v2rayN.Forms
         {
             vmessItem = item;
 
+            cmbNetwork.Items.AddRange(Global.networks.ToArray());
+
             cmbStreamSecurity.Items.Clear();
             cmbStreamSecurity.Items.Add(string.Empty);
             cmbStreamSecurity.Items.Add(Global.StreamSecurity);
@@ -126,11 +128,7 @@ namespace v2rayN.Forms
             else if (network.Equals("kcp") || network.Equals("quic"))
             {
                 cmbHeaderType.Items.Add(Global.None);
-                cmbHeaderType.Items.Add("srtp");
-                cmbHeaderType.Items.Add("utp");
-                cmbHeaderType.Items.Add("wechat-video");
-                cmbHeaderType.Items.Add("dtls");
-                cmbHeaderType.Items.Add("wireguard");
+                cmbHeaderType.Items.AddRange(Global.kcpHeaderTypes.ToArray());
             }
             else if (network.Equals("grpc"))
             {
@@ -164,6 +162,7 @@ namespace v2rayN.Forms
             else if (network.Equals("kcp"))
             {
                 tipHeaderType.Text = UIRes.I18N("TransportHeaderTypeTip2");
+                tipPath.Text = UIRes.I18N("TransportPathTip5");                
             }
             else if (network.Equals("ws"))
             {

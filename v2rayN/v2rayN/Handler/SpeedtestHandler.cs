@@ -14,14 +14,14 @@ namespace v2rayN.Handler
         private Config _config;
         private V2rayHandler _v2rayHandler;
         private List<ServerTestItem> _selecteds;
-        Action<int, string> _updateFunc;
+        Action<string, string> _updateFunc;
 
         public SpeedtestHandler(ref Config config)
         {
             _config = config;
         }
 
-        public SpeedtestHandler(ref Config config, ref V2rayHandler v2rayHandler, List<int> selecteds, string actionType, Action<int, string> update)
+        public SpeedtestHandler(ref Config config, V2rayHandler v2rayHandler, List<VmessItem> selecteds, ESpeedActionType actionType, Action<string, string> update)
         {
             _config = config;
             _v2rayHandler = v2rayHandler;
@@ -33,27 +33,26 @@ namespace v2rayN.Handler
             {
                 _selecteds.Add(new ServerTestItem()
                 {
-                    selected = it,
-                    indexId = config.vmess[it].indexId,
-                    address = config.vmess[it].address,
-                    port = config.vmess[it].port,
-                    configType = config.vmess[it].configType
+                    indexId = it.indexId,
+                    address = it.address,
+                    port = it.port,
+                    configType = it.configType
                 });
             }
 
-            if (actionType == "ping")
+            if (actionType == ESpeedActionType.Ping)
             {
                 Task.Run(() => RunPing());
             }
-            if (actionType == "tcping")
+            else if (actionType == ESpeedActionType.Tcping)
             {
                 Task.Run(() => RunTcping());
             }
-            else if (actionType == "realping")
+            else if (actionType == ESpeedActionType.Realping)
             {
                 Task.Run(() => RunRealPing());
             }
-            else if (actionType == "speedtest")
+            else if (actionType == ESpeedActionType.Speedtest)
             {
                 Task.Run(() => RunSpeedTest());
             }
@@ -65,7 +64,7 @@ namespace v2rayN.Handler
             {
                 foreach (var it in _selecteds)
                 {
-                    if (it.configType == (int)EConfigType.Custom)
+                    if (it.configType == EConfigType.Custom)
                     {
                         continue;
                     }
@@ -93,9 +92,8 @@ namespace v2rayN.Handler
             RunPingSub((ServerTestItem it) =>
             {
                 long time = Utils.Ping(it.address);
-                var index = _config.FindIndexId(it.indexId);
-                if (index < 0) return;
-                _updateFunc(index, FormatOut(time, "ms"));
+
+                _updateFunc(it.indexId, FormatOut(time, "ms"));
             });
         }
 
@@ -104,9 +102,8 @@ namespace v2rayN.Handler
             RunPingSub((ServerTestItem it) =>
             {
                 int time = GetTcpingTime(it.address, it.port);
-                var index = _config.FindIndexId(it.indexId);
-                if (index < 0) return;
-                _updateFunc(index, FormatOut(time, "ms"));
+
+                _updateFunc(it.indexId, FormatOut(time, "ms"));
             });
         }
 
@@ -120,7 +117,7 @@ namespace v2rayN.Handler
                 pid = _v2rayHandler.LoadV2rayConfigString(_config, _selecteds);
                 if (pid < 0)
                 {
-                    _updateFunc(_selecteds[0].selected, UIRes.I18N("OperationFailed"));
+                    _updateFunc(_selecteds[0].indexId, UIRes.I18N("OperationFailed"));
                     return;
                 }
 
@@ -128,11 +125,11 @@ namespace v2rayN.Handler
                 List<Task> tasks = new List<Task>();
                 foreach (var it in _selecteds)
                 {
-                    if (it.configType == (int)EConfigType.Custom)
+                    if (!it.allowTest)
                     {
                         continue;
                     }
-                    if (it.port <= 0)
+                    if (it.configType == EConfigType.Custom)
                     {
                         continue;
                     }
@@ -144,9 +141,9 @@ namespace v2rayN.Handler
                             int responseTime = -1;
                             string status = GetRealPingTime(_config.constItem.speedPingTestUrl, webProxy, out responseTime);
                             string output = Utils.IsNullOrEmpty(status) ? FormatOut(responseTime, "ms") : status;
-                            var index = _config.FindIndexId(it.indexId);
-                            if (index < 0) return;
-                            _updateFunc(index, output);
+
+                            _config.GetVmessItem(it.indexId)?.SetTestResult(output);
+                            _updateFunc(it.indexId, output);
                         }
                         catch (Exception ex)
                         {
@@ -203,15 +200,10 @@ namespace v2rayN.Handler
             string testIndexId = string.Empty;
             int pid = -1;
 
-            if (_config.vmess.Count <= 0)
-            {
-                return;
-            }
-
             pid = _v2rayHandler.LoadV2rayConfigString(_config, _selecteds);
             if (pid < 0)
             {
-                _updateFunc(_selecteds[0].selected, UIRes.I18N("OperationFailed"));
+                _updateFunc(_selecteds[0].indexId, UIRes.I18N("OperationFailed"));
                 return;
             }
 
@@ -219,31 +211,28 @@ namespace v2rayN.Handler
             DownloadHandle downloadHandle2 = new DownloadHandle();
             downloadHandle2.UpdateCompleted += (sender2, args) =>
             {
-                var index = _config.FindIndexId(testIndexId);
-                if (index < 0) return;
-                _updateFunc(index, args.Msg);
+                _config.GetVmessItem(testIndexId)?.SetTestResult(args.Msg);
+                _updateFunc(testIndexId, args.Msg);
             };
             downloadHandle2.Error += (sender2, args) =>
             {
-                var index = _config.FindIndexId(testIndexId);
-                if (index < 0) return;
-                _updateFunc(index, args.GetException().Message);
+                _updateFunc(testIndexId, args.GetException().Message);
             };
 
             var timeout = 10;
             foreach (var it in _selecteds)
             {
-                if (it.configType == (int)EConfigType.Custom)
+                if (!it.allowTest)
                 {
                     continue;
                 }
-                if (it.port <= 0)
+                if (it.configType == EConfigType.Custom)
                 {
                     continue;
                 }
                 testIndexId = it.indexId;
                 if (_config.FindIndexId(it.indexId) < 0) continue;
-              
+
                 WebProxy webProxy = new WebProxy(Global.Loopback, it.port);
                 var ws = downloadHandle2.DownloadDataAsync(url, webProxy, timeout - 2);
 
