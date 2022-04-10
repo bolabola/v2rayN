@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using v2rayN.Base;
 using v2rayN.Mode;
+using v2rayN.Resx;
 
 namespace v2rayN.Handler
 {
@@ -32,11 +33,11 @@ namespace v2rayN.Handler
             {
                 if (node == null)
                 {
-                    msg = UIRes.I18N("CheckServerSettings");
+                    msg = ResUI.CheckServerSettings;
                     return -1;
                 }
 
-                msg = UIRes.I18N("InitialConfiguration");
+                msg = ResUI.InitialConfiguration;
                 if (node.configType == EConfigType.Custom)
                 {
                     return GenerateClientCustomConfig(node, fileName, out msg);
@@ -46,7 +47,7 @@ namespace v2rayN.Handler
                 string result = Utils.GetEmbedText(SampleClient);
                 if (Utils.IsNullOrEmpty(result))
                 {
-                    msg = UIRes.I18N("FailedGetDefaultConfiguration");
+                    msg = ResUI.FailedGetDefaultConfiguration;
                     return -1;
                 }
 
@@ -54,7 +55,7 @@ namespace v2rayN.Handler
                 V2rayConfig v2rayConfig = Utils.FromJson<V2rayConfig>(result);
                 if (v2rayConfig == null)
                 {
-                    msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                    msg = ResUI.FailedGenDefaultConfiguration;
                     return -1;
                 }
 
@@ -80,11 +81,11 @@ namespace v2rayN.Handler
 
                 Utils.ToJsonFile(v2rayConfig, fileName, false);
 
-                msg = string.Format(UIRes.I18N("SuccessfulConfiguration"), $"[{config.GetGroupRemarks(node.groupId)}] {node.GetSummary()}");
+                msg = string.Format(ResUI.SuccessfulConfiguration, $"[{config.GetGroupRemarks(node.groupId)}] {node.GetSummary()}");
             }
             catch
             {
-                msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                msg = ResUI.FailedGenDefaultConfiguration;
                 return -1;
             }
             return 0;
@@ -149,7 +150,7 @@ namespace v2rayN.Handler
                 inbound.tag = Global.InboundSocks;
                 inbound.port = config.inbound[0].localPort;
                 inbound.protocol = config.inbound[0].protocol;
-                if (config.allowLANConn)
+                if (config.inbound[0].allowLANConn)
                 {
                     inbound.listen = "0.0.0.0";
                 }
@@ -168,6 +169,25 @@ namespace v2rayN.Handler
                 inbound2.protocol = Global.InboundHttp;
                 inbound2.listen = inbound.listen;
                 inbound2.settings.allowTransparent = false;
+                inbound2.sniffing.enabled = inbound.sniffing.enabled;
+
+                //auth
+                if (!Utils.IsNullOrEmpty(config.inbound[0].user) && !Utils.IsNullOrEmpty(config.inbound[0].pass))
+                {
+                    inbound.settings.auth = "password";
+                    inbound.settings.accounts = new List<AccountsItem> { new AccountsItem() { user = config.inbound[0].user, pass = config.inbound[0].pass } };
+                    inbound2.settings.auth = "password";
+                    inbound2.settings.accounts = new List<AccountsItem> { new AccountsItem() { user = config.inbound[0].user, pass = config.inbound[0].pass } };
+                }
+
+                //http Loopback
+                Inbounds inbound3 = v2rayConfig.inbounds[2];
+                inbound3.tag = Global.InboundHttp2;
+                inbound3.port = config.GetLocalPort(Global.InboundHttp2);
+                inbound3.protocol = Global.InboundHttp;
+                inbound3.listen = Global.Loopback;
+                inbound3.settings.allowTransparent = false;
+                inbound3.sniffing.enabled = inbound.sniffing.enabled;
             }
             catch
             {
@@ -900,7 +920,7 @@ namespace v2rayN.Handler
                 //检查GUI设置
                 if (node == null)
                 {
-                    msg = UIRes.I18N("CheckServerSettings");
+                    msg = ResUI.CheckServerSettings;
                     return -1;
                 }
 
@@ -916,7 +936,7 @@ namespace v2rayN.Handler
                 }
                 if (!File.Exists(addressFileName))
                 {
-                    msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                    msg = ResUI.FailedGenDefaultConfiguration;
                     return -1;
                 }
                 File.Copy(addressFileName, fileName);
@@ -924,7 +944,7 @@ namespace v2rayN.Handler
                 //check again
                 if (!File.Exists(fileName))
                 {
-                    msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                    msg = ResUI.FailedGenDefaultConfiguration;
                     return -1;
                 }
 
@@ -943,12 +963,12 @@ namespace v2rayN.Handler
                 }
                 File.WriteAllLines(fileName, fileContent);
 
-                msg = string.Format(UIRes.I18N("SuccessfulConfiguration"), $"[{LazyConfig.Instance.GetConfig().GetGroupRemarks(node.groupId)}] {node.GetSummary()}");
+                msg = string.Format(ResUI.SuccessfulConfiguration, $"[{LazyConfig.Instance.GetConfig().GetGroupRemarks(node.groupId)}] {node.GetSummary()}");
             }
             catch (Exception ex)
             {
                 Utils.SaveLog("GenerateClientCustomConfig", ex);
-                msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                msg = ResUI.FailedGenDefaultConfiguration;
                 return -1;
             }
             return 0;
@@ -972,17 +992,17 @@ namespace v2rayN.Handler
                 //检查GUI设置
                 if (node == null)
                 {
-                    msg = UIRes.I18N("CheckServerSettings");
+                    msg = ResUI.CheckServerSettings;
                     return -1;
                 }
 
-                msg = UIRes.I18N("InitialConfiguration");
+                msg = ResUI.InitialConfiguration;
 
                 //取得默认配置
                 string result = Utils.GetEmbedText(SampleServer);
                 if (Utils.IsNullOrEmpty(result))
                 {
-                    msg = UIRes.I18N("FailedGetDefaultConfiguration");
+                    msg = ResUI.FailedGetDefaultConfiguration;
                     return -1;
                 }
 
@@ -990,7 +1010,7 @@ namespace v2rayN.Handler
                 V2rayConfig v2rayConfig = Utils.FromJson<V2rayConfig>(result);
                 if (v2rayConfig == null)
                 {
-                    msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                    msg = ResUI.FailedGenDefaultConfiguration;
                     return -1;
                 }
 
@@ -1007,11 +1027,11 @@ namespace v2rayN.Handler
 
                 Utils.ToJsonFile(v2rayConfig, fileName, false);
 
-                msg = string.Format(UIRes.I18N("SuccessfulConfiguration"), node.GetSummary());
+                msg = string.Format(ResUI.SuccessfulConfiguration, node.GetSummary());
             }
             catch
             {
-                msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                msg = ResUI.FailedGenDefaultConfiguration;
                 return -1;
             }
             return 0;
@@ -1109,7 +1129,7 @@ namespace v2rayN.Handler
                 string result = Utils.LoadResource(fileName);
                 if (Utils.IsNullOrEmpty(result))
                 {
-                    msg = UIRes.I18N("FailedReadConfiguration");
+                    msg = ResUI.FailedReadConfiguration;
                     return null;
                 }
 
@@ -1117,14 +1137,14 @@ namespace v2rayN.Handler
                 V2rayConfig v2rayConfig = Utils.FromJson<V2rayConfig>(result);
                 if (v2rayConfig == null)
                 {
-                    msg = UIRes.I18N("FailedConversionConfiguration");
+                    msg = ResUI.FailedConversionConfiguration;
                     return null;
                 }
 
                 if (v2rayConfig.outbounds == null
                  || v2rayConfig.outbounds.Count <= 0)
                 {
-                    msg = UIRes.I18N("IncorrectClientConfiguration");
+                    msg = ResUI.IncorrectClientConfiguration;
                     return null;
                 }
 
@@ -1138,7 +1158,7 @@ namespace v2rayN.Handler
                     || outbound.settings.vnext[0].users == null
                     || outbound.settings.vnext[0].users.Count <= 0)
                 {
-                    msg = UIRes.I18N("IncorrectClientConfiguration");
+                    msg = ResUI.IncorrectClientConfiguration;
                     return null;
                 }
 
@@ -1231,7 +1251,7 @@ namespace v2rayN.Handler
             }
             catch
             {
-                msg = UIRes.I18N("IncorrectClientConfiguration");
+                msg = ResUI.IncorrectClientConfiguration;
                 return null;
             }
 
@@ -1255,7 +1275,7 @@ namespace v2rayN.Handler
                 string result = Utils.LoadResource(fileName);
                 if (Utils.IsNullOrEmpty(result))
                 {
-                    msg = UIRes.I18N("FailedReadConfiguration");
+                    msg = ResUI.FailedReadConfiguration;
                     return null;
                 }
 
@@ -1263,14 +1283,14 @@ namespace v2rayN.Handler
                 V2rayConfig v2rayConfig = Utils.FromJson<V2rayConfig>(result);
                 if (v2rayConfig == null)
                 {
-                    msg = UIRes.I18N("FailedConversionConfiguration");
+                    msg = ResUI.FailedConversionConfiguration;
                     return null;
                 }
 
                 if (v2rayConfig.inbounds == null
                  || v2rayConfig.inbounds.Count <= 0)
                 {
-                    msg = UIRes.I18N("IncorrectServerConfiguration");
+                    msg = ResUI.IncorrectServerConfiguration;
                     return null;
                 }
 
@@ -1282,7 +1302,7 @@ namespace v2rayN.Handler
                     || inbound.settings.clients == null
                     || inbound.settings.clients.Count <= 0)
                 {
-                    msg = UIRes.I18N("IncorrectServerConfiguration");
+                    msg = ResUI.IncorrectServerConfiguration;
                     return null;
                 }
 
@@ -1376,7 +1396,7 @@ namespace v2rayN.Handler
             }
             catch
             {
-                msg = UIRes.I18N("IncorrectClientConfiguration");
+                msg = ResUI.IncorrectClientConfiguration;
                 return null;
             }
             return vmessItem;
@@ -1417,25 +1437,25 @@ namespace v2rayN.Handler
             {
                 if (config == null)
                 {
-                    msg = UIRes.I18N("CheckServerSettings");
+                    msg = ResUI.CheckServerSettings;
                     return "";
                 }
 
-                msg = UIRes.I18N("InitialConfiguration");
+                msg = ResUI.InitialConfiguration;
 
                 Config configCopy = Utils.DeepCopy(config);
 
                 string result = Utils.GetEmbedText(SampleClient);
                 if (Utils.IsNullOrEmpty(result))
                 {
-                    msg = UIRes.I18N("FailedGetDefaultConfiguration");
+                    msg = ResUI.FailedGetDefaultConfiguration;
                     return "";
                 }
 
                 V2rayConfig v2rayConfig = Utils.FromJson<V2rayConfig>(result);
                 if (v2rayConfig == null)
                 {
-                    msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                    msg = ResUI.FailedGenDefaultConfiguration;
                     return "";
                 }
                 List<IPEndPoint> lstIpEndPoints = null;
@@ -1516,12 +1536,12 @@ namespace v2rayN.Handler
                     v2rayConfig.routing.rules.Add(rule);
                 }
 
-                //msg = string.Format(UIRes.I18N("SuccessfulConfiguration"), node.getSummary());
+                //msg = string.Format(ResUI.SuccessfulConfiguration"), node.getSummary());
                 return Utils.ToJson(v2rayConfig);
             }
             catch
             {
-                msg = UIRes.I18N("FailedGenDefaultConfiguration");
+                msg = ResUI.FailedGenDefaultConfiguration;
                 return "";
             }
         }

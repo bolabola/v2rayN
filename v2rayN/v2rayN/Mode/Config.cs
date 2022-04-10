@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using v2rayN.Base;
 using System.Linq;
-
+using System.Drawing;
 
 namespace v2rayN.Mode
 {
@@ -48,14 +48,6 @@ namespace v2rayN.Mode
         /// 
         /// </summary>
         public ESysProxyType sysProxyType
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// 允许来自局域网的连接
-        /// </summary>
-        public bool allowLANConn
         {
             get; set;
         }
@@ -220,7 +212,10 @@ namespace v2rayN.Mode
             {
                 return GetLocalPort(Global.InboundSocks) + 1;
             }
-
+            else if (protocol == Global.InboundHttp2)
+            {
+                return GetLocalPort(Global.InboundSocks) + 2;
+            }
             else if (protocol == "speedtest")
             {
                 return GetLocalPort(Global.InboundSocks) + 103;
@@ -581,6 +576,13 @@ namespace v2rayN.Mode
         /// 开启流量探测
         /// </summary>
         public bool sniffingEnabled { get; set; } = true;
+
+        public bool allowLANConn { get; set; }
+       
+        public string user { get; set; }
+       
+        public string pass { get; set; }
+
     }
 
     [Serializable]
@@ -692,7 +694,9 @@ namespace v2rayN.Mode
             get; set;
         }
 
-        public System.Drawing.Size mainSize
+        public Point mainLocation { get; set; }
+
+        public Size mainSize
         {
             get; set;
         }

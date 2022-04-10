@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using v2rayN.Handler;
 using v2rayN.Mode;
+using v2rayN.Resx;
 
 namespace v2rayN.Forms
 {
@@ -19,6 +20,7 @@ namespace v2rayN.Forms
         {
             cmbCoreType.Items.AddRange(Global.coreTypes.ToArray());
             cmbCoreType.Items.Add("clash");
+            cmbCoreType.Items.Add("hysteria");
             cmbCoreType.Items.Add(string.Empty);
 
             txtAddress.ReadOnly = true;
@@ -66,12 +68,12 @@ namespace v2rayN.Forms
             string remarks = txtRemarks.Text;
             if (Utils.IsNullOrEmpty(remarks))
             {
-                UI.Show(UIRes.I18N("PleaseFillRemarks"));
+                UI.Show(ResUI.PleaseFillRemarks);
                 return;
             }
             if (Utils.IsNullOrEmpty(txtAddress.Text))
             {
-                UI.Show(UIRes.I18N("FillServerAddressCustom"));
+                UI.Show(ResUI.FillServerAddressCustom);
                 return;
             }
             vmessItem.remarks = remarks;
@@ -90,7 +92,7 @@ namespace v2rayN.Forms
             }
             else
             {
-                UI.ShowWarning(UIRes.I18N("OperationFailed"));
+                UI.ShowWarning(ResUI.OperationFailed);
             }
         }
 
@@ -108,7 +110,7 @@ namespace v2rayN.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            UI.Show(UIRes.I18N("CustomServerTips"));
+            UI.Show(ResUI.CustomServerTips);
 
             OpenFileDialog fileDialog = new OpenFileDialog
             {
@@ -131,11 +133,11 @@ namespace v2rayN.Forms
             if (ConfigHandler.AddCustomServer(ref config, vmessItem, false) == 0)
             {
                 BindingServer();
-                UI.Show(UIRes.I18N("SuccessfullyImportedCustomServer"));
+                UI.Show(ResUI.SuccessfullyImportedCustomServer);
             }
             else
             {
-                UI.ShowWarning(UIRes.I18N("FailedImportedCustomServer"));
+                UI.ShowWarning(ResUI.FailedImportedCustomServer);
             }
         }
 
@@ -144,7 +146,7 @@ namespace v2rayN.Forms
             var address = txtAddress.Text;
             if (Utils.IsNullOrEmpty(address))
             {
-                UI.Show(UIRes.I18N("FillServerAddressCustom"));
+                UI.Show(ResUI.FillServerAddressCustom);
                 return;
             }
 

@@ -208,6 +208,7 @@
     <Compile Include="Mode\RoutingItem.cs" />
     <Compile Include="Mode\RulesItem.cs" />
     <Compile Include="Mode\ServerStatistics.cs" />
+    <Compile Include="Mode\CoreInfo.cs" />
     <Compile Include="Mode\SysproxyConfig.cs" />
     <Compile Include="Mode\EConfigType.cs" />
     <Compile Include="Mode\ServerTestItem.cs" />
@@ -261,7 +262,6 @@
     <Compile Include="Tool\Job.cs" />
     <Compile Include="Tool\Logging.cs" />
     <Compile Include="Tool\QueryableExtension.cs" />
-    <Compile Include="Tool\UIRes.cs" />
     <Compile Include="Tool\UI.cs" />
     <Compile Include="Tool\Utils.cs" />
     <Compile Include="Handler\V2rayConfigHandler.cs" />

@@ -15,7 +15,7 @@ namespace v2rayN.Handler
     class ConfigHandler
     {
         private static string configRes = Global.ConfigFileName;
-        private static object objLock = new object();
+        private static readonly object objLock = new object();
 
         #region ConfigHandler
 
@@ -747,6 +747,10 @@ namespace v2rayN.Handler
             {
                 vmessItem.indexId = Utils.GetGUID(false);
             }
+            else if (vmessItem.indexId == config.indexId)
+            {
+                Global.reloadV2ray = true;
+            }
             if (!config.vmess.Exists(it => it.indexId == vmessItem.indexId))
             {
                 var maxSort = config.vmess.Any() ? config.vmess.Max(t => t.sort) : 0;
@@ -755,11 +759,6 @@ namespace v2rayN.Handler
                 config.vmess.Add(vmessItem);
             }
 
-            //if (config.vmess.Count == 1)
-            //{
-            //    config.indexId = config.vmess[0].indexId;
-            //    Global.reloadV2ray = true;
-            //}
             return 0;
         }
 
@@ -940,6 +939,15 @@ namespace v2rayN.Handler
                 vmessItem.coreType = ECoreType.clash;
                 vmessItem.address = fileName;
                 vmessItem.remarks = "clash_custom";
+            }
+            //Is Other configuration
+            else
+            {
+                var fileName = Utils.GetTempPath($"{Utils.GetGUID(false)}.txt");
+                File.WriteAllText(fileName, clipboardData);
+
+                vmessItem.address = fileName;
+                vmessItem.remarks = "other_custom";
             }
 
             if (!Utils.IsNullOrEmpty(subid))
@@ -1151,6 +1159,8 @@ namespace v2rayN.Handler
             {
                 config.uiItem.mainLvColWidth.Add(name, width);
             }
+
+            ToJsonFile(config);
             return 0;
         }
         public static int GetformMainLvColWidth(ref Config config, string name, int width)
