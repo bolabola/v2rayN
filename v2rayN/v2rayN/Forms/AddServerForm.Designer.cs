@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddServerForm));
             this.btnClose = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtLocalPort = new System.Windows.Forms.TextBox();
             this.btnGUID = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -57,6 +58,7 @@
             this.MenuItemImportClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
             this.transportControl = new v2rayN.Forms.ServerTransportControl();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.menuServer.SuspendLayout();
@@ -73,6 +75,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.txtLocalPort);
             this.groupBox1.Controls.Add(this.btnGUID);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label8);
@@ -91,6 +95,11 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // txtLocalPort
+            // 
+            resources.ApplyResources(this.txtLocalPort, "txtLocalPort");
+            this.txtLocalPort.Name = "txtLocalPort";
             // 
             // btnGUID
             // 
@@ -242,6 +251,11 @@
             resources.ApplyResources(this.transportControl, "transportControl");
             this.transportControl.Name = "transportControl";
             // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // AddServerForm
             // 
             resources.ApplyResources(this, "$this");
@@ -296,5 +310,7 @@
         private System.Windows.Forms.Button btnGUID;
         private System.Windows.Forms.Panel panel3;
         private ServerTransportControl transportControl;
+        private System.Windows.Forms.TextBox txtLocalPort;
+        private System.Windows.Forms.Label label7;
     }
 }

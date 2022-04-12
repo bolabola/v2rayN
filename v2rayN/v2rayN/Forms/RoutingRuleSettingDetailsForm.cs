@@ -17,6 +17,11 @@ namespace v2rayN.Forms
         public RoutingRuleSettingDetailsForm()
         {
             InitializeComponent();
+            clbInboundTag.DataSource = config.inboundTags;
+
+            clbOutboundTag.DataSource = config.vmess;
+            clbOutboundTag.ValueMember = "remarks";
+            clbOutboundTag.DisplayMember = "remarks";
         }
 
         private void RoutingRuleSettingDetailsForm_Load(object sender, EventArgs e)
@@ -35,8 +40,6 @@ namespace v2rayN.Forms
         {
             if (rulesItem != null)
             {
-                rulesItem.port = txtPort.Text.TrimEx();
-
                 var inboundTag = new List<String>();
                 for (int i = 0; i < clbInboundTag.Items.Count; i++)
                 {
@@ -46,30 +49,32 @@ namespace v2rayN.Forms
                     }
                 }
                 rulesItem.inboundTag = inboundTag;
-                rulesItem.outboundTag = cmbOutboundTag.Text;
-                rulesItem.domain = Utils.String2List(txtDomain.Text);
-                rulesItem.ip = Utils.String2List(txtIP.Text);
 
-                var protocol = new List<string>();
-                for (int i = 0; i < clbProtocol.Items.Count; i++)
+                string outboundTag = string.Empty;
+                for (int i = 0; i < clbOutboundTag.Items.Count; i++)
                 {
-                    if (clbProtocol.GetItemChecked(i))
+                    if (clbOutboundTag.GetItemChecked(i))
                     {
-                        protocol.Add(clbProtocol.Items[i].ToString());
+                        outboundTag=((VmessItem)clbOutboundTag.Items[i]).remarks;
                     }
                 }
-                rulesItem.protocol = protocol;
-                rulesItem.enabled = chkEnabled.Checked;
+                rulesItem.outboundTag = outboundTag;
             }
         }
         private void BindingData()
         {
             if (rulesItem != null)
             {
-                txtPort.Text = rulesItem.port ?? string.Empty;
-                cmbOutboundTag.Text = rulesItem.outboundTag;
-                txtDomain.Text = Utils.List2String(rulesItem.domain, true);
-                txtIP.Text = Utils.List2String(rulesItem.ip, true);
+                if (rulesItem.outboundTag != string.Empty)
+                { 
+                    for (int i = 0; i < clbOutboundTag.Items.Count; i++)
+                    {
+                        if (rulesItem.outboundTag.Equals(((VmessItem)clbOutboundTag.Items[i]).remarks))
+                        {
+                            clbOutboundTag.SetItemChecked(i, true);
+                        }
+                    }
+                }
 
                 if (rulesItem.inboundTag != null)
                 {
@@ -81,59 +86,49 @@ namespace v2rayN.Forms
                         }
                     }
                 }
-
-                if (rulesItem.protocol != null)
-                {
-                    for (int i = 0; i < clbProtocol.Items.Count; i++)
-                    {
-                        if (rulesItem.protocol.Contains(clbProtocol.Items[i].ToString()))
-                        {
-                            clbProtocol.SetItemChecked(i, true);
-                        }
-                    }
-                }
-                chkEnabled.Checked = rulesItem.enabled;
             }
         }
         private void ClearBind()
         {
-            txtPort.Text = string.Empty;
-            cmbOutboundTag.Text = Global.agentTag;
-            txtDomain.Text = string.Empty;
-            txtIP.Text = string.Empty;
-            chkEnabled.Checked = true;
+            clbOutboundTag.Text =string.Empty;
         }
         private void btnOK_Click(object sender, EventArgs e)
         {
             EndBindingData();
-            var hasRule = false;
-            if (rulesItem.domain != null && rulesItem.domain.Count > 0)
-            {
-                hasRule = true;
-            }
-            if (rulesItem.ip != null && rulesItem.ip.Count > 0)
-            {
-                hasRule = true;
-            }
-            if (rulesItem.protocol != null && rulesItem.protocol.Count > 0)
-            {
-                hasRule = true;
-            }
-            if (!Utils.IsNullOrEmpty(rulesItem.port))
-            {
-                hasRule = true;
-            }
-            if (!hasRule)
-            {
-                UI.ShowWarning(string.Format(UIRes.I18N("RoutingRuleDetailRequiredTips"), "Port/Protocol/Domain/IP"));
-                return;
-            }
             this.DialogResult = DialogResult.OK;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+        
+        public bool canContinue = true;
+        private void clbOutboundTag_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            CheckedListBox clb = sender as CheckedListBox;
+
+            //勾选原选项
+            if (clb.CheckedIndices.Count > 0 && clb.CheckedIndices[0] == e.Index && canContinue)
+            {
+                e.NewValue = CheckState.Checked;
+            }
+            //第一次勾选
+            else if (clb.CheckedIndices.Count == 0)
+            {
+                canContinue = true;
+            }
+            //勾选新选项
+            else if (clb.CheckedIndices.Count > 0 && clb.CheckedIndices[0] != e.Index)
+            {
+                canContinue = false;
+                clb.SetItemChecked(clb.CheckedIndices[0], false);
+            }
+            //勾选新选项后重置CanContinue
+            else
+            {
+                canContinue = true;
+            }
         }
     }
 }

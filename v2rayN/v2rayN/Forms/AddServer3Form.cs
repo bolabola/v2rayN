@@ -36,6 +36,7 @@ namespace v2rayN.Forms
 
             txtAddress.Text = vmessItem.address;
             txtPort.Text = vmessItem.port.ToString();
+            txtLocalPort.Text = vmessItem.localport.ToString();
             txtId.Text = vmessItem.id;
             cmbSecurity.Text = vmessItem.security;
             txtRemarks.Text = vmessItem.remarks;
@@ -49,6 +50,7 @@ namespace v2rayN.Forms
         {
             txtAddress.Text = "";
             txtPort.Text = "";
+            txtLocalPort.Text = "";
             txtId.Text = "";
             cmbSecurity.Text = Global.DefaultSecurity;
             txtRemarks.Text = "";
@@ -58,6 +60,7 @@ namespace v2rayN.Forms
         {
             string address = txtAddress.Text;
             string port = txtPort.Text;
+            string localport = txtLocalPort.Text; 
             string id = txtId.Text;
             string security = cmbSecurity.Text;
             string remarks = txtRemarks.Text;
@@ -85,6 +88,7 @@ namespace v2rayN.Forms
 
             vmessItem.address = address;
             vmessItem.port = Utils.ToInt(port);
+            vmessItem.localport= Utils.ToInt(localport);
             vmessItem.id = id;
             vmessItem.security = security;
             vmessItem.remarks = remarks;
@@ -101,7 +105,6 @@ namespace v2rayN.Forms
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-        }       
-
+        }
     }
 }

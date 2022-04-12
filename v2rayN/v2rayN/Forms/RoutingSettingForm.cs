@@ -20,10 +20,6 @@ namespace v2rayN.Forms
         {
             ConfigHandler.InitBuiltinRouting(ref config);
 
-            cmbdomainStrategy.Text = config.domainStrategy;
-            chkenableRoutingAdvanced.Checked = config.enableRoutingAdvanced;
-            cmbdomainMatcher.Text = config.domainMatcher;
-
             if (config.routings == null)
             {
                 config.routings = new List<RoutingItem>();
@@ -49,10 +45,6 @@ namespace v2rayN.Forms
         }
         private void btnOK_Click(object sender, EventArgs e)
         {
-            config.domainStrategy = cmbdomainStrategy.Text;
-            config.enableRoutingAdvanced = chkenableRoutingAdvanced.Checked;
-            config.domainMatcher = cmbdomainMatcher.Text;
-
             EndBindingLockedData();
 
             if (ConfigHandler.SaveRouting(ref config) == 0)
@@ -75,26 +67,7 @@ namespace v2rayN.Forms
         }
         private void InitUI()
         {
-            if (chkenableRoutingAdvanced.Checked)
-            {
-                this.tabPageProxy.Parent = null;
-                this.tabPageDirect.Parent = null;
-                this.tabPageBlock.Parent = null;
-                this.tabPageRuleList.Parent = tabNormal;
-                MenuItemBasic.Enabled = false;
-                MenuItemAdvanced.Enabled = true;
-
-            }
-            else
-            {
-                this.tabPageProxy.Parent = tabNormal;
-                this.tabPageDirect.Parent = tabNormal;
-                this.tabPageBlock.Parent = tabNormal;
-                this.tabPageRuleList.Parent = null;
-                MenuItemBasic.Enabled = true;
-                MenuItemAdvanced.Enabled = false;
-            }
-
+            this.tabPageRuleList.Parent = tabNormal;
         }
 
 
@@ -102,32 +75,9 @@ namespace v2rayN.Forms
         private void BindingLockedData()
         {
             lockedItem = ConfigHandler.GetLockedRoutingItem(ref config);
-            if (lockedItem != null)
-            {
-                txtProxyDomain.Text = Utils.List2String(lockedItem.rules[0].domain, true);
-                txtProxyIp.Text = Utils.List2String(lockedItem.rules[0].ip, true);
-
-                txtDirectDomain.Text = Utils.List2String(lockedItem.rules[1].domain, true);
-                txtDirectIp.Text = Utils.List2String(lockedItem.rules[1].ip, true);
-
-                txtBlockDomain.Text = Utils.List2String(lockedItem.rules[2].domain, true);
-                txtBlockIp.Text = Utils.List2String(lockedItem.rules[2].ip, true);
-            }
         }
         private void EndBindingLockedData()
         {
-            if (lockedItem != null)
-            {
-                lockedItem.rules[0].domain = Utils.String2List(txtProxyDomain.Text.TrimEx());
-                lockedItem.rules[0].ip = Utils.String2List(txtProxyIp.Text.TrimEx());
-
-                lockedItem.rules[1].domain = Utils.String2List(txtDirectDomain.Text.TrimEx());
-                lockedItem.rules[1].ip = Utils.String2List(txtDirectIp.Text.TrimEx());
-
-                lockedItem.rules[2].domain = Utils.String2List(txtBlockDomain.Text.TrimEx());
-                lockedItem.rules[2].ip = Utils.String2List(txtBlockIp.Text.TrimEx());
-
-            }
         }
         #endregion
 
@@ -146,8 +96,6 @@ namespace v2rayN.Forms
             lvRoutings.Columns.Add("", 30);
             lvRoutings.Columns.Add(UIRes.I18N("LvAlias"), 200);
             lvRoutings.Columns.Add(UIRes.I18N("LvCount"), 60);
-            lvRoutings.Columns.Add(UIRes.I18N("LvUrl"), 240);
-            lvRoutings.Columns.Add(UIRes.I18N("LvCustomIcon"), 240);
 
             lvRoutings.EndUpdate();
         }
@@ -174,8 +122,6 @@ namespace v2rayN.Forms
                 ListViewItem lvItem = new ListViewItem(def);
                 Utils.AddSubItem(lvItem, "remarks", item.remarks);
                 Utils.AddSubItem(lvItem, "count", item.rules.Count.ToString());
-                Utils.AddSubItem(lvItem, "url", item.url);
-                Utils.AddSubItem(lvItem, "customIcon", item.customIcon);
 
                 if (lvItem != null) lvRoutings.Items.Add(lvItem);
             }
@@ -294,13 +240,6 @@ namespace v2rayN.Forms
 
         private void menuImportBasicRules_Click(object sender, EventArgs e)
         {
-            //Extra to bypass the mainland
-            txtProxyDomain.Text = "geosite:google";
-            txtDirectDomain.Text = "geosite:cn";
-            txtDirectIp.Text = "geoip:private,geoip:cn";
-
-            txtBlockDomain.Text = "geosite:category-ads-all";
-
             UI.Show(UIRes.I18N("OperationSuccess"));
         }
 

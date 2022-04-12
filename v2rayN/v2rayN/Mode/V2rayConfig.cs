@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace v2rayN.Mode
 {
@@ -142,7 +143,7 @@ namespace v2rayN.Mode
         public bool allowTransparent { get; set; }
 
     }
-
+    [Serializable]
     public class UsersItem
     {
         /// <summary>
@@ -184,6 +185,7 @@ namespace v2rayN.Mode
         public List<string> destOverride { get; set; }
     }
 
+    [Serializable]
     public class Outbounds
     {
         /// <summary>
@@ -207,7 +209,7 @@ namespace v2rayN.Mode
         /// </summary>
         public Mux mux { get; set; }
     }
-
+    [Serializable]
     public class Outboundsettings
     {
         /// <summary>
@@ -224,7 +226,7 @@ namespace v2rayN.Mode
         /// </summary>
         public Response response { get; set; }
     }
-
+    [Serializable]
     public class VnextItem
     {
         /// <summary>
@@ -240,6 +242,7 @@ namespace v2rayN.Mode
         /// </summary>
         public List<UsersItem> users { get; set; }
     }
+    [Serializable]
     public class ServersItem
     {
         /// <summary>
@@ -298,7 +301,7 @@ namespace v2rayN.Mode
         public int level { get; set; }
     }
 
-
+    [Serializable]
     public class Mux
     {
         /// <summary>
@@ -311,7 +314,7 @@ namespace v2rayN.Mode
         /// </summary>
         public int concurrency { get; set; }
     }
-
+    [Serializable]
     public class Response
     {
         /// <summary>
@@ -343,7 +346,7 @@ namespace v2rayN.Mode
         /// </summary>
         public List<RulesItem> rules { get; set; }
     }
-
+    [Serializable]
     public class StreamSettings
     {
         /// <summary>
@@ -392,7 +395,7 @@ namespace v2rayN.Mode
         public GrpcSettings grpcSettings { get; set; }
 
     }
-
+    [Serializable]
     public class TlsSettings
     {
         /// <summary>
@@ -412,7 +415,7 @@ namespace v2rayN.Mode
             get; set;
         }
     }
-
+    [Serializable]
     public class TcpSettings
     {
         /// <summary>
@@ -436,7 +439,7 @@ namespace v2rayN.Mode
         /// </summary>
         public object response { get; set; }
     }
-
+    [Serializable]
     public class KcpSettings
     {
         /// <summary>
@@ -476,7 +479,7 @@ namespace v2rayN.Mode
         /// </summary>
         public string seed { get; set; }
     }
-
+    [Serializable]
     public class WsSettings
     {
         /// <summary>
@@ -496,7 +499,7 @@ namespace v2rayN.Mode
         /// </summary>
         public string Host { get; set; }
     }
-
+    [Serializable]
     public class HttpSettings
     {
         /// <summary>
@@ -510,7 +513,7 @@ namespace v2rayN.Mode
         public List<string> host { get; set; }
 
     }
-
+    [Serializable]
     public class QuicSettings
     {
         /// <summary>
@@ -527,7 +530,7 @@ namespace v2rayN.Mode
         /// </summary>
         public Header header { get; set; }
     }
-
+    [Serializable]
     public class GrpcSettings
     {
         /// <summary>

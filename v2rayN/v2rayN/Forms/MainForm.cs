@@ -30,7 +30,7 @@ namespace v2rayN.Forms
             this.ShowInTaskbar = false;
             this.WindowState = FormWindowState.Minimized;
             HideForm();
-            this.Text = Utils.GetVersion();
+            this.Text = "RobotDao多开专版";// Utils.GetVersion();
             Global.processJob = new Job();
 
             Application.ApplicationExit += (sender, args) =>
@@ -76,7 +76,6 @@ namespace v2rayN.Forms
         {
             InitServersView();
             RefreshServers();
-            RefreshRoutingsMenu();
             RestoreUI();
 
             LoadV2ray();
@@ -177,7 +176,6 @@ namespace v2rayN.Forms
         {
             RefreshServersView();
             //lvServers.AutoResizeColumns();
-            RefreshServersMenu();
         }
 
         /// <summary>
@@ -233,10 +231,10 @@ namespace v2rayN.Forms
                         totalDown = string.Empty,
                         todayUp = string.Empty,
                         todayDown = string.Empty;
-                if (config.index.Equals(k))
-                {
-                    def = "√";
-                }
+                //if (config.index.Equals(k))
+                //{
+                //    def = "√";
+                //}
 
                 VmessItem item = config.vmess[k];
 
@@ -274,12 +272,12 @@ namespace v2rayN.Forms
                 {
                     lvItem.BackColor = Color.WhiteSmoke;
                 }
-                if (config.index.Equals(k))
-                {
-                    //lvItem.Checked = true;
-                    lvItem.ForeColor = Color.DodgerBlue;
-                    lvItem.Font = new Font(lvItem.Font, FontStyle.Bold);
-                }
+                //if (config.index.Equals(k))
+                //{
+                //    //lvItem.Checked = true;
+                //    lvItem.ForeColor = Color.DodgerBlue;
+                //    lvItem.Font = new Font(lvItem.Font, FontStyle.Bold);
+                //}
 
                 if (lvItem != null) lvServers.Items.Add(lvItem);
             }
@@ -289,59 +287,6 @@ namespace v2rayN.Forms
             {
                 lvServers.Items[index].Selected = true;
                 lvServers.EnsureVisible(index); // workaround
-            }
-        }
-
-        /// <summary>
-        /// 刷新托盘服务器菜单
-        /// </summary>
-        private void RefreshServersMenu()
-        {
-            menuServers.DropDownItems.Clear();
-            menuServers2.SelectedIndexChanged -= MenuServers2_SelectedIndexChanged;
-            menuServers2.Items.Clear();
-            menuServers.Visible = false;
-            menuServers2.Visible = false;
-
-            if (config.vmess.Count > 20)
-            {
-                for (int k = 0; k < config.vmess.Count; k++)
-                {
-                    VmessItem item = config.vmess[k];
-                    string name = item.getSummary();
-
-                    if (config.index.Equals(k))
-                    {
-                        name = $"√ {name}";
-                    }
-                    menuServers2.Items.Add(name);
-
-                }
-                menuServers2.SelectedIndex = config.index;
-                menuServers2.SelectedIndexChanged += MenuServers2_SelectedIndexChanged;
-                menuServers2.Visible = true;
-            }
-            else
-            {
-                List<ToolStripMenuItem> lst = new List<ToolStripMenuItem>();
-                for (int k = 0; k < config.vmess.Count; k++)
-                {
-                    VmessItem item = config.vmess[k];
-                    string name = item.getSummary();
-
-                    ToolStripMenuItem ts = new ToolStripMenuItem(name)
-                    {
-                        Tag = k
-                    };
-                    if (config.index.Equals(k))
-                    {
-                        ts.Checked = true;
-                    }
-                    ts.Click += new EventHandler(ts_Click);
-                    lst.Add(ts);
-                }
-                menuServers.DropDownItems.AddRange(lst.ToArray());
-                menuServers.Visible = true;
             }
         }
 
@@ -385,7 +330,7 @@ namespace v2rayN.Forms
 
         private void DisplayToolStatus()
         {
-            toolSslInboundInfo.Text = $"{Global.InboundSocks} {Global.Loopback}:{config.inbound[0].localPort} | "
+            toolSslInboundInfo.Text = $"{Global.InboundSocks} {Global.Loopback}:{config.inbound.localPort} | "
              + $"{ Global.InboundHttp} { Global.Loopback}:{Global.httpPort}";
 
             notifyMain.Icon = MainFormHandler.Instance.GetNotifyIcon(config, this.Icon);
@@ -780,7 +725,6 @@ namespace v2rayN.Forms
             var fm = new RoutingSettingForm();
             if (fm.ShowDialog() == DialogResult.OK)
             {
-                RefreshRoutingsMenu();
                 RefreshServers();
                 LoadV2ray();
             }
@@ -1211,12 +1155,6 @@ namespace v2rayN.Forms
             //    HttpProxyHandle.CloseHttpAgent(config);
             //}
 
-            for (int k = 0; k < menuSysAgentMode.DropDownItems.Count; k++)
-            {
-                ToolStripMenuItem item = ((ToolStripMenuItem)menuSysAgentMode.DropDownItems[k]);
-                item.Checked = ((int)type == k);
-            }
-
             ConfigHandler.SaveConfig(ref config, false);
             DisplayToolStatus();
         }
@@ -1301,20 +1239,9 @@ namespace v2rayN.Forms
 
         #region Help
 
-
-        private void tsbAbout_Click(object sender, EventArgs e)
-        {
-            Process.Start(Global.AboutUrl);
-        }
-
-        private void tsbV2rayWebsite_Click(object sender, EventArgs e)
-        {
-            Process.Start(Global.v2rayWebsiteUrl);
-        }
-
         private void tsbPromotion_Click(object sender, EventArgs e)
         {
-            Process.Start($"{Utils.Base64Decode(Global.PromotionUrl)}?t={DateTime.Now.Ticks}");
+            Process.Start(Global.AboutUrl);
         }
         #endregion
 
@@ -1409,67 +1336,6 @@ namespace v2rayN.Forms
 
 
 
-        #endregion
-
-
-        #region RoutingsMenu
-
-        /// <summary>
-        ///  
-        /// </summary>
-        private void RefreshRoutingsMenu()
-        {
-            menuRoutings.Visible = config.enableRoutingAdvanced;
-            if (!config.enableRoutingAdvanced)
-            {
-                toolSslRoutingRule.Text = string.Empty;
-                return;
-            }
-
-            menuRoutings.DropDownItems.Clear();
-
-            List<ToolStripMenuItem> lst = new List<ToolStripMenuItem>();
-            for (int k = 0; k < config.routings.Count; k++)
-            {
-                var item = config.routings[k];
-                if (item.locked == true)
-                {
-                    continue;
-                }
-                string name = item.remarks;
-
-                ToolStripMenuItem ts = new ToolStripMenuItem(name)
-                {
-                    Tag = k
-                };
-                if (config.routingIndex.Equals(k))
-                {
-                    ts.Checked = true;
-                    toolSslRoutingRule.Text = item.remarks;
-                }
-                ts.Click += new EventHandler(ts_Routing_Click);
-                lst.Add(ts);
-            }
-            menuRoutings.DropDownItems.AddRange(lst.ToArray());
-        }
-
-        private void ts_Routing_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ToolStripItem ts = (ToolStripItem)sender;
-                int index = Utils.ToInt(ts.Tag);
-
-                if (ConfigHandler.SetDefaultRouting(ref config, index) == 0)
-                {
-                    RefreshRoutingsMenu();
-                    LoadV2ray();
-                }
-            }
-            catch
-            {
-            }
-        }
         #endregion
 
         #region MsgBoxMenu

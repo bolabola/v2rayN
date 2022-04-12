@@ -52,16 +52,6 @@ namespace v2rayN.Handler
                 SolidBrush drawBrush = new SolidBrush(color);
 
                 var customIcon = false;
-                if (config.enableRoutingAdvanced)
-                {
-                    var item = config.routings[config.routingIndex];
-                    if (!Utils.IsNullOrEmpty(item.customIcon) && File.Exists(item.customIcon))
-                    {
-                        graphics.FillRectangle(drawBrush, new Rectangle(0, 0, width, height));
-                        graphics.DrawImage(new Bitmap(item.customIcon), 0, 0);
-                        customIcon = true;
-                    }
-                }
                 if (!customIcon)
                 {
                     graphics.FillEllipse(drawBrush, new Rectangle(0, 0, width, height));

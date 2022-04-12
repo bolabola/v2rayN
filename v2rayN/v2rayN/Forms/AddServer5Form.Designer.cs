@@ -51,6 +51,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.transportControl = new v2rayN.Forms.ServerTransportControl();
+            this.txtLocalPort = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -66,6 +68,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtLocalPort);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.cmbFlow);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.btnGUID);
@@ -198,6 +202,16 @@
             resources.ApplyResources(this.transportControl, "transportControl");
             this.transportControl.Name = "transportControl";
             // 
+            // txtLocalPort
+            // 
+            resources.ApplyResources(this.txtLocalPort, "txtLocalPort");
+            this.txtLocalPort.Name = "txtLocalPort";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // AddServer5Form
             // 
             resources.ApplyResources(this, "$this");
@@ -242,5 +256,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel3;
         private ServerTransportControl transportControl;
+        private System.Windows.Forms.TextBox txtLocalPort;
+        private System.Windows.Forms.Label label7;
     }
 }

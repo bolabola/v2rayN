@@ -29,196 +29,120 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoutingRuleSettingDetailsForm));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.chkEnabled = new System.Windows.Forms.CheckBox();
-            this.clbInboundTag = new System.Windows.Forms.CheckedListBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.clbProtocol = new System.Windows.Forms.CheckedListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtPort = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labRoutingTips = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmbOutboundTag = new System.Windows.Forms.ComboBox();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtIP = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtDomain = new System.Windows.Forms.TextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.clbOutboundTag = new System.Windows.Forms.CheckedListBox();
+            this.clbInboundTag = new System.Windows.Forms.CheckedListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // panel3
-            // 
-            resources.ApplyResources(this.panel3, "panel3");
-            this.panel3.Controls.Add(this.chkEnabled);
-            this.panel3.Controls.Add(this.clbInboundTag);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.clbProtocol);
-            this.panel3.Controls.Add(this.label3);
-            this.panel3.Controls.Add(this.txtPort);
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.labRoutingTips);
-            this.panel3.Controls.Add(this.label4);
-            this.panel3.Controls.Add(this.cmbOutboundTag);
-            this.panel3.Name = "panel3";
-            // 
-            // chkEnabled
-            // 
-            resources.ApplyResources(this.chkEnabled, "chkEnabled");
-            this.chkEnabled.Name = "chkEnabled";
-            this.chkEnabled.UseVisualStyleBackColor = true;
-            // 
-            // clbInboundTag
-            // 
-            resources.ApplyResources(this.clbInboundTag, "clbInboundTag");
-            this.clbInboundTag.CheckOnClick = true;
-            this.clbInboundTag.FormattingEnabled = true;
-            this.clbInboundTag.Items.AddRange(new object[] {
-            resources.GetString("clbInboundTag.Items"),
-            resources.GetString("clbInboundTag.Items1")});
-            this.clbInboundTag.MultiColumn = true;
-            this.clbInboundTag.Name = "clbInboundTag";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // clbProtocol
-            // 
-            resources.ApplyResources(this.clbProtocol, "clbProtocol");
-            this.clbProtocol.CheckOnClick = true;
-            this.clbProtocol.FormattingEnabled = true;
-            this.clbProtocol.Items.AddRange(new object[] {
-            resources.GetString("clbProtocol.Items"),
-            resources.GetString("clbProtocol.Items1"),
-            resources.GetString("clbProtocol.Items2")});
-            this.clbProtocol.MultiColumn = true;
-            this.clbProtocol.Name = "clbProtocol";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // txtPort
-            // 
-            resources.ApplyResources(this.txtPort, "txtPort");
-            this.txtPort.Name = "txtPort";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // labRoutingTips
-            // 
-            resources.ApplyResources(this.labRoutingTips, "labRoutingTips");
-            this.labRoutingTips.ForeColor = System.Drawing.Color.Brown;
-            this.labRoutingTips.Name = "labRoutingTips";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // cmbOutboundTag
-            // 
-            resources.ApplyResources(this.cmbOutboundTag, "cmbOutboundTag");
-            this.cmbOutboundTag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbOutboundTag.FormattingEnabled = true;
-            this.cmbOutboundTag.Items.AddRange(new object[] {
-            resources.GetString("cmbOutboundTag.Items"),
-            resources.GetString("cmbOutboundTag.Items1"),
-            resources.GetString("cmbOutboundTag.Items2")});
-            this.cmbOutboundTag.Name = "cmbOutboundTag";
-            // 
-            // panel4
-            // 
-            resources.ApplyResources(this.panel4, "panel4");
-            this.panel4.Controls.Add(this.btnClose);
-            this.panel4.Controls.Add(this.btnOK);
-            this.panel4.Name = "panel4";
             // 
             // btnClose
             // 
-            resources.ApplyResources(this.btnClose, "btnClose");
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnClose.Location = new System.Drawing.Point(473, 453);
             this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 4;
+            this.btnClose.Text = "&Cancel";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnOK
             // 
-            resources.ApplyResources(this.btnOK, "btnOK");
+            this.btnOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnOK.Location = new System.Drawing.Point(303, 453);
             this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.TabIndex = 5;
+            this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // panel2
+            // panel3
             // 
-            resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Controls.Add(this.groupBox2);
-            this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Name = "panel2";
+            this.panel3.Controls.Add(this.clbOutboundTag);
+            this.panel3.Controls.Add(this.btnClose);
+            this.panel3.Controls.Add(this.btnOK);
+            this.panel3.Controls.Add(this.clbInboundTag);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 10);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(569, 491);
+            this.panel3.TabIndex = 8;
             // 
-            // groupBox2
+            // clbOutboundTag
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Controls.Add(this.txtIP);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
+            this.clbOutboundTag.CheckOnClick = true;
+            this.clbOutboundTag.ColumnWidth = 80;
+            this.clbOutboundTag.FormattingEnabled = true;
+            this.clbOutboundTag.Location = new System.Drawing.Point(303, 40);
+            this.clbOutboundTag.Name = "clbOutboundTag";
+            this.clbOutboundTag.Size = new System.Drawing.Size(245, 404);
+            this.clbOutboundTag.TabIndex = 42;
+            this.clbOutboundTag.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbOutboundTag_ItemCheck);
             // 
-            // txtIP
+            // clbInboundTag
             // 
-            resources.ApplyResources(this.txtIP, "txtIP");
-            this.txtIP.Name = "txtIP";
+            this.clbInboundTag.CheckOnClick = true;
+            this.clbInboundTag.ColumnWidth = 80;
+            this.clbInboundTag.FormattingEnabled = true;
+            this.clbInboundTag.Location = new System.Drawing.Point(23, 40);
+            this.clbInboundTag.MultiColumn = true;
+            this.clbInboundTag.Name = "clbInboundTag";
+            this.clbInboundTag.Size = new System.Drawing.Size(245, 436);
+            this.clbInboundTag.TabIndex = 41;
             // 
-            // groupBox1
+            // label2
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.txtDomain);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            this.label2.AutoSize = true;
+            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label2.Location = new System.Drawing.Point(21, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.TabIndex = 40;
+            this.label2.Text = "inboundTag";
             // 
-            // txtDomain
+            // label4
             // 
-            resources.ApplyResources(this.txtDomain, "txtDomain");
-            this.txtDomain.Name = "txtDomain";
+            this.label4.AutoSize = true;
+            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label4.Location = new System.Drawing.Point(301, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(71, 12);
+            this.label4.TabIndex = 32;
+            this.label4.Text = "outboundTag";
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(569, 10);
+            this.panel1.TabIndex = 7;
             // 
             // RoutingRuleSettingDetailsForm
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel4);
+            this.ClientSize = new System.Drawing.Size(569, 513);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RoutingRuleSettingDetailsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;
+            this.Text = "RoutingSettingDetailsForm";
             this.Load += new System.EventHandler(this.RoutingRuleSettingDetailsForm_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -228,22 +152,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cmbOutboundTag;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtDomain;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox txtIP;
-        private System.Windows.Forms.Label labRoutingTips;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtPort;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckedListBox clbProtocol;
         private System.Windows.Forms.CheckedListBox clbInboundTag;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox chkEnabled;
+        private System.Windows.Forms.CheckedListBox clbOutboundTag;
     }
 }

@@ -49,7 +49,6 @@ namespace v2rayN.Handler
                     logEnabled = false,
                     loglevel = "warning",
                     vmess = new List<VmessItem>(),
-
                     //Mux
                     muxEnabled = false,
 
@@ -69,32 +68,23 @@ namespace v2rayN.Handler
             //本地监听
             if (config.inbound == null)
             {
-                config.inbound = new List<InItem>();
-                InItem inItem = new InItem
+                config.inbound = new InItem
                 {
                     protocol = Global.InboundSocks,
-                    localPort = 10808,
+                    localPort = 2080,
+                    portcount=1,
                     udpEnabled = true,
                     sniffingEnabled = true
                 };
 
-                config.inbound.Add(inItem);
-
-                //inItem = new InItem();
-                //inItem.protocol = "http";
-                //inItem.localPort = 1081;
-                //inItem.udpEnabled = true;
-
-                //config.inbound.Add(inItem);
             }
-            else
+            //本地监听tag集合
+            if (config.inboundTags == null)
             {
-                //http协议不由core提供,只保留socks
-                if (config.inbound.Count > 0)
-                {
-                    config.inbound[0].protocol = Global.InboundSocks;
-                }
+                config.inboundTags = new List<string>();
             }
+
+
             //路由规则
             if (Utils.IsNullOrEmpty(config.domainStrategy))
             {
@@ -1253,6 +1243,7 @@ namespace v2rayN.Handler
 
         public static int InitBuiltinRouting(ref Config config)
         {
+            return 0;
             if (config.routings == null)
             {
                 config.routings = new List<RoutingItem>();
@@ -1264,7 +1255,6 @@ namespace v2rayN.Handler
                 var item2 = new RoutingItem()
                 {
                     remarks = "绕过大陆(Whitelist)",
-                    url = string.Empty,
                 };
                 AddBatchRoutingRules(ref item2, Utils.GetEmbedText(Global.CustomRoutingFileName + "white"));
                 config.routings.Add(item2);
@@ -1273,7 +1263,6 @@ namespace v2rayN.Handler
                 var item3 = new RoutingItem()
                 {
                     remarks = "黑名单(Blacklist)",
-                    url = string.Empty,
                 };
                 AddBatchRoutingRules(ref item3, Utils.GetEmbedText(Global.CustomRoutingFileName + "black"));
                 config.routings.Add(item3);
@@ -1282,7 +1271,6 @@ namespace v2rayN.Handler
                 var item1 = new RoutingItem()
                 {
                     remarks = "全局(Global)",
-                    url = string.Empty,
                 };
                 AddBatchRoutingRules(ref item1, Utils.GetEmbedText(Global.CustomRoutingFileName + "global"));
                 config.routings.Add(item1);
@@ -1295,7 +1283,6 @@ namespace v2rayN.Handler
                 var item1 = new RoutingItem()
                 {
                     remarks = "locked",
-                    url = string.Empty,
                     locked = true,
                 };
                 AddBatchRoutingRules(ref item1, Utils.GetEmbedText(Global.CustomRoutingFileName + "locked"));

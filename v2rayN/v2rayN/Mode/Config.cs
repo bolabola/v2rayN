@@ -13,9 +13,16 @@ namespace v2rayN.Mode
     public class Config
     {
         /// <summary>
-        /// 本地监听
+        /// 本地监听配置模板
         /// </summary>
-        public List<InItem> inbound
+        public InItem inbound
+        {
+            get; set;
+        }
+        /// <summary>
+        /// 本地监听tag集合-用于路由tag选择
+        /// </summary>
+        public List<string> inboundTags
         {
             get; set;
         }
@@ -306,14 +313,9 @@ namespace v2rayN.Mode
             }
 
             int localPort = 0;
-            foreach (InItem inItem in inbound)
-            {
-                if (inItem.protocol.Equals(protocol))
-                {
-                    localPort = inItem.localPort;
-                    break;
-                }
-            }
+            if (inbound.protocol.Equals(protocol))
+                localPort = inbound.localPort;
+
             return localPort;
         }
 
@@ -636,6 +638,15 @@ namespace v2rayN.Mode
         {
             get; set;
         }
+
+        /// <summary>
+        /// 本地代理socket端口
+        /// </summary>
+        public int localport
+        {
+            get; set;
+        }
+
     }
 
     [Serializable]
@@ -648,7 +659,13 @@ namespace v2rayN.Mode
         {
             get; set;
         }
-
+        /// <summary>
+        /// 端口递增数量
+        /// </summary>
+        public int portcount
+        {
+            get; set;
+        }
         /// <summary>
         /// 协议，默认为socks
         /// </summary>
